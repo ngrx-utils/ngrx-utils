@@ -10,14 +10,3 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 * follow lerna publish ([88d9ed9](https://github.com/ngrx-utils/ngrx-utils/commit/88d9ed9))
-
-
-
-
-<a name="0.1.2"></a>
-## [0.1.2](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.1...v0.1.2) (2018-01-17)
-
-
-
-<a name="0.1.1"></a>
-## 0.1.1 (2018-01-17)
