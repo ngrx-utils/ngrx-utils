@@ -3,6 +3,10 @@
   "name": "@ngrx-utils/cli",
   "version": "0.1.5",
   "description": "NgRx CLI to help scaffold your app state management and update it as your app scale",
+  "module": "@ngrx-utils/cli.es5.js",
+  "es2015": "@ngrx-utils/cli.js",
+  "main": "bundles/cli.umd.js",
+  "typings": "cli.d.ts",
   "scripts": {
     "test": "jest"
   },
@@ -21,7 +25,7 @@
     "access": "public"
   },
   "bin": {
-    "ngrx": "bin/ngrx.js"
+    "ngrx": "bin/ngrx"
   },
   "dependencies": {
     "caporal": "^0.9.0",

@@ -3,6 +3,10 @@
   "name": "@ngrx-utils/effects",
   "version": "0.1.5",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/effects",
+  "module": "@ngrx-utils/effects.es5.js",
+  "es2015": "@ngrx-utils/effects.js",
+  "main": "bundles/effects.umd.js",
+  "typings": "effects.d.ts",
   "scripts": {
     "test": "jest"
   },
@@ -23,12 +27,6 @@
   "peerDependencies": {
     "@ngrx/store": "^4.1.1",
     "rxjs": "^5.5.6"
-  },
-  "ngPackage": {
-    "lib": {
-      "entryFile": "public_api.ts"
-    },
-    "dest": "../../dist/effects"
   },
   "jest": {
     "globals": {

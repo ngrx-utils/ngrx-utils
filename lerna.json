@@ -1,11 +1,6 @@
 {
   "lerna": "2.7.1",
-  "packages": ["dist/*"],
-  "version": "0.1.5",
-  "npmClient": "yarn",
-  "commands": {
-    "publish": {
-      "message": "chore: cut release %s"
-    }
-  }
+  "packages": ["modules/*"],
+  "version": "0.1.6",
+  "npmClient": "yarn"
 }

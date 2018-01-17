@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { generateFileOutput } from '../src/printer';
 
 import chalk from 'chalk';
@@ -7,7 +5,7 @@ import chalk from 'chalk';
 import * as caporal from 'caporal';
 
 // Work arround for typings issue in caporal
-const program: Caporal = caporal as any;
+export const program: Caporal = caporal as any;
 
 program
   .version('0.1.0')
@@ -28,4 +26,6 @@ program
     }
   });
 
-program.parse(process.argv);
+export * from './collect-metadata';
+export * from './printer';
+export * from './path-wrapper';

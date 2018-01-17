@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+const { propgram } = require('../');
+
+program.parse(process.argv);

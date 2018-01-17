@@ -13,6 +13,6 @@
     "removeComments": true,
     "allowSyntheticDefaultImports": true
   },
-  "files": ["bin/ngrx.ts"],
+  "files": ["public_api.ts"],
   "exclude": ["spec/**/*.ts"]
 }

@@ -3,6 +3,10 @@
   "name": "@ngrx-utils/store",
   "version": "0.1.5",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/store",
+  "module": "@ngrx-utils/store.es5.js",
+  "es2015": "@ngrx-utils/store.js",
+  "main": "bundles/store.umd.js",
+  "typings": "store.d.ts",
   "scripts": {
     "test": "jest"
   },
@@ -24,12 +28,6 @@
     "@angular/core": "^5.1.3",
     "@ngrx/store": "^4.1.1",
     "rxjs": "^5.5.6"
-  },
-  "ngPackage": {
-    "lib": {
-      "entryFile": "public_api.ts"
-    },
-    "dest": "../../dist/store"
   },
   "jest": {
     "globals": {
