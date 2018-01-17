@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
   "name": "@ngrx-utils/effects",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/effects",
   "scripts": {
     "test": "jest"
