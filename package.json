@@ -1,18 +1,15 @@
 {
   "name": "@ngrx-utils/platform",
-  "version": "0.1.2",
+  "version": "0.1.6",
   "description": "Monorepo for ngrx development utilities",
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
-    "clean:effects": "rimraf ./modules/effects/dist",
-    "clean:store": "rimraf ./modules/store/dist",
-    "clean:cli": "rimraf ./modules/cli/dist",
-    "clean": "concurrently 'yarn clean:store' 'yarn clean:effects' 'yarn clean:cli'",
+    "clean": "rimraf ./dist",
     "build": "yarn clean && concurrently 'yarn build:store' 'yarn build:effects' 'yarn build:cli'",
     "build:store": "ng-packagr -p modules/store/package.json",
     "build:effects": "ng-packagr -p modules/effects/package.json",
-    "build:cli": "tsc -p modules/cli/tsconfig.json",
+    "build:cli": "tsc -p modules/cli/tsconfig.json && cpy modules/cli/package.json dist/cli",
     "release": "lerna publish --conventional-commits",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "commit": "commit",
@@ -55,27 +52,16 @@
     "printWidth": 120
   },
   "lint-staged": {
-    "*.ts": [
-      "prettier --parser typescript --write",
-      "npm run lint",
-      "git add"
-    ]
+    "*.ts": ["prettier --parser typescript --write", "npm run lint", "git add"]
   },
   "license": "MIT",
-  "keywords": [
-    "ngrx",
-    "angular",
-    "rxjs",
-    "ngrx-utils"
-  ],
+  "keywords": ["ngrx", "angular", "rxjs", "ngrx-utils"],
   "engines": {
     "node": ">=8.6.0",
     "npm": ">=5.3.0",
     "yarn": ">=1.3.0 <2.0.0"
   },
   "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+    "extends": ["@commitlint/config-conventional"]
   }
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
   "name": "@ngrx-utils/effects",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/effects",
   "scripts": {
     "test": "jest"
@@ -10,12 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/ngrx-utils/ngrx-utils.git"
   },
-  "keywords": [
-    "@ngrx/effects",
-    "NgRx",
-    "Angular",
-    "Effects"
-  ],
+  "keywords": ["@ngrx/effects", "NgRx", "Angular", "Effects"],
   "author": "San Nguyen",
   "license": "MIT",
   "bugs": {
@@ -32,7 +27,8 @@
   "ngPackage": {
     "lib": {
       "entryFile": "public_api.ts"
-    }
+    },
+    "dest": "../../dist/effects"
   },
   "jest": {
     "globals": {
@@ -43,25 +39,9 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testMatch": [
-      "<rootDir>/spec/**/*.spec.ts"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!@ngrx)"
-    ],
-    "modulePathIgnorePatterns": [
-      "dist"
-    ]
-  },
-  "files": [
-    "dist/**/*"
-  ]
+    "testMatch": ["<rootDir>/spec/**/*.spec.ts"],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "transformIgnorePatterns": ["node_modules/(?!@ngrx)"],
+    "modulePathIgnorePatterns": ["dist"]
+  }
 }
