@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/platform",
-  "version": "0.1.6",
+  "version": "0.1.5",
   "description": "Monorepo for ngrx development utilities",
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -10,7 +10,7 @@
     "build:store": "ng-packagr -p modules/store/package.json",
     "build:effects": "ng-packagr -p modules/effects/package.json",
     "build:cli": "tsc -p modules/cli/tsconfig.json && cpy modules/cli/package.json dist/cli",
-    "release": "lerna publish --conventional-commits",
+    "release": "standard-version && lerna publish --force-publish",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "commit": "commit",
     "test": "lerna run test",
@@ -42,6 +42,7 @@
     "prettier": "^1.10.2",
     "rimraf": "^2.6.2",
     "rxjs": "^5.5.6",
+    "standard-version": "^4.3.0",
     "ts-jest": "^22.0.1",
     "tsickle": "^0.26.0",
     "tslint": "^5.9.1",
