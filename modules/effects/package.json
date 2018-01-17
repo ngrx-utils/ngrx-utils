@@ -27,8 +27,7 @@
   "ngPackage": {
     "lib": {
       "entryFile": "public_api.ts"
-    },
-    "dest": "../../dist/effects"
+    }
   },
   "jest": {
     "globals": {
@@ -43,5 +42,6 @@
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "transformIgnorePatterns": ["node_modules/(?!@ngrx)"],
     "modulePathIgnorePatterns": ["dist"]
-  }
+  },
+  "files": ["dist/**/*"]
 }

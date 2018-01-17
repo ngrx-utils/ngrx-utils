@@ -5,7 +5,7 @@
   "npmClient": "yarn",
   "commands": {
     "publish": {
-      "message": "chore: release %s"
+      "message": "chore: cut release %s"
     }
   }
 }

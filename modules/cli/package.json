@@ -1,4 +1,5 @@
 {
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
   "name": "@ngrx-utils/cli",
   "version": "0.1.0",
   "description": "NgRx CLI to help scaffold your app state management and update it as your app scale",
@@ -42,5 +43,6 @@
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "transformIgnorePatterns": ["node_modules/(?!@ngrx)"],
     "modulePathIgnorePatterns": ["dist"]
-  }
+  },
+  "files": ["dist/**/*"]
 }

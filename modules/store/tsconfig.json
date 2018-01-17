@@ -6,7 +6,7 @@
     "inlineSourceMap": true,
     "declaration": true,
     "baseUrl": ".",
-    "outDir": "../../dist/store",
+    "outDir": "dist",
     "rootDir": ".",
     "target": "es2015"
   },

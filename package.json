@@ -5,12 +5,15 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
-    "clean": "rimraf ./dist",
+    "clean:effects": "rimraf ./modules/effects/dist",
+    "clean:store": "rimraf ./modules/store/dist",
+    "clean:cli": "rimraf ./modules/cli/dist",
+    "clean": "concurrently 'yarn clean:store' 'yarn clean:effects' 'yarn clean:cli'",
     "build": "yarn clean && concurrently 'yarn build:store' 'yarn build:effects' 'yarn build:cli'",
     "build:store": "ng-packagr -p modules/store/package.json",
     "build:effects": "ng-packagr -p modules/effects/package.json",
-    "build:cli": "tsc -p modules/cli/tsconfig.json && cpy modules/cli/package.json dist/cli",
-    "release": "standard-version",
+    "build:cli": "tsc -p modules/cli/tsconfig.json",
+    "release": "lerna publish --conventional-commits",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "commit": "commit",
     "test": "lerna run test",
@@ -42,7 +45,6 @@
     "prettier": "^1.10.2",
     "rimraf": "^2.6.2",
     "rxjs": "^5.5.6",
-    "standard-version": "^4.3.0",
     "ts-jest": "^22.0.1",
     "tsickle": "^0.26.0",
     "tslint": "^5.9.1",
@@ -75,8 +77,5 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "dependencies": {
-    "@ngrx-utils/cli": "./dist/cli"
   }
 }
