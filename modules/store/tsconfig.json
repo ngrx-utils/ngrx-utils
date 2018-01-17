@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "es2015",
+    "sourceMap": true,
+    "inlineSourceMap": true,
+    "declaration": true,
+    "baseUrl": ".",
+    "outDir": "../../dist/store",
+    "rootDir": ".",
+    "target": "es2015"
+  },
+  "files": ["public_api.ts"],
+  "exclude": ["spec/**/*.ts"],
+  "angularCompilerOptions": {
+    "annotateForClosureCompiler": true,
+    "strictMetadataEmit": true,
+    "flatModuleOutFile": "index.js",
+    "flatModuleId": "@ngrx-utils/store"
+  }
+}
