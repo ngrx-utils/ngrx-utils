@@ -2,11 +2,11 @@
 
 import { generateFileOutput } from '../src/printer';
 
-// Work arround for typings issue in caporal
 import chalk from 'chalk';
 
 import * as caporal from 'caporal';
 
+// Work arround for typings issue in caporal
 const program: Caporal = caporal as any;
 
 program
