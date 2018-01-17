@@ -125,7 +125,7 @@ export class RefreshUsers implements Action {
 * Then use ngrx command to generate Union Type for you. Optionally you can generate reducer function with `-r` option and all the boilerplate will be nicely formatted with prettier before saving to file.
 
 ```sh
-# npx ngrx [g | generate] [a | action] [-r | --reducer] path/to/action
+# npx ngrx [g | generate] [a | action] [-r | --reducer true] path/to/action
 npx ngrx g a -r true path/to/user.action.ts
 ```
 
@@ -155,7 +155,7 @@ default:
 
 ### `@Select` decorator
 
-* This has always been in the wish list of developers in the first days of ngrx. No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select` decorator instead This will also cache you selector and then reuse it when you select from a same piece of state for performance purpose.
+* This has always been in the wish list of developers in the first days of ngrx. No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select` decorator instead. This will also cache you selector and then reuse it when you select from a same piece of state for performance purpose.
 
 > Note: The Select decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
 
