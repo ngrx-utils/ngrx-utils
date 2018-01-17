@@ -80,7 +80,7 @@ This Lookup Type is great but it just like duplicating your action type enum :(.
 
 * And with all of this, although you will have very nice type inference and static type checking but the trade off is when your app scale up with thousands actions, a **huge** amount of boilerplate will also be generated too. Thanks to `ofAction` pipeable operator, You now can get rid of all those boilerplate and type inference is **just work**. ofAction not only use action class as replace for ofType, but it will also smartly infer all Action type and you won't have to use type cast anymore.
 
-![picture](http://gph.is/2FIq2C5)
+![picture](https://media.giphy.com/media/l49JB9GFcXdLn6vTi/giphy.gif)
 
 * Another nice thing is you can use `action instanceof GetUser` type guard when using class based action, while with interface, you will have to do some thing like `if (action.type === fromActions.AuthActionType.RefreshUsers)`.
 
@@ -100,7 +100,7 @@ If you are using VSCode, add this config to your settings to show suggestions wi
 
 Then when you type `case ''`, and trigger quick suggestion shortcut `Ctrl + Space`.
 
-![picture](http://gph.is/2FMBlca)
+![picture](https://media.giphy.com/media/xULW8gMBNukDJQf9ZK/giphy.gif)
 
 ### CLI tools
 
