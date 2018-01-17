@@ -1,7 +1,17 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.5...v0.1.6) (2018-01-17)
+
+
+### Bug Fixes
+
+* publish wrong folder ([95ca21c](https://github.com/ngrx-utils/ngrx-utils/commit/95ca21c))
+* release, work arround for lerna[#901](https://github.com/ngrx-utils/ngrx-utils/issues/901) ([89049bb](https://github.com/ngrx-utils/ngrx-utils/commit/89049bb))
+
+
 
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.4...v0.1.5) (2018-01-17)
