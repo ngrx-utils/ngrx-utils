@@ -1,5 +1,4 @@
 {
-  "$schema": "../../node_modules/ng-packagr/package.schema.json",
   "name": "@ngrx-utils/store",
   "version": "0.1.5",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/store",

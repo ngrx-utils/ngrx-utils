@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-const { propgram } = require('../');
+const program = require('../bundles/cli.umd').program;
 
 program.parse(process.argv);

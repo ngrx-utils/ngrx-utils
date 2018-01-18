@@ -3,7 +3,7 @@ export default {
   output: {
     file: './dist/cli/bundles/cli.umd.js',
     name: 'ngrxUtils.cli',
-    format: 'umd',
+    format: 'cjs',
     globals: {},
     exports: 'named'
   }
