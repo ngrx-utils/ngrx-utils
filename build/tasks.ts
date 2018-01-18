@@ -276,7 +276,7 @@ export function removeSummaryFiles() {
 export async function publishToRepo(config: Config) {
   for (let pkg of util.getTopLevelPackages(config)) {
     const SOURCE_DIR = `./dist/${pkg}`;
-    const REPO_URL = `git@github.com:ngrx/${pkg}-builds.git`;
+    const REPO_URL = `git@github.com:ngrx-utils/${pkg}-builds.git`;
     const REPO_DIR = `./tmp/${pkg}`;
     const SHA = await util.git([`rev-parse HEAD`]);
     const SHORT_SHA = await util.git([`rev-parse --short HEAD`]);
