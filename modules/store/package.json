@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/store",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/store",
   "module": "@ngrx-utils/store.es5.js",
   "es2015": "@ngrx-utils/store.js",
@@ -13,7 +13,14 @@
     "type": "git",
     "url": "git+https://github.com/ngrx-utils/ngrx-utils.git"
   },
-  "keywords": ["@ngrx/store", "NgRx", "Angular", "Store", "Redux", "@ngrx-utils/store"],
+  "keywords": [
+    "@ngrx/store",
+    "NgRx",
+    "Angular",
+    "Store",
+    "Redux",
+    "@ngrx-utils/store"
+  ],
   "author": "San Nguyen",
   "license": "MIT",
   "bugs": {
@@ -37,9 +44,22 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testMatch": ["<rootDir>/spec/**/*.spec.ts"],
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-    "transformIgnorePatterns": ["node_modules/(?!@ngrx)"],
-    "modulePathIgnorePatterns": ["dist"]
+    "testMatch": [
+      "<rootDir>/spec/**/*.spec.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!@ngrx)"
+    ],
+    "modulePathIgnorePatterns": [
+      "dist"
+    ]
   }
 }

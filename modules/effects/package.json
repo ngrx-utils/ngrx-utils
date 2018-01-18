@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/effects",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/effects",
   "module": "@ngrx-utils/effects.es5.js",
   "es2015": "@ngrx-utils/effects.js",
@@ -13,7 +13,12 @@
     "type": "git",
     "url": "git+https://github.com/ngrx-utils/ngrx-utils.git"
   },
-  "keywords": ["@ngrx/effects", "NgRx", "Angular", "Effects"],
+  "keywords": [
+    "@ngrx/effects",
+    "NgRx",
+    "Angular",
+    "Effects"
+  ],
   "author": "San Nguyen",
   "license": "MIT",
   "bugs": {
@@ -36,9 +41,22 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testMatch": ["<rootDir>/spec/**/*.spec.ts"],
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-    "transformIgnorePatterns": ["node_modules/(?!@ngrx)"],
-    "modulePathIgnorePatterns": ["dist"]
+    "testMatch": [
+      "<rootDir>/spec/**/*.spec.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!@ngrx)"
+    ],
+    "modulePathIgnorePatterns": [
+      "dist"
+    ]
   }
 }
