@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/store",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/store",
   "module": "@ngrx-utils/store.es5.js",
   "es2015": "@ngrx-utils/store.js",
