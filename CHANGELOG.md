@@ -4,28 +4,23 @@ All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 <a name="0.2.1"></a>
+
 ## [0.2.1](https://github.com/ngrx-utils/ngrx-utils/compare/v0.2.0...v0.2.1) (2018-01-18)
-
-
-
 
 **Note:** Version bump only for package @ngrx-utils/platform
 
 <a name="0.2.0"></a>
-# [0.2.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.5...v0.2.0) (2018-01-18)
 
+# [0.2.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.5...v0.2.0) (2018-01-18)
 
 ### Bug Fixes
 
 * publish wrong folder ([95ca21c](https://github.com/ngrx-utils/ngrx-utils/commit/95ca21c))
 * release, work arround for lerna[#901](https://github.com/ngrx-utils/ngrx-utils/issues/901) ([89049bb](https://github.com/ngrx-utils/ngrx-utils/commit/89049bb))
 
-
 ### Features
 
 * release with new build system ([8be3a7f](https://github.com/ngrx-utils/ngrx-utils/commit/8be3a7f))
-
-
 
 <a name="0.1.6"></a>
 
@@ -68,11 +63,3 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 * follow lerna publish ([88d9ed9](https://github.com/ngrx-utils/ngrx-utils/commit/88d9ed9))
-
-<a name="0.1.2"></a>
-
-## [0.1.2](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.1...v0.1.2) (2018-01-17)
-
-<a name="0.1.1"></a>
-
-## 0.1.1 (2018-01-17)
