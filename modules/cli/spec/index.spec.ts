@@ -1,7 +1,6 @@
 import * as ts from 'typescript';
 import * as fs from 'fs';
 import * as path from '../src/path-wrapper';
-import * as prettier from 'prettier';
 
 import { getActionClasses, collectMetadata } from '../src/collect-metadata';
 import { createReducerOutput, createActionOutput, parseActionType } from '../src/printer';
@@ -77,7 +76,7 @@ describe('@ngrx-utils/cli', () => {
 
   it('should generate correct reducer function', () => {
     const metas = collectMetadata(sourceFile);
-    const [importStatement, typeUnion] = createActionOutput('sample.action', 'Truck', metas);
+    const [_, typeUnion] = createActionOutput('sample.action', 'Truck', metas);
     const { category } = parseActionType(metas[0].type);
     const ast = createReducerOutput(category, typeUnion.name, metas);
     const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });

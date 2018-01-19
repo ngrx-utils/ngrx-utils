@@ -1,4 +1,4 @@
-import { Select, NgrxSelect } from '../index';
+import { Select, NgrxSelect } from '../src/index';
 import { createFeatureSelector, createSelector, Store as NgRxStore } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';

@@ -1,4 +1,4 @@
-import { ofAction } from '../index';
+import { ofAction } from '../src';
 import { Action as NgRxAction } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 
