@@ -263,7 +263,6 @@ export class MyEffects {
 ### What's different with ngrx-actions
 
 * Only provide `@Select` and `ofAction` pipeable operator. We really feel that `@Store`, `createReducer` and `@Action` from ngrx-actions increase much more boilerplate when using it in our app.
-* No need reflect-metadata as a dependency
 
 See [changelog](CHANGELOG.md) for latest changes.
 
