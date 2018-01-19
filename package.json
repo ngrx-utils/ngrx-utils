@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/platform",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Monorepo for ngrx development utilities",
   "scripts": {
     "bootstrap": "lerna bootstrap",
