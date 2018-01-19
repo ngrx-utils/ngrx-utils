@@ -99,8 +99,6 @@ export function ofAction<
   h: ActionType<H>,
   i: ActionType<I>
 ): OperatorFunction<Action, A | B | C | D | E | F | G | H | I>;
-export function ofAction<T extends Action = Action>(...allowedTypes: ActionType[]): OperatorFunction<Action, T> {
-  const allowedMap: { [type: string]: boolean } = {};
-  allowedTypes.forEach(action => (allowedMap[new action().type] = true));
-  return filter<Action, T>((action: Action): action is T => allowedMap[action.type]);
+export function ofAction<T extends Action = Action>(...actions: ActionType[]): OperatorFunction<Action, T> {
+  return filter<Action, T>((action: Action): action is T => actions.some(a => action instanceof a));
 }
