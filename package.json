@@ -7,7 +7,6 @@
     "precommit": "lint-staged",
     "clean": "rimraf ./dist",
     "build": "ts-node ./build/index.ts",
-    "changelog": "standard-version",
     "release": "lerna publish --skip-npm --conventional-commits && npm run build",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "commit": "commit",
@@ -16,7 +15,7 @@
     "publish:store": "npm publish dist/store",
     "publish:effects": "npm publish dist/effects",
     "upload": "concurrently 'yarn publish:cli' 'yarn publish:store' 'yarn publish:effects'",
-    "deploy": "yarn changelog && ts-node build/deploy-build"
+    "deploy": "concurrently 'ts-node build/deploy-build' 'yarn upload'"
   },
   "devDependencies": {
     "@angular/compiler": "^5.2.0",
@@ -50,7 +49,6 @@
     "rollup": "^0.54.1",
     "rxjs": "^5.5.6",
     "sorcery": "^0.10.0",
-    "standard-version": "^4.3.0",
     "ts-jest": "^22.0.1",
     "ts-node": "^4.1.0",
     "tslib": "^1.8.1",
