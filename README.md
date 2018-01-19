@@ -279,4 +279,13 @@ See [changelog](CHANGELOG.md) for latest changes.
 @ngrx-utils/cli
 
 * [x] Provide basic ngrx command
-* [ ] Use a config file to store all module action, reducer... declaration file path to continous update and optimize your store when your app scale up.
+* [ ] Use a config file to store all module action, reducer... declaration file path to continous update and optimize your store when your app scale up
+* [ ] Use schematics to scaffolding the full store
+
+@ngrx-utils/store
+
+* [ ] Provide custom memoize function for select decorator
+
+@ngrx-utils/effects
+
+* [ ] Have better way to filter action instead of calling new Action().type.
