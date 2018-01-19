@@ -288,4 +288,4 @@ See [changelog](CHANGELOG.md) for latest changes.
 
 @ngrx-utils/effects
 
-* [ ] Have better way to filter action instead of calling new Action().type.
+* [x] Have better way to filter action instead of calling new Action().type.
