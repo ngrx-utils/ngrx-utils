@@ -63,16 +63,26 @@
     "printWidth": 120
   },
   "lint-staged": {
-    "*.ts": ["prettier --parser typescript --write", "git add"]
+    "*.ts": [
+      "prettier --parser typescript --write",
+      "git add"
+    ]
   },
   "license": "MIT",
-  "keywords": ["ngrx", "angular", "rxjs", "ngrx-utils"],
+  "keywords": [
+    "ngrx",
+    "angular",
+    "rxjs",
+    "ngrx-utils"
+  ],
   "engines": {
     "node": ">=8.6.0",
     "npm": ">=5.3.0",
     "yarn": ">=1.3.0 <2.0.0"
   },
   "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }
