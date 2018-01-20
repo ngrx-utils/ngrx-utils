@@ -86,7 +86,7 @@ This Lookup Type is great but it just like duplicating your action type enum :(.
 
 * Another nice thing is you can use `action instanceof GetUser` type guard when using class based action, while with interface, you will have to do some thing like `if (action.type === fromActions.AuthActionType.RefreshUsers)`.
 
-### Reducer is **just work**
+### Reducer - VSCode for life saver
 
 * Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and nice auto completion feature, we now can have auto complete action type without an enum or const.
 
