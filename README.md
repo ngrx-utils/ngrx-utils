@@ -19,9 +19,9 @@ yarn add -D @ngrx-utils/cli
 
 ### ofAction pipeable operator
 
-* It will accept class based actions as parameters. Why this is better than ofType, default operator from @ngrx/effects?
+#### Why this is better than ofType, default operator from @ngrx/effects?
 
-* Although ngrx/schematics and ngrx/codegen will give you tools to automatically generate some boilerplate and scaffolding enum action, reducer... for your app, it will also add a fairly large amount lines of code into your codebase by using const or enum to store action type like this:
+* It will accept class based actions as parameters. Although ngrx/schematics and ngrx/codegen will give you tools to automatically generate some boilerplate and scaffolding enum action, reducer... for your app, it will also add a fairly large amount lines of code into your codebase by using const or enum to store action type like this:
 
 ```typescript
 export enum AuthActionType {
