@@ -4,10 +4,6 @@
 
 # [0.3.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.6...v0.3.0) (2018-01-19)
 
-### Features
-
-* release with new build system ([8be3a7f](https://github.com/ngrx-utils/ngrx-utils/commit/8be3a7f))
-
 ### Performance Improvements
 
 * improve ofAction performance ([d746e48](https://github.com/ngrx-utils/ngrx-utils/commit/d746e48)), closes [#4](https://github.com/ngrx-utils/ngrx-utils/issues/4)
@@ -25,20 +21,11 @@
 ### Bug Fixes
 
 * publish wrong folder ([95ca21c](https://github.com/ngrx-utils/ngrx-utils/commit/95ca21c))
-* release, work arround for lerna[#901](https://github.com/ngrx-utils/ngrx-utils/issues/901) ([89049bb](https://github.com/ngrx-utils/ngrx-utils/commit/89049bb))
+* release, work around for lerna[#901](https://github.com/ngrx-utils/ngrx-utils/issues/901) ([89049bb](https://github.com/ngrx-utils/ngrx-utils/commit/89049bb))
 
 ### Features
 
 * release with new build system ([8be3a7f](https://github.com/ngrx-utils/ngrx-utils/commit/8be3a7f))
-
-<a name="0.1.6"></a>
-
-## [0.1.6](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.5...v0.1.6) (2018-01-17)
-
-### Bug Fixes
-
-* publish wrong folder ([95ca21c](https://github.com/ngrx-utils/ngrx-utils/commit/95ca21c))
-* release, work arround for lerna[#901](https://github.com/lerna/lerna/issues/901) ([89049bb](https://github.com/ngrx-utils/ngrx-utils/commit/89049bb))
 
 <a name="0.1.5"></a>
 
@@ -64,11 +51,3 @@
 
 * follow lerna publish ([88d9ed9](https://github.com/ngrx-utils/ngrx-utils/commit/88d9ed9))
 * lerna current version ([b82a6e7](https://github.com/ngrx-utils/ngrx-utils/commit/b82a6e7))
-
-<a name="0.1.1"></a>
-
-## [0.1.1](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.2...v0.1.1) (2018-01-17)
-
-### Bug Fixes
-
-* follow lerna publish ([88d9ed9](https://github.com/ngrx-utils/ngrx-utils/commit/88d9ed9))
