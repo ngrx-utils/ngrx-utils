@@ -99,6 +99,10 @@ export function ofAction<
   h: ActionType<H>,
   i: ActionType<I>
 ): OperatorFunction<Action, A | B | C | D | E | F | G | H | I>;
+/**
+ * Could have better type variable here when Variadic types in typescript land
+ * https://github.com/Microsoft/TypeScript/issues/5453
+ */
 export function ofAction<T extends Action = Action>(...actions: ActionType[]): OperatorFunction<Action, T> {
   return filter<Action, T>((action: Action): action is T => actions.some(a => action instanceof a));
 }
