@@ -8,9 +8,11 @@ Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
 ## Quick start
 
 ```sh
-npm i @ngrx-utils/{store,effects,cli} -S
+npm i -S @ngrx-utils/{store,effects}
+npm i -D @ngrx-utils/cli
 # or
 yarn add @ngrx-utils/{store,effects,cli}
+yarn add -D @ngrx-utils/cli
 ```
 
 ## What in the box
@@ -207,9 +209,6 @@ export class MyComponent {
    * const getMyProp = createSelect(getMyFeature, state => state.myProp);
    * ... In your component class
    * this.myProp = store.select(getMyProp);
-   *
-   * this selector is also be cached and you can get it from
-   * NgrxSelect.selectorMap['myFeature.myProp'] (static property)
    */
   @Select('myFeature.myProp') myProp: Observable<any>;
 
@@ -274,18 +273,22 @@ See [changelog](CHANGELOG.md) for latest changes.
 * _Does this work with NGRX Dev Tools?_ Yes, it does.
 * _How does it work with testing?_ Everything should work the same way but don't forget if you use the selector tool to include that in your test runner though.
 
-## ROADMAP
+## ROADMAP to v1
 
 @ngrx-utils/cli
 
 * [x] Provide basic ngrx command
-* [ ] Use a config file to store all module action, reducer... declaration file path to continous update and optimize your store when your app scale up
-* [ ] Use schematics to scaffolding the full store
+* [ ] Use a config file to store all module action, reducer... declaration file path to continuous update and optimize your store when your app scale up
+* [ ] Use schematics to scaffolding the full store implement best practices.
 
 @ngrx-utils/store
 
-* [ ] Provide custom memoize function for select decorator
+* [ ] Provide custom memoize function for select decorator - Advance
 
 @ngrx-utils/effects
 
 * [x] Have better way to filter action instead of calling new Action().type.
+
+## Future
+
+* [ ] Investigate using reducer function in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom)
