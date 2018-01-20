@@ -4,6 +4,10 @@ import { Store, Selector, createFeatureSelector, createSelector } from '@ngrx/st
 @Injectable()
 export class NgrxSelect {
   static store: Store<any> | undefined = undefined;
+
+  /**
+   * @internal
+   */
   static selectorMap: { [key: string]: Selector<any, any> } = {};
 
   connect(store: Store<any>) {
@@ -18,7 +22,7 @@ export function Select(selectorOrFeature?: string, ...paths: string[]): (target:
 export function Select(selectorOrFeature?: string | Selector<any, any>, ...paths: string[]) {
   return function(target: any, name: string): void {
     let fn: Selector<any, any>;
-    // Nothing here? Use propery name as selector
+    // Nothing here? Use property name as selector
     if (!selectorOrFeature) {
       selectorOrFeature = name;
     }
