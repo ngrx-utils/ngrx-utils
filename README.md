@@ -11,7 +11,7 @@ Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
 npm i -S @ngrx-utils/{store,effects}
 npm i -D @ngrx-utils/cli
 # or
-yarn add @ngrx-utils/{store,effects,cli}
+yarn add @ngrx-utils/{store,effects}
 yarn add -D @ngrx-utils/cli
 ```
 
