@@ -11,12 +11,8 @@
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "commit": "commit",
     "test": "lerna run test",
-    "publish:cli": "npm publish dist/cli",
-    "publish:store": "npm publish dist/store",
-    "publish:effects": "npm publish dist/effects",
-    "upload": "concurrently 'yarn publish:cli' 'yarn publish:store' 'yarn publish:effects'",
     "deploy:builds": "yarn build && ts-node build/deploy-build",
-    "ci": "yarn run build && yarn run test"
+    "ci": "yarn run test && yarn run deploy:builds"
   },
   "devDependencies": {
     "@angular/compiler": "^5.2.0",
@@ -25,7 +21,7 @@
     "@commitlint/cli": "^6.0.2",
     "@commitlint/config-conventional": "^6.0.2",
     "@commitlint/prompt-cli": "^6.0.2",
-    "@ngrx/store": "^4.1.1",
+    "@ngrx/store": "^5.0.0",
     "@types/fs-extra": "^5.0.0",
     "@types/jest": "^22.0.1",
     "@types/lodash": "^4.14.92",
@@ -55,7 +51,8 @@
     "tslib": "^1.8.1",
     "tslint": "^5.9.1",
     "typescript": "^2.6.2",
-    "uglify-js": "^3.3.8"
+    "uglify-js": "^3.3.8",
+    "zone.js": "^0.8.20"
   },
   "prettier": {
     "singleQuote": true,
