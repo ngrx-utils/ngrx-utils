@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/ngrx-utils/ngrx-utils/compare/v0.2.1...v0.3.1) (2018-01-22)
+
+
+### Bug Fixes
+
+* **store:** remove access to static member ([445b11d](https://github.com/ngrx-utils/ngrx-utils/commit/445b11d))
+
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.1.6...v0.3.0) (2018-01-19)
 
