@@ -291,4 +291,4 @@ See [changelog](CHANGELOG.md) for latest changes.
 
 ## Future
 
-* [ ] Investigate using reducer function in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom)
+* [ ] Investigate using store in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom). Example implement Web Worker Service in Angular: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
