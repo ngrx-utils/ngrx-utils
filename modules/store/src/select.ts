@@ -3,6 +3,9 @@ import { Store, Selector, createFeatureSelector, createSelector } from '@ngrx/st
 
 @Injectable()
 export class NgrxSelect {
+  /**
+   * @internal
+   */
   static store: Store<any> | undefined = undefined;
 
   /**
