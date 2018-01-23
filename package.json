@@ -82,6 +82,5 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "workspaces": ["modules/*"]
+  }
 }
