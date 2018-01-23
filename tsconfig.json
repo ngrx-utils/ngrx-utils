@@ -2,6 +2,7 @@
   "compilerOptions": {
     "lib": ["es6"],
     "moduleResolution": "node",
+    "target": "es2015",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noEmitHelpers": false,
@@ -11,7 +12,18 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,
-    "strict": true
+    "strict": true,
+    "strictFunctionTypes": false,
+    "baseUrl": ".",
+    "rootDir": "./",
+    "paths": {
+      "@ngrx-utils/effects": [
+        "./modules/effects"
+      ],
+      "@ngrx-utils/store": [
+        "./modules/store"
+      ]
+    }
   },
   "exclude": ["node_modules", "**/*/node_modules"]
 }

@@ -252,6 +252,12 @@ export class MyEffects {
 }
 ```
 
+### Example App
+
+* This Example App is a fork of `@ngrx/platform` example app to show you how much boilerplate has been reduce when using `@ngrx-utils`
+
+* [Example App](example-app)
+
 ### What's different with ngrx-actions
 
 * Only provide `@Select` and `ofAction` pipeable operator. We really feel that `@Store`, `createReducer` and `@Action` from ngrx-actions increase much more boilerplate when using it in our app.
