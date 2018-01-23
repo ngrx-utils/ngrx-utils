@@ -34,22 +34,16 @@ describe('ngrx-utils', () => {
     const msFeature = createFeatureSelector<FooState>('myFeature');
     const msBar = createSelector(msFeature, state => state.bar);
 
+    const store = new NgRxStore(of(globalState), undefined, undefined);
+    NgrxSelect.store = store;
+
     class MyStateSelector {
-      @Select('myFeature.bar.a.b.c.d') hello$: Observable<string>; // deeply nested props
       @Select() myFeature: Observable<FooState>; // implied by name
       @Select(msBar) bar$: Observable<any>; // using MemoizedSelector
     }
 
-    const store = new NgRxStore(of(globalState), undefined, undefined);
-
     try {
-      NgrxSelect.store = store;
-
       const mss = new MyStateSelector();
-
-      mss.hello$.subscribe(n => {
-        expect(n).toBe('world');
-      });
 
       mss.myFeature.subscribe(n => {
         expect(n).toBe(globalState.myFeature);
@@ -57,6 +51,43 @@ describe('ngrx-utils', () => {
 
       mss.bar$.subscribe(n => {
         expect(n).toBe(globalState.myFeature.bar);
+      });
+    } finally {
+      NgrxSelect.store = undefined;
+    }
+  });
+
+  it('select with new select implementation', () => {
+    const globalState: {
+      myFeature: FooState;
+    } = {
+      myFeature: {
+        foo: true,
+        bar: {
+          a: {
+            b: {
+              c: {
+                d: 'world'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const store = new NgRxStore(of(globalState), undefined, undefined);
+    NgrxSelect.store = store;
+
+    class MyStateSelector {
+      @Select('myFeature', 'bar', 'a', 'b', 'c', 'd')
+      hello$: Observable<string>;
+    }
+
+    try {
+      const mss = new MyStateSelector();
+
+      mss.hello$.subscribe(n => {
+        expect(n).toBe('world');
       });
     } finally {
       NgrxSelect.store = undefined;

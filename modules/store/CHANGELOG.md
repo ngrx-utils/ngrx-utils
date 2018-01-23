@@ -3,7 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="0.3.1"></a>
+      <a name="0.4.0"></a>
+# [0.4.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.3.1...v0.4.0) (2018-01-23)
+
+
+### Code Refactoring
+
+* **store:** remove deep nested prop of Select ([0110678](https://github.com/ngrx-utils/ngrx-utils/commit/0110678))
+
+
+### BREAKING CHANGES
+
+* **store:** Deep nested prop in Select decorator will no longer available.
+
+before:
+
+```typescript
+class MyComponent {
+@Select('a.b.c') c: any;
+}
+```
+
+after:
+
+```typescript
+class MyComponent {
+@Select('a', 'b', 'c') c: any;
+}
+```
+
+
+
+
+      <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/ngrx-utils/ngrx-utils/compare/v0.2.1...v0.3.1) (2018-01-22)
 
 
