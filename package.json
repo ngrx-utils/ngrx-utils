@@ -137,6 +137,9 @@
     "transformIgnorePatterns": [
       "node_modules/(?!@ngrx)"
     ],
+    "moduleNameMapper": {
+      "^@ngrx-utils/(?!db)(.*)": "<rootDir>/modules/$1"
+    },
     "modulePathIgnorePatterns": [
       "dist"
     ]
