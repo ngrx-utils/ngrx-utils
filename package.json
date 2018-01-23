@@ -5,9 +5,9 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
-    "clean": "rimraf ./dist",
+    "clean": "git clean -xdf && yarn && yarn run bootstrap",
     "build": "ts-node ./build/index.ts",
-    "release": "lerna publish --skip-npm --conventional-commits && npm run build",
+    "release": "lerna publish --skip-npm --skip-git --conventional-commits && npm run build",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "commit": "commit",
     "test": "lerna run test",
@@ -82,5 +82,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  }
+  },
+  "workspaces": ["modules/*"]
 }
