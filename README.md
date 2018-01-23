@@ -166,9 +166,11 @@ default:
 ### Install
 
 ```sh
-npm i @ngrx-utils/{store,effects,cli} -S
+npm i -S @ngrx-utils/{store,effects}
+npm i -D @ngrx-utils/cli
 # or
-yarn add @ngrx-utils/{store,effects,cli}
+yarn add @ngrx-utils/{store,effects}
+yarn add -D @ngrx-utils/cli
 ```
 
 Then in your app.module.ts (Only Add this code to your AppModule), connect ngrx-utils to your store:
@@ -202,15 +204,6 @@ export class MyComponent {
    * same as this.myFeature = store.select('myFeature')
    */
   @Select() myFeature: Observable<any>;
-
-  /** use '.' to separate properties to get from store
-   * equivalent with:
-   * const getMyFeature = createFeatureSelect('myFeature');
-   * const getMyProp = createSelect(getMyFeature, state => state.myProp);
-   * ... In your component class
-   * this.myProp = store.select(getMyProp);
-   */
-  @Select('myFeature.myProp') myProp: Observable<any>;
 
   /* does same way as store.select('myFeature', 'anotherProp') */
   @Select('myFeature', 'anotherProp')
@@ -262,6 +255,10 @@ export class MyEffects {
 ### What's different with ngrx-actions
 
 * Only provide `@Select` and `ofAction` pipeable operator. We really feel that `@Store`, `createReducer` and `@Action` from ngrx-actions increase much more boilerplate when using it in our app.
+
+* No provide deep nested prop API with Select decorator. Typescript cannot infer correct type in future decorator support.
+
+* Better type inference with ofAction pipeable operator.
 
 See [changelog](CHANGELOG.md) for latest changes.
 
