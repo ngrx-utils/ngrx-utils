@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operator/map';
-import { pluck } from 'rxjs/operator/pluck';
-import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
+import { Store, select } from '@ngrx/store';
+import { OperatorFunction } from 'rxjs/interfaces';
 
 @Injectable()
 export class NgrxSelect {
@@ -17,37 +15,54 @@ export class NgrxSelect {
 }
 
 export function Select<T, K>(mapFn: (state: T) => K): (target: any, name: string) => void;
-export function Select(key?: string, ...paths: string[]): (target: any, name: string) => void;
-export function Select<T, K>(pathOrMapFn?: ((state: T) => K) | string, ...paths: string[]) {
+export function Select<A, B, C>(
+  mapFn: (state: A) => B,
+  op1: OperatorFunction<B, C>
+): (target: any, name: string) => void;
+export function Select<T, K, R>(pathOrMapFn: ((state: T) => K), ...operations: OperatorFunction<K, R>[]) {
   return function(target: any, name: string): void {
-    let mapped$: Store<any>;
-    const source$ = NgrxSelect.store;
-
-    if (!source$) {
-      throw new Error('NgrxSelect not connected to store!');
-    }
+    let fn: ((state: T) => K);
 
     if (!pathOrMapFn) {
       pathOrMapFn = name;
     }
 
     if (typeof pathOrMapFn === 'string') {
-      mapped$ = pluck.call(source$, pathOrMapFn, ...paths);
+      fn = getPropFactory([pathOrMapFn, ...(operations as string[])]);
     } else if (typeof pathOrMapFn === 'function') {
-      mapped$ = map.call(source$, pathOrMapFn);
+      fn = pathOrMapFn;
     } else {
       throw new TypeError(
         `Unexpected type '${typeof pathOrMapFn}' in select operator,` + ` expected 'string' or 'function'`
       );
     }
+
     if (delete target[name]) {
       Object.defineProperty(target, name, {
         get: () => {
-          return distinctUntilChanged.call(mapped$);
+          const source$ = NgrxSelect.store;
+
+          if (!source$) {
+            throw new Error('NgrxSelect not connected to store!');
+          }
+
+          return source$.pipe(select(fn));
         },
         enumerable: true,
         configurable: true
       });
     }
   };
+}
+
+function getPropFactory(paths: string[]) {
+  return (state: { [prop: string]: any }) =>
+    paths.reduce((prev, cur) => {
+      if (typeof cur === 'function') {
+        throw new TypeError(
+          'You must specify the first argument to have type function, or change this argument to App State object property name'
+        );
+      }
+      return prev && prev[cur];
+    }, state);
 }

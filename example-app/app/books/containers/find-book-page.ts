@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { Select } from '@ngrx-utils/store';
 import { Observable } from 'rxjs/Observable';
 import { take } from 'rxjs/operators';
 
@@ -17,15 +18,12 @@ import { Book } from '../models/book';
 })
 export class FindBookPageComponent {
   searchQuery$: Observable<string>;
-  books$: Observable<Book[]>;
-  loading$: Observable<boolean>;
-  error$: Observable<string>;
+  @Select(fromBooks.getSearchResults) books$: Observable<Book[]>;
+  @Select(fromBooks.getSearchLoading) loading$: Observable<boolean>;
+  @Select(fromBooks.getSearchError) error$: Observable<string>;
 
   constructor(private store: Store<fromBooks.State>) {
     this.searchQuery$ = store.pipe(select(fromBooks.getSearchQuery), take(1));
-    this.books$ = store.pipe(select(fromBooks.getSearchResults));
-    this.loading$ = store.pipe(select(fromBooks.getSearchLoading));
-    this.error$ = store.pipe(select(fromBooks.getSearchError));
   }
 
   search(query: string) {
