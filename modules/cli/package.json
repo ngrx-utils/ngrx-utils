@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/cli",
-  "version": "0.3.1",
+  "version": "0.5.0",
   "description": "NgRx CLI to help scaffold your app state management and update it as your app scale",
   "module": "@ngrx-utils/cli.es5.js",
   "es2015": "@ngrx-utils/cli.js",

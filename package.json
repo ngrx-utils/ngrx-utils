@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/platform",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Monorepo for ngrx development utilities",
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -21,6 +21,9 @@
     "example:test": "jest --watch",
     "example:build:prod": "yarn build && yarn run copy:dist && yarn cli build -prod --base-href \"/platform/example-app/\" --output-path \"./example-dist/example-app\""
   },
+  "dependencies": {
+    "rxjs": "^5.5.6"
+  },
   "devDependencies": {
     "@angular/animations": "^5.2.1",
     "@angular/cdk": "^5.1.0",
@@ -30,6 +33,7 @@
     "@angular/compiler-cli": "^5.2.0",
     "@angular/core": "^5.2.0",
     "@angular/forms": "^5.2.1",
+    "@angular/language-service": "^5.2.1",
     "@angular/material": "^5.1.0",
     "@angular/platform-browser": "^5.2.1",
     "@angular/platform-browser-dynamic": "^5.2.1",
@@ -72,7 +76,6 @@
     "pretty-format": "^22.1.0",
     "rimraf": "^2.6.2",
     "rollup": "^0.55.0",
-    "rxjs": "^5.5.6",
     "sorcery": "^0.10.0",
     "ts-jest": "^22.0.1",
     "ts-node": "^4.1.0",

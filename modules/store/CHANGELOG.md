@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+      <a name="0.5.0"></a>
+# [0.5.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.2.1...v0.5.0) (2018-01-24)
+
+
+### Bug Fixes
+
+* **store:** remove access to static member ([445b11d](https://github.com/ngrx-utils/ngrx-utils/commit/445b11d))
+
+
+### Code Refactoring
+
+* **store:** remove deep nested prop of Select ([0110678](https://github.com/ngrx-utils/ngrx-utils/commit/0110678))
+
+
+### Features
+
+* **store:** instroduce Pluck decorator ([67c08eb](https://github.com/ngrx-utils/ngrx-utils/commit/67c08eb))
+* **store:** select now support pipeable operator ([10977a1](https://github.com/ngrx-utils/ngrx-utils/commit/10977a1))
+
+
+### BREAKING CHANGES
+
+* **store:** Deep nested prop in Select decorator will no longer available.
+
+before:
+
+```typescript
+class MyComponent {
+@Select('a.b.c') c: any;
+}
+```
+
+after:
+
+```typescript
+class MyComponent {
+@Select('a', 'b', 'c') c: any;
+}
+```
+
+
+
+
       <a name="0.4.0"></a>
 # [0.4.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.3.1...v0.4.0) (2018-01-23)
 
@@ -35,7 +78,7 @@ class MyComponent {
 
 
 
-      <a name="0.3.1"></a>
+    <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/ngrx-utils/ngrx-utils/compare/v0.2.1...v0.3.1) (2018-01-22)
 
 
