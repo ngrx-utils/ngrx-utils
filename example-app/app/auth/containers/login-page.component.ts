@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Select } from '@ngrx-utils/store';
 import { Authenticate } from '../models/user';
 import * as fromAuth from '../reducers';
