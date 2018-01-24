@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig-build.json",
+  "compilerOptions": {
+    "strictNullChecks": false,
+    "module": "commonjs",
+    "types": ["node", "jest"]
+  },
+  "files": ["index.spec.ts"]
+}

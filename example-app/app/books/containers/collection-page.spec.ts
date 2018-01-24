@@ -1,21 +1,24 @@
-import { CollectionPageComponent } from './collection-page';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatCardModule, MatInputModule } from '@angular/material';
-import { BookPreviewListComponent } from '../components/book-preview-list';
-import { BookPreviewComponent } from '../components/book-preview';
-import * as collection from '../actions/collection';
-import * as fromBooks from '../reducers';
-import { EllipsisPipe } from '../../shared/pipes/ellipsis';
+import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
 import { AddCommasPipe } from '../../shared/pipes/add-commas';
+import { EllipsisPipe } from '../../shared/pipes/ellipsis';
+import * as collection from '../actions/collection';
 import { BookAuthorsComponent } from '../components/book-authors';
+import { BookPreviewComponent } from '../components/book-preview';
+import { BookPreviewListComponent } from '../components/book-preview-list';
+import * as fromBooks from '../reducers';
+import { CollectionPageComponent } from './collection-page';
 
 describe('Collection Page', () => {
   let fixture: ComponentFixture<CollectionPageComponent>;
   let store: Store<fromBooks.State>;
   let instance: CollectionPageComponent;
+  let ngrxSelect: NgrxSelect;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,7 +29,8 @@ describe('Collection Page', () => {
         }),
         MatCardModule,
         MatInputModule,
-        RouterTestingModule
+        RouterTestingModule,
+        NgrxUtilsModule
       ],
       declarations: [
         CollectionPageComponent,
@@ -41,6 +45,8 @@ describe('Collection Page', () => {
     fixture = TestBed.createComponent(CollectionPageComponent);
     instance = fixture.componentInstance;
     store = TestBed.get(Store);
+    ngrxSelect = TestBed.get(NgrxSelect);
+    ngrxSelect.connect(store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });

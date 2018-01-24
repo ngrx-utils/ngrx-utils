@@ -155,11 +155,11 @@ default:
 
 > This command actually is a modified version of @ngrx/codegen to accept class base action.
 
-### `@Select` decorator
+### `@Select & @Pluck` decorator
 
-* This has always been in the wish list of developers in the first days of ngrx. No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select` decorator instead. This will also cache you selector and then reuse it when you select from a same piece of state for performance purpose.
+* This has always been in the wish list of developers in the first days of ngrx. No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select or @Pluck` decorator instead.
 
-> Note: The Select decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
+> Note: Decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
 
 ## Getting Started
 
@@ -192,25 +192,33 @@ export class AppModule {
 
 And you can start using it in any component. It also works with feature stores too. You don't have to do anything in your feature module. Don't forget to invoke the `connect` function when you are writing tests.
 
-### Selects
+### Select & Pluck decorator
 
-`@Select` decorator has the same API with store.select method, with 1 more feature is it accepts a (deep) path string. This looks like:
+`@Select` decorator accept a selector as first parameter, and then pipeable operators just like `Observable.pipe()`
 
 ```typescript
-import { Select } from '@ngrx-utils/store';
+import { Select, Pluck } from '@ngrx-utils/store';
+import { map } from 'rxjs/operators';
 
 export class MyComponent {
   /** use property name when there is no specified
    * same as this.myFeature = store.select('myFeature')
    */
-  @Select() myFeature: Observable<any>;
+  @Pluck() myFeature: Observable<any>;
 
   /* does same way as store.select('myFeature', 'anotherProp') */
-  @Select('myFeature', 'anotherProp')
+  @Pluck('myFeature', 'anotherProp')
   anotherProp: Observable<any>;
+
+  /* shorthand syntax but same as above */
+  @Pluck('myFeature.anotherProp') anotherProp: Observable<any>;
 
   /* use selectors composed by createSelector */
   @Select(fromStore.getMyWifeProp) myWifeProp: Observable<Dangerous | null>;
+
+  /* use pipeable operator to transform data */
+  @Select(fromStore.getMyWifeProp, map(a => !!a))
+  isMyWife: Observable<boolean>;
 }
 ```
 
@@ -286,12 +294,10 @@ See [changelog](CHANGELOG.md) for latest changes.
 
 @ngrx-utils/store
 
-* [ ] Provide custom memoize function for select decorator - Advance
+* [x] Introduce Pluck decorator for string select
+* [x] Select decorator support pipeable operator
+* [ ] Investigate using store in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom). Example implement Web Worker Service in Angular: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
 
 @ngrx-utils/effects
 
 * [x] Have better way to filter action instead of calling new Action().type.
-
-## Future
-
-* [ ] Investigate using store in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom). Example implement Web Worker Service in Angular: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)

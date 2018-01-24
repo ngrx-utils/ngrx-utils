@@ -1,2 +1,3 @@
-export { NgrxUtilsModule } from './module';
-export { Select, NgrxSelect } from './select';
+export { NgrxUtilsModule, NgrxSelect } from './module';
+export { Select } from './select';
+export { Pluck } from './pluck';

@@ -1,88 +1,39 @@
-import * as ts from 'typescript';
 import * as fs from 'fs';
 import * as path from '../src/path-wrapper';
 
-import { getActionClasses, collectMetadata } from '../src/collect-metadata';
-import { createReducerOutput, createActionOutput, parseActionType } from '../src/printer';
+import { generateFileOutput } from '../src';
+
+const promisify = (fn: Function, ...args: any[]) =>
+  new Promise((resolve, reject) => {
+    fn(...args, (err: Error, data: any) => {
+      if (err) reject(err);
+      resolve(data);
+    });
+  });
 
 describe('@ngrx-utils/cli', () => {
-  let sourceFile: ts.SourceFile;
+  const filePath = (fileName: string) => path.resolve(__dirname, `./fixtures/${fileName}.ts`);
 
-  beforeEach(() => {
-    sourceFile = ts.createSourceFile(
-      `sample.actions.ts`,
-      fs.readFileSync(path.resolve(__dirname, `./fixtures/sample.action.ts`)).toString(),
-      ts.ScriptTarget.ES2015,
-      true
-    );
+  it('should get correct Union Action Class', async () => {
+    generateFileOutput(filePath('sample.action'));
+
+    const [result, output] = await Promise.all([
+      promisify(fs.readFile, filePath('sample.action.helper')),
+      promisify(fs.readFile, filePath('output'))
+    ]);
+
+    expect(result.toString()).toBe(output.toString());
   });
 
-  it('should get correct Union Action Class', () => {
-    const actionClasses = getActionClasses(sourceFile);
+  it('should generate correct reducer function', async () => {
+    generateFileOutput(filePath('sample.action'), true);
 
-    const unionTypeStr =
-      'GetTruckItems | GetTruckItemsSuccess | GetTruckItemsFail | RefreshTruckItems' +
-      ' | GetTruckData | GetTruckDataSuccess | GetTruckDataFail | RefreshTruckData';
+    const [result, output] = await Promise.all([
+      promisify(fs.readFile, filePath('sample.action.helper')),
+      promisify(fs.readFile, filePath('output.reducer'))
+    ]);
 
-    const unionType = actionClasses
-      .map(actionClass => {
-        return actionClass.name!.getText();
-      })
-      .join(' | ');
-
-    expect(unionType).toBe(unionTypeStr);
-  });
-
-  it('should get correct property metadata', () => {
-    const metas = collectMetadata(sourceFile);
-
-    const metasStr = [
-      {
-        name: 'GetTruckItems',
-        type: '[Truck] Get Truck Items'
-      },
-      {
-        name: 'GetTruckItemsSuccess',
-        type: '[Truck] Get Truck Items Success'
-      },
-      {
-        name: 'GetTruckItemsFail',
-        type: '[Truck] Get Truck Items Fail'
-      },
-      {
-        name: 'RefreshTruckItems',
-        type: '[Truck] Refresh Truck Items'
-      },
-      {
-        name: 'GetTruckData',
-        type: '[Truck] Get Truck Data'
-      },
-      {
-        name: 'GetTruckDataSuccess',
-        type: '[Truck] Get Truck Data Success'
-      },
-      {
-        name: 'GetTruckDataFail',
-        type: '[Truck] Get Truck Data Fail'
-      },
-      {
-        name: 'RefreshTruckData',
-        type: '[Truck] Refresh Truck Data'
-      }
-    ];
-
-    expect(metas).toEqual(metasStr);
-  });
-
-  it('should generate correct reducer function', () => {
-    const metas = collectMetadata(sourceFile);
-    const [_, typeUnion] = createActionOutput('sample.action', 'Truck', metas);
-    const { category } = parseActionType(metas[0].type);
-    const ast = createReducerOutput(category, typeUnion.name, metas);
-    const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
-    const resultFile = ts.createSourceFile('sample.reducer.ts', '', ts.ScriptTarget.ES2015, false, ts.ScriptKind.TS);
-    const sourceText = printer.printNode(ts.EmitHint.Unspecified, ast, resultFile);
-    expect(sourceText).toMatch(/.*default: return state;.*/);
+    expect(result.toString()).toBe(output.toString());
   });
 });
 

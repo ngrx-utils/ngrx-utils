@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Select } from '@ngrx-utils/store';
 
 import * as fromBooks from '../reducers';
 import * as collection from '../actions/collection';
@@ -19,13 +20,10 @@ import { Book } from '../models/book';
   `
 })
 export class SelectedBookPageComponent {
-  book$: Observable<Book>;
-  isSelectedBookInCollection$: Observable<boolean>;
+  @Select(fromBooks.getSelectedBook) book$: Observable<Book>;
+  @Select(fromBooks.isSelectedBookInCollection) isSelectedBookInCollection$: Observable<boolean>;
 
-  constructor(private store: Store<fromBooks.State>) {
-    this.book$ = store.pipe(select(fromBooks.getSelectedBook));
-    this.isSelectedBookInCollection$ = store.pipe(select(fromBooks.isSelectedBookInCollection));
-  }
+  constructor(private store: Store<fromBooks.State>) {}
 
   addToCollection(book: Book) {
     this.store.dispatch(new collection.AddBook(book));

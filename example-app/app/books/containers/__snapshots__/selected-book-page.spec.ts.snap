@@ -2,8 +2,6 @@
 
 exports[`Selected Book Page should compile 1`] = `
 <bc-selected-book-page
-  book$={[Function Store]}
-  isSelectedBookInCollection$={[Function Store]}
   store={[Function Store]}
 >
   

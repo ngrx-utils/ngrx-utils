@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { Select } from '@ngrx-utils/store';
 import { Authenticate } from '../models/user';
 import * as fromAuth from '../reducers';
 import * as Auth from '../actions/auth';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'bc-login-page',
@@ -16,8 +18,8 @@ import * as Auth from '../actions/auth';
   styles: []
 })
 export class LoginPageComponent implements OnInit {
-  pending$ = this.store.pipe(select(fromAuth.getLoginPagePending));
-  error$ = this.store.pipe(select(fromAuth.getLoginPageError));
+  @Select(fromAuth.getLoginPagePending) pending$: Observable<boolean>;
+  @Select(fromAuth.getLoginPageError) error$: Observable<string | null>;
 
   constructor(private store: Store<fromAuth.State>) {}
 

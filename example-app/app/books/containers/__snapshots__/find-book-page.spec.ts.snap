@@ -2,10 +2,6 @@
 
 exports[`Find Book Page should compile 1`] = `
 <bc-find-book-page
-  books$={[Function Store]}
-  error$={[Function Store]}
-  loading$={[Function Store]}
-  searchQuery$={[Function Store]}
   store={[Function Store]}
 >
   

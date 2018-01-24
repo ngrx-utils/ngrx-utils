@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/effects",
-  "version": "0.3.1",
+  "version": "0.5.0",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/effects",
   "module": "@ngrx-utils/effects.es5.js",
   "es2015": "@ngrx-utils/effects.js",
@@ -29,13 +29,13 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@ngrx/store": "^4.1.1",
+    "@ngrx/store": "^5.0.0",
     "rxjs": "^5.5.6"
   },
   "jest": {
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "spec/tsconfig.json"
+        "tsConfigFile": "spec/tsconfig.spec.json"
       }
     },
     "transform": {

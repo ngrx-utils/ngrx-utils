@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { Select } from '@ngrx-utils/store';
 
 import * as fromRoot from '../../reducers';
 import * as fromAuth from '../../auth/reducers';
@@ -35,16 +36,17 @@ import * as Auth from '../../auth/actions/auth';
   `
 })
 export class AppComponent {
-  showSidenav$: Observable<boolean>;
-  loggedIn$: Observable<boolean>;
+  @Select(fromRoot.getShowSidenav) showSidenav$: Observable<boolean>;
+  @Select(fromAuth.getLoggedIn) loggedIn$: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>) {
     /**
      * Selectors can be applied with the `select` operator which passes the state
      * tree to the provided selector
+     *
+     * this.showSidenav$ = this.store.pipe(select(fromRoot.getShowSidenav));
+     * this.loggedIn$ = this.store.pipe(select(fromAuth.getLoggedIn));
      */
-    this.showSidenav$ = this.store.pipe(select(fromRoot.getShowSidenav));
-    this.loggedIn$ = this.store.pipe(select(fromAuth.getLoggedIn));
   }
 
   closeSidenav() {

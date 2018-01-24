@@ -22,10 +22,12 @@ export function createActionOutput(
     ts.createIdentifier(`'./${filename.replace('.ts', '')}'`)
   );
 
+  const typeName = `${_.upperFirst(_.camelCase(category))}Actions`;
+
   const typeUnionDeclaration = ts.createTypeAliasDeclaration(
     undefined,
     [ts.createToken(ts.SyntaxKind.ExportKeyword)],
-    `${_.upperFirst(_.camelCase(category))}Actions`,
+    typeName,
     undefined,
     ts.createUnionTypeNode(metadata.map(m => ts.createTypeReferenceNode(m.name, undefined)))
   );

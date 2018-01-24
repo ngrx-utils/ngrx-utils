@@ -1,24 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule, MatInputModule, MatProgressSpinnerModule } from '@angular/material';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { BookSearchComponent } from '../components/book-search';
+import { AddCommasPipe } from '../../shared/pipes/add-commas';
+import { EllipsisPipe } from '../../shared/pipes/ellipsis';
+import * as book from '../actions/book';
+import { BookAuthorsComponent } from '../components/book-authors';
 import { BookPreviewComponent } from '../components/book-preview';
 import { BookPreviewListComponent } from '../components/book-preview-list';
-import { RouterTestingModule } from '@angular/router/testing';
-import { EllipsisPipe } from '../../shared/pipes/ellipsis';
-import { BookAuthorsComponent } from '../components/book-authors';
-import { AddCommasPipe } from '../../shared/pipes/add-commas';
-import { FindBookPageComponent } from './find-book-page';
-import * as book from '../actions/book';
+import { BookSearchComponent } from '../components/book-search';
 import * as fromBooks from '../reducers';
+import { FindBookPageComponent } from './find-book-page';
 
 describe('Find Book Page', () => {
   let fixture: ComponentFixture<FindBookPageComponent>;
   let store: Store<fromBooks.State>;
   let instance: FindBookPageComponent;
+  let ngrxSelect: NgrxSelect;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,7 +33,8 @@ describe('Find Book Page', () => {
         MatInputModule,
         MatCardModule,
         MatProgressSpinnerModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgrxUtilsModule
       ],
       declarations: [
         FindBookPageComponent,
@@ -47,6 +50,8 @@ describe('Find Book Page', () => {
     fixture = TestBed.createComponent(FindBookPageComponent);
     instance = fixture.componentInstance;
     store = TestBed.get(Store);
+    ngrxSelect = TestBed.get(NgrxSelect);
+    ngrxSelect.connect(store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
