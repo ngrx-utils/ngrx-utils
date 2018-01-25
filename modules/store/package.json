@@ -30,6 +30,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "release"
+  ],
   "peerDependencies": {
     "@angular/core": "^5.1.3",
     "@ngrx/store": "^5.0.0",
