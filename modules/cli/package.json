@@ -27,6 +27,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "release"
+  ],
   "bin": {
     "ngrx": "bin/ngrx"
   },

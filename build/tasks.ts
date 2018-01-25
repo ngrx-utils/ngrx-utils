@@ -271,6 +271,20 @@ export function removeSummaryFiles() {
 }
 
 /**
+ * Copies packages back to release with lerna
+ */
+export async function copyPackagesToRelease(config: Config) {
+  const packages = util.getAllPackages(config);
+
+  await mapAsync(packages, async pkg => {
+    const source = `./dist/${pkg}`;
+    const target = `./modules/${pkg}`;
+
+    await util.copy(`${source}`, `${target}/release`);
+  });
+}
+
+/**
  * Deploy build artifacts to repos
  */
 export async function publishToRepo(config: Config) {
