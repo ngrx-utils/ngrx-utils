@@ -23,7 +23,7 @@ yarn add -D @ngrx-utils/cli
 
 * `@Select` decorator is now support pipeable operator => you can use operator like take(1) to automatically unsubscribe or transform that value so you won't need to create more selectors with nested property...
 
-* It accepts first parameter as a selector type `(state: any) => any` to select prop from your store (like selectors created with `createSelector` from `@ngrx/store`) and up to 8 pipeable operators. `@Pluck` is just like `pluck` operator from `rxjs` but it support a 'dot' separated shorthand syntax.
+* `@Select` accepts first parameter as a selector type `(state: any) => any` to select prop from your store (like selectors created with `createSelector` from `@ngrx/store`) and up to 8 pipeable operators. `@Pluck` is just like `pluck` operator from `rxjs` but it support a 'dot' separated shorthand syntax.
 
 ```typescript
 import { take, map } from 'rxjs/operators';
