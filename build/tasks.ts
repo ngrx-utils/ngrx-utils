@@ -5,8 +5,13 @@ import * as util from './util';
  * Cleans the top level dist folder. All npm-ready packages are created
  * in the dist folder.
  */
-export function removeDistFolder(config: Config) {
-  return util.exec('rimraf', ['./dist']);
+export function removeArtifactFolders(config: Config) {
+  return Promise.all([
+    util.exec('rimraf', ['./dist']),
+    mapAsync(util.getAllPackages(config), async pkg => {
+      return await util.exec('rimraf', [`./modules/${pkg}/release`]);
+    })
+  ]);
 }
 
 /**
@@ -141,7 +146,10 @@ export async function cleanJavaScriptFiles(config: Config) {
   const packages = util.getTopLevelPackages(config).filter(pkg => !util.shouldBundle(config, pkg));
 
   const jsFilesGlob = './dist/packages/**/*.js';
-  const jsExcludeFilesFlob = ['./dist/packages/(bundles|@ngrx-utils)/**/*.js', './dist/**/((?-)testing)/**/*.js'];
+  const jsExcludeFilesFlob = [
+    './dist/packages/(bundles|@ngrx-utils)/**/*.js',
+    './dist/**/((?-)testing)/**/*.js'
+  ];
   const filesToRemove = await util.getListOfFiles(jsFilesGlob, jsExcludeFilesFlob);
 
   const filteredFilesToRemove = filesToRemove.filter((file: string) => {
@@ -252,7 +260,16 @@ export async function copyPackageJsonFiles(config: Config) {
     const source = `./modules/${pkg}`;
     const target = `./dist/${pkg}`;
 
-    await util.copy(`${source}/package.json`, `${target}/package.json`);
+    /**
+     * Update version of each module in dist follow repo version
+     */
+    const [jsonStrPkg, jsonStrRepo] = await Promise.all([
+      util.readFile(`${source}/package.json`),
+      util.readFile('./package.json')
+    ]);
+    const jsonPkg = JSON.parse(jsonStrPkg);
+    jsonPkg.version = JSON.parse(jsonStrRepo).version;
+    return await util.writeFile(`${target}/package.json`, JSON.stringify(jsonPkg, null, 2));
   });
 }
 
@@ -267,7 +284,57 @@ export async function removePackagesFolder(config: Config) {
  * Removes the ngsummary files
  */
 export function removeSummaryFiles() {
-  return util.exec('rimraf', ['**/dist/**/*.ngsummary.json']);
+  return util.exec('rimraf', ['./dist/**/*.ngsummary.json']);
+}
+
+/**
+ * Copies packages back to release with lerna
+ */
+export async function copyPackagesToRelease(config: Config) {
+  const packages = util.getAllPackages(config);
+
+  await mapAsync(packages, async pkg => {
+    const source = `./dist/${pkg}`;
+    const target = `./modules/${pkg}`;
+
+    await util.copy(`${source}`, `${target}/release`);
+  });
+}
+
+/**
+ * Remove package.json in release folder to use module package.json
+ */
+export function removePackageJsonInRelease() {
+  return util.exec('rimraf', ['**/modules/**/release/package.json']);
+}
+
+interface PackageJson {
+  module: string;
+  es2015: string;
+  main: string;
+  typings: string;
+  [key: string]: string;
+}
+
+/**
+ * Rewrite module path for each package
+ */
+export function rewriteModulePackageJson(config: Config) {
+  return mapAsync(util.getAllPackages(config), async pkg => {
+    const jsonStr = await util.readFile(`./modules/${pkg}/package.json`);
+    const json: PackageJson = JSON.parse(jsonStr);
+    const modulePaths = ['module', 'es2015', 'main', 'typings'];
+    if (json.main.includes('release')) {
+      for (const prop of modulePaths) {
+        json[prop] = json[prop].replace(/release\//, '');
+      }
+    } else {
+      for (const prop of modulePaths) {
+        json[prop] = `release/${json[prop]}`;
+      }
+    }
+    await util.writeFile(`modules/${pkg}/package.json`, JSON.stringify(json, null, 2));
+  });
 }
 
 /**
@@ -316,9 +383,15 @@ export function mapAsync<T>(list: T[], mapFn: (v: T, i: number) => Promise<any>)
 export async function copySchematicFiles(config: Config) {
   const packages = util.getTopLevelPackages(config).filter(pkg => !util.shouldBundle(config, pkg));
 
-  const collectionFiles = await util.getListOfFiles(`./modules/?(${packages.join('|')})/collection.json`);
-  const schemaFiles = await util.getListOfFiles(`./modules/?(${packages.join('|')})/src/*/schema.*`);
-  const templateFiles = await util.getListOfFiles(`./modules/?(${packages.join('|')})/src/*/files/*`);
+  const collectionFiles = await util.getListOfFiles(
+    `./modules/?(${packages.join('|')})/collection.json`
+  );
+  const schemaFiles = await util.getListOfFiles(
+    `./modules/?(${packages.join('|')})/src/*/schema.*`
+  );
+  const templateFiles = await util.getListOfFiles(
+    `./modules/?(${packages.join('|')})/src/*/files/*`
+  );
   const files = [...collectionFiles, ...schemaFiles, ...templateFiles];
 
   await mapAsync(files, async file => {

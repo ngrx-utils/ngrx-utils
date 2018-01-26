@@ -37,6 +37,10 @@ export function writeFile(target: string, contents: string) {
   });
 }
 
+export function readFile(target: string) {
+  return fsExtra.readFile(target).then(v => v.toString());
+}
+
 export function getListOfFiles(globPath: string, exclude?: string | string[]): Promise<string[]> {
   return new Promise((resolve, reject) => {
     const options = exclude ? { ignore: exclude } : {};
