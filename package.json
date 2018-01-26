@@ -20,7 +20,7 @@
     "example:start": "yarn run cli serve",
     "example:start:aot": "yarn run cli serve -prod",
     "example:test": "jest --watch",
-    "example:build:prod": "yarn build && yarn run copy:dist && yarn cli build -prod --base-href \"/platform/example-app/\" --output-path \"./dist/example-app\""
+    "example:build:prod": "yarn run copy:dist && yarn cli build -prod --base-href \"/platform/example-app/\" --output-path \"./dist/example-app\""
   },
   "dependencies": {
     "rxjs": "^5.5.6"
