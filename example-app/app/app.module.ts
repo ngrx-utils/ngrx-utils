@@ -1,26 +1,25 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
 import { DBModule } from '@ngrx/db';
-import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { CoreModule } from './core/core.module';
-import { AuthModule } from './auth/auth.module';
-
-import { routes } from './routes';
-import { reducers, metaReducers } from './reducers';
-import { schema } from './db';
-import { CustomRouterStateSerializer } from './shared/utils';
-
-import { AppComponent } from './core/containers/app';
 import { environment } from '../environments/environment';
+import { AuthModule } from './auth/auth.module';
+import { AppComponent } from './core/containers/app';
+import { CoreModule } from './core/core.module';
+import { schema } from './db';
+import { metaReducers, reducers } from './reducers';
+import { routes } from './routes';
+import { CustomRouterStateSerializer } from './shared/utils';
 
 @NgModule({
   imports: [
@@ -75,6 +74,11 @@ import { environment } from '../environments/environment';
     EffectsModule.forRoot([]),
 
     /**
+     * Provide NgrxSelect service for connect to store instance
+     */
+    NgrxUtilsModule,
+
+    /**
      * `provideDB` sets up @ngrx/db with the provided schema and makes the Database
      * service available.
      */
@@ -94,4 +98,11 @@ import { environment } from '../environments/environment';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  /**
+   * Connect `@ngrx-utils` to your store
+   */
+  constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
+    ngrxSelect.connect(store);
+  }
+}
