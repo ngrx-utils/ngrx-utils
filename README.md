@@ -1,4 +1,4 @@
-# NgRx Utils
+# NgRx Utils [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils)
 
 This is a library provide utilities function, decorator, directives..., cli tools to help reduce boilerplate and speedup your devs when working with ngrx using class based Action approach.
 All these packages will be provide align with @ngrx/platform. For example utilities for `@ngrx/store` will be put under `@ngrx-utils/store` package
@@ -21,17 +21,19 @@ yarn add -D @ngrx-utils/cli
 
 * No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select or @Pluck` decorator instead.
 
-* `@Select` decorator is now support pipeable operator => you can use operator like take(1) to automatically unsubscribe or transform that value so you won't need to create more selectors with nested property... 
+* `@Select` decorator is now support pipeable operator => you can use operator like take(1) to automatically unsubscribe or transform that value so you won't need to create more selectors with nested property...
 
 * It accepts first parameter as a selector type `(state: any) => any` to select prop from your store (like selectors created with `createSelector` from `@ngrx/store`) and up to 8 pipeable operators. `@Pluck` is just like `pluck` operator from `rxjs` but it support a 'dot' separated shorthand syntax.
 
 ```typescript
-import { take, map } from 'rxjs/operators'
+import { take, map } from 'rxjs/operators';
 
 export class MyComponent {
-  @Select(fromRoot.getRouterState, map(state => state.url), take(1)) url$: Observable<string>;
+  @Select(fromRoot.getRouterState, map(state => state.url), take(1))
+  url$: Observable<string>;
 
-  @Pluck('featureState', 'prop1') prop1: Observable<any>;
+  @Pluck('featureState', 'prop1')
+  prop1: Observable<any>;
   @Pluck('featureState.prop2') prop2: Observable<any>;
 }
 ```
@@ -42,9 +44,13 @@ export class MyComponent {
 ```typescript
 export class MyComponent {
   /**
-  * This won't work.
-  */
-  @Select(fromRoot.getRouterState, map(state => /* `this` here is a global object*/ this.update(state))) url$: Observable<string>; /* if you use `Observable<number>` here it won't throw an error */
+   * This won't work.
+   */
+  @Select(
+    fromRoot.getRouterState,
+    map(state => /* `this` here is a global object*/ this.update(state))
+  )
+  url$: Observable<string>; /* if you use `Observable<number>` here it won't throw an error */
 
   update() {
     /* ... */
