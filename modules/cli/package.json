@@ -31,7 +31,7 @@
     "release"
   ],
   "bin": {
-    "ngrx": "bin/ngrx"
+    "ngrx": "release/bin/ngrx"
   },
   "dependencies": {
     "caporal": "^0.9.0",

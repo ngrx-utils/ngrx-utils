@@ -313,7 +313,8 @@ interface PackageJson {
   es2015: string;
   main: string;
   typings: string;
-  [key: string]: string;
+  bin?: { ngrx: string };
+  [key: string]: any;
 }
 
 /**
@@ -328,9 +329,17 @@ export function rewriteModulePackageJson(config: Config) {
       for (const prop of modulePaths) {
         json[prop] = json[prop].replace(/release\//, '');
       }
+
+      if (json.bin && json.bin.ngrx) {
+        json.bin.ngrx = json.bin.ngrx.replace(/release\//, '');
+      }
     } else {
       for (const prop of modulePaths) {
         json[prop] = `release/${json[prop]}`;
+      }
+
+      if (json.bin && json.bin.ngrx) {
+        json.bin.ngrx = `release/${json.bin.ngrx}`;
       }
     }
     await util.writeFile(`modules/${pkg}/package.json`, JSON.stringify(json, null, 2));
