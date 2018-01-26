@@ -8,7 +8,7 @@
     "clean": "git clean -xdf && yarn && yarn run bootstrap",
     "build": "ts-node ./build/index.ts",
     "release": "yarn changelog && npm run build",
-    "release:publish": "npm run build && lerna publish",
+    "release:publish": "npm run build && lerna publish --git-remote upstream",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "commit": "commit",
     "test": "lerna run --parallel test && jest",
