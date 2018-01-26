@@ -2,7 +2,7 @@ import * as tasks from './tasks';
 import { createBuilder } from './util';
 
 export default createBuilder([
-  ['Removing "./dist" Folder', tasks.removeDistFolder],
+  ['Removing all build artifact Folder', tasks.removeArtifactFolders],
   ['Compiling packages with NGC', tasks.compilePackagesWithNgc],
   ['Bundling FESMs', tasks.bundleFesms],
   ['Down-leveling FESMs to ES5', tasks.downLevelFesmsToES5],
@@ -14,7 +14,11 @@ export default createBuilder([
   ['Copying type definition files', tasks.copyTypeDefinitionFiles],
   ['Copying executable files', tasks.copyExcecutableFiles],
   ['Minifying UMD bundles', tasks.minifyUmdBundles],
+  ['Rewriting package.json module path for build artifact', tasks.rewriteModulePackageJson],
   ['Copying package.json files', tasks.copyPackageJsonFiles],
+  ['Copying modules files for release', tasks.copyPackagesToRelease],
+  ['Rewriting package.json module path for publish', tasks.rewriteModulePackageJson],
+  ['Removing redundant package.json in release', tasks.removePackageJsonInRelease],
   ['Removing "./dist/packages" Folder', tasks.removePackagesFolder],
   ['Removing summary files', tasks.removeSummaryFiles]
 ]);

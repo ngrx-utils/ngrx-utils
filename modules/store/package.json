@@ -2,10 +2,10 @@
   "name": "@ngrx-utils/store",
   "version": "0.5.0",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/store",
-  "module": "@ngrx-utils/store.es5.js",
-  "es2015": "@ngrx-utils/store.js",
-  "main": "bundles/store.umd.js",
-  "typings": "store.d.ts",
+  "module": "release/@ngrx-utils/store.es5.js",
+  "es2015": "release/@ngrx-utils/store.js",
+  "main": "release/bundles/store.umd.js",
+  "typings": "release/store.d.ts",
   "scripts": {
     "test": "jest"
   },

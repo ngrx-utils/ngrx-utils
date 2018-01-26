@@ -2,10 +2,10 @@
   "name": "@ngrx-utils/effects",
   "version": "0.5.0",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/effects",
-  "module": "@ngrx-utils/effects.es5.js",
-  "es2015": "@ngrx-utils/effects.js",
-  "main": "bundles/effects.umd.js",
-  "typings": "effects.d.ts",
+  "module": "release/@ngrx-utils/effects.es5.js",
+  "es2015": "release/@ngrx-utils/effects.js",
+  "main": "release/bundles/effects.umd.js",
+  "typings": "release/effects.d.ts",
   "scripts": {
     "test": "jest"
   },
