@@ -7,9 +7,9 @@ import { NgrxSelect } from './module';
  * will use the component property name.
  * @example
  * export class MyComponent {
- *   @Select() prop1: Observable<any>
- *   @Select('feature.prop2') prop2: Observable<any>
- *   @Select('feature', 'prop3') prop3: Observable<any>
+ *   @Pluck() prop1: Observable<any>
+ *   @Pluck('feature.prop2') prop2: Observable<any>
+ *   @Pluck('feature', 'prop3') prop3: Observable<any>
  * }
  */
 export function Pluck<A = any, B = any>(path?: string, ...paths: string[]) {
@@ -21,14 +21,21 @@ export function Pluck<A = any, B = any>(path?: string, ...paths: string[]) {
     }
 
     if (typeof path !== 'string') {
-      throw new TypeError(`Unexpected type '${typeof path}' in select operator,` + ` expected 'string'`);
+      throw new TypeError(
+        `Unexpected type '${typeof path}' in select operator,` + ` expected 'string'`
+      );
     }
 
     fn = getPropFactory(paths.length ? [path, ...paths] : path.split('.'));
 
+    /**
+     * Get property descriptor for more precise define object property
+     */
+    const descriptor = Object.getOwnPropertyDescriptor(target, name);
+
     if (delete target[name]) {
       Object.defineProperty(target, name, {
-        get: () => {
+        get() {
           const source$ = NgrxSelect.store;
 
           if (!source$) {
@@ -37,8 +44,7 @@ export function Pluck<A = any, B = any>(path?: string, ...paths: string[]) {
 
           return source$.pipe(select(fn));
         },
-        enumerable: true,
-        configurable: true
+        ...descriptor
       });
     }
   };

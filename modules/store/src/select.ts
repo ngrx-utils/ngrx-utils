@@ -75,15 +75,25 @@ export function Select<A, B, C, D, E, F, G, H, I, J>(
  *   isAuth: Observable<boolean>
  * }
  */
-export function Select<A, B>(mapFn: ((state: A) => B), ...operations: OperatorFunction<any, any>[]) {
+export function Select<A, B>(
+  mapFn: ((state: A) => B),
+  ...operations: OperatorFunction<any, any>[]
+) {
   return function(target: any, name: string): void {
     if (typeof mapFn !== 'function') {
-      throw new TypeError(`Unexpected type '${typeof mapFn}' in select operator,` + ` expected 'function'`);
+      throw new TypeError(
+        `Unexpected type '${typeof mapFn}' in select operator,` + ` expected 'function'`
+      );
     }
+
+    /**
+     * Get property descriptor for more precise define object property
+     */
+    const descriptor = Object.getOwnPropertyDescriptor(target, name);
 
     if (delete target[name]) {
       Object.defineProperty(target, name, {
-        get: () => {
+        get() {
           const source$ = NgrxSelect.store;
 
           if (!source$) {
@@ -92,8 +102,7 @@ export function Select<A, B>(mapFn: ((state: A) => B), ...operations: OperatorFu
 
           return source$.pipe(select(mapFn), ...operations);
         },
-        enumerable: true,
-        configurable: true
+        ...descriptor
       });
     }
   };
