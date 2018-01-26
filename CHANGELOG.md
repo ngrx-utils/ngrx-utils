@@ -1,3 +1,17 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="0.5.2"></a>
+## [0.5.2](https://github.com/sandangel/ngrx-utils/compare/v0.5.1...v0.5.2) (2018-01-26)
+
+
+### Bug Fixes
+
+* **cli:** rewrite path for excute file ([8164603](https://github.com/sandangel/ngrx-utils/commit/8164603))
+
+
+
 <a name="0.5.0"></a>
 
 # [0.5.0](https://github.com/sandangel/ngrx-utils/compare/v0.2.1...v0.5.0) (2018-01-24)
