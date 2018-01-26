@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/cli",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "NgRx CLI to help scaffold your app state management and update it as your app scale",
   "module": "release/@ngrx-utils/cli.es5.js",
   "es2015": "release/@ngrx-utils/cli.js",
@@ -31,7 +31,7 @@
     "release"
   ],
   "bin": {
-    "ngrx": "bin/ngrx"
+    "ngrx": "release/bin/ngrx"
   },
   "dependencies": {
     "caporal": "^0.9.0",

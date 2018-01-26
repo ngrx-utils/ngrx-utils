@@ -34,25 +34,29 @@ export class MyComponent {
 
   @Pluck('featureState', 'prop1')
   prop1: Observable<any>;
+
   @Pluck('featureState.prop2') prop2: Observable<any>;
+
+  @Pluck() featureState: Observable<any>;
 }
 ```
 
 > Note: Decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
+>
 > You can't use `this` keyword inside `@Select()` because it's a function call with different context
 
 ```typescript
+/**
+ * This won't work.
+ */
 export class MyComponent {
-  /**
-   * This won't work.
-   */
   @Select(
     fromRoot.getRouterState,
     map(state => /* `this` here is a global object*/ this.update(state))
   )
   url$: Observable<string>; /* if you use `Observable<number>` here it won't throw an error */
 
-  update() {
+  update(state: any) {
     /* ... */
   }
 }
