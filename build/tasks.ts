@@ -260,7 +260,16 @@ export async function copyPackageJsonFiles(config: Config) {
     const source = `./modules/${pkg}`;
     const target = `./dist/${pkg}`;
 
-    await util.copy(`${source}/package.json`, `${target}/package.json`);
+    /**
+     * Update version of each module in dist follow repo version
+     */
+    const [jsonStrPkg, jsonStrRepo] = await Promise.all([
+      util.readFile(`${source}/package.json`),
+      util.readFile('./package.json')
+    ]);
+    const jsonPkg = JSON.parse(jsonStrPkg);
+    jsonPkg.version = JSON.parse(jsonStrRepo).version;
+    return await util.writeFile(`${target}/package.json`, JSON.stringify(jsonPkg, null, 2));
   });
 }
 
