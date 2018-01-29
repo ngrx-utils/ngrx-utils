@@ -129,9 +129,9 @@ This Lookup Type is great but it just like duplicating your action type enum :(.
 
 ![picture](https://media.giphy.com/media/l49JB9GFcXdLn6vTi/giphy.gif)
 
-* Another nice thing is you can use `action instanceof GetUser` type guard when using class based action, while with interface, you will have to do some thing like `if (action.type === fromActions.AuthActionType.RefreshUsers)`.
+* Another nice thing is you can use `action instanceof GetUser` type guard when using class based action to narrow type of actions, while with interface, you will have to do some thing like `if (action.type === fromActions.AuthActionType.RefreshUsers) // if (payload in AuthActionType.RefreshUsers) will work with typescript > 2.7`.
 
-### Reducer - VSCode for life saver
+### Reducer - VSCode auto complete action type
 
 * Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and nice auto completion feature, we now can have auto complete action type without an enum or const.
 
@@ -233,7 +233,9 @@ And you can start using it in any component. It also works with feature stores t
 
 ### Select & Pluck decorator
 
-`@Select` decorator accept a selector as first parameter, and then pipeable operators just like `Observable.pipe()`
+`@Select` decorator accept a selector as first parameter, then pipeable operators just like `Observable.pipe()`
+
+`@Pluck` decorator accept string based property name of state object, can be used like `pluck` operator in rxjs but it accepts a  _dot separated_ shorthand syntax.
 
 ```typescript
 import { Select, Pluck } from '@ngrx-utils/store';
