@@ -311,9 +311,9 @@ export class MyEffects {
 
 * Only provide `@Select` and `ofAction` pipeable operator. We really feel that `@Store`, `createReducer` and `@Action` from ngrx-actions increase much more boilerplate when using it in our app.
 
-* No provide deep nested prop API with Select decorator. Typescript cannot infer correct type in future decorator support.
+* No provide string based select with Select decorator, use `@Pluck` instead. Because you can use pipeable operator with `@Select` and it still has correct type inference inside: `@Select(getState, map(a /* 'a' has correct type infer */ => a.b))`
 
-* Better type inference with ofAction pipeable operator.
+* Better type inference with ofAction pipeable operator and use instanceof to filter action instead of call `new Action().type`. You won't have to use type cast.
 
 See [changelog](CHANGELOG.md) for latest changes.
 
@@ -331,13 +331,13 @@ See [changelog](CHANGELOG.md) for latest changes.
 
 * [x] Provide basic ngrx command
 * [ ] Use a config file to store all module action, reducer... declaration file path to continuous update and optimize your store when your app scale up
-* [ ] Use schematics to scaffolding the full store implement best practices.
+* [ ] ~~Use schematics to scaffolding the full store implement best practices.~~ Use `@ngrx/schematics` to remove redundant work.
 
 @ngrx-utils/store
 
 * [x] Introduce Pluck decorator for string select
 * [x] Select decorator support pipeable operator
-* [ ] Investigate using store in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom). Example implement Web Worker Service in Angular: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
+* [ ] Using store in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom). Example implement Web Worker Service in Angular: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
 
 @ngrx-utils/effects
 
