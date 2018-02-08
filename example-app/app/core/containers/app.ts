@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Select } from '@ngrx-utils/store';
+import { Select, Pluck } from '@ngrx-utils/store';
 
 import * as fromRoot from '../../reducers';
 import * as fromAuth from '../../auth/reducers';
@@ -36,7 +36,7 @@ import * as Auth from '../../auth/actions/auth';
   `
 })
 export class AppComponent {
-  @Select(fromRoot.getShowSidenav) showSidenav$: Observable<boolean>;
+  @Pluck('layout.showSidenav') showSidenav$: Observable<boolean>;
   @Select(fromAuth.getLoggedIn) loggedIn$: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>) {
