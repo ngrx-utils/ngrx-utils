@@ -1,4 +1,4 @@
-# NgRx Utils [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils)
+# NgRx Utils [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils) [![Maintainability](https://api.codeclimate.com/v1/badges/481564ca973db91b89e5/maintainability)](https://codeclimate.com/github/ngrx-utils/ngrx-utils/maintainability)
 
 This is a library provide utilities function, decorator, directives..., cli tools to help reduce boilerplate and speedup your devs when working with ngrx using class based Action approach.
 All these packages will be provide align with @ngrx/platform. For example utilities for `@ngrx/store` will be put under `@ngrx-utils/store` package
@@ -187,9 +187,9 @@ This Lookup Type is great but it just like duplicating your action type enum :(.
 
 ![picture](https://media.giphy.com/media/l49JB9GFcXdLn6vTi/giphy.gif)
 
-* Another nice thing is you can use `action instanceof GetUser` type guard when using class based action, while with interface, you will have to do some thing like `if (action.type === fromActions.AuthActionType.RefreshUsers)`.
+* Another nice thing is you can use `action instanceof GetUser` type guard when using class based action to narrow type of actions, while with interface, you will have to do some thing like `if (action.type === fromActions.AuthActionType.RefreshUsers) // if (payload in AuthActionType.RefreshUsers) will work with typescript > 2.7`.
 
-### Reducer - VSCode for life saver
+### Reducer - VSCode auto complete action type
 
 * Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and nice auto completion feature, we now can have auto complete action type without an enum or const.
 
@@ -291,7 +291,9 @@ And you can start using it in any component. It also works with feature stores t
 
 ### Select & Pluck decorator
 
-`@Select` decorator accept a selector as first parameter, and then pipeable operators just like `Observable.pipe()`
+`@Select` decorator accept a selector as first parameter, then pipeable operators just like `Observable.pipe()`
+
+`@Pluck` decorator accept string based property name of state object, can be used like `pluck` operator in rxjs but it accepts a _dot separated_ shorthand syntax.
 
 ```typescript
 import { Select, Pluck } from '@ngrx-utils/store';
@@ -367,9 +369,9 @@ export class MyEffects {
 
 * Only provide `@Select` and `ofAction` pipeable operator. We really feel that `@Store`, `createReducer` and `@Action` from ngrx-actions increase much more boilerplate when using it in our app.
 
-* No provide deep nested prop API with Select decorator. Typescript cannot infer correct type in future decorator support.
+* No provide string based select with Select decorator, use `@Pluck` instead. Because you can use pipeable operator with `@Select` and it still has correct type inference inside: `@Select(getState, map(a /* 'a' has correct type infer */ => a.b))`
 
-* Better type inference with ofAction pipeable operator.
+* Better type inference with ofAction pipeable operator and use instanceof to filter action instead of call `new Action().type`. You won't have to use type cast.
 
 See [changelog](CHANGELOG.md) for latest changes.
 
@@ -393,7 +395,9 @@ See [changelog](CHANGELOG.md) for latest changes.
 
 * [x] Introduce Pluck decorator for string select
 * [x] Select decorator support pipeable operator
-* [ ] Investigate using store in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom). Example implement Web Worker Service in Angular: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
+* [x] Strong typed pluck operator
+* [x] untilDestroy operator
+* [ ] Using store in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom). Example implement Web Worker Service in Angular: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
 
 @ngrx-utils/effects
 
