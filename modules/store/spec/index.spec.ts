@@ -1,11 +1,31 @@
+import { Component, OnDestroy } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { createFeatureSelector, createSelector, Store as NgRxStore } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-
-import { NgrxSelect, Pluck, Select } from '../src';
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
-describe('ngrx-utils', () => {
+import { NgrxSelect, Pluck, Select, untilDestroy } from '../src';
+
+@Component({
+  template: `<div></div>`,
+  selector: 'sand-test'
+})
+export class TestComponent implements OnDestroy {
+  test$ = new Subject<number>();
+  test: number;
+  sub: Subscription;
+
+  constructor() {
+    this.sub = this.test$.pipe(untilDestroy(this)).subscribe(a => (this.test = a));
+  }
+
+  ngOnDestroy() {}
+}
+
+describe('@ngrx-utils/store', () => {
   interface FooState {
     foo: boolean | null;
     bar?: {
@@ -106,6 +126,37 @@ describe('ngrx-utils', () => {
       } finally {
         NgrxSelect.store = undefined;
       }
+    });
+  });
+
+  describe('untilDestroy', () => {
+    let fixture: ComponentFixture<TestComponent>;
+    let instance: TestComponent;
+
+    beforeEach(
+      async(() => {
+        TestBed.configureTestingModule({
+          declarations: [TestComponent]
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TestComponent);
+        instance = fixture.componentInstance;
+        fixture.detectChanges();
+      })
+    );
+
+    it('should unsubscribe when component destroyed', () => {
+      instance.test$.next(2);
+      fixture.detectChanges();
+
+      expect(instance.test).toBe(2);
+
+      instance.ngOnDestroy();
+      fixture.detectChanges();
+      instance.test$.next(3);
+
+      expect(instance.test).toBe(2);
+      expect(instance.sub.closed).toBe(true);
     });
   });
 });
