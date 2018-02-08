@@ -17,6 +17,31 @@ yarn add -D @ngrx-utils/cli
 
 ## What in the box
 
+### untilDestroy pipeable operator
+
+* You no longer have to manually call unsubscribe with observable on `ngOnDestroy`:
+
+```typescript
+import { untilDestroy } from '@ngrx-utils/store';
+
+export class MyComponent implements OnDestroy {
+  user: User;
+
+  constructor(userService: UserService) {
+    userService
+      .getUsers()
+      .pipe(untilDestroy(this))
+      .subscribe(user => (this.user = user));
+  }
+
+  ngOnDestroy() {}
+}
+```
+
+* NOTE: You still have to declare `ngOnDestroy` in Component because Angular does not support dynamic add component method in AOT mode
+
+* Credit to @SanderElias, this operator is inspired from his idea but he's currently not publishing it as an npm package.
+
 ### `@Select & @Pluck` decorator: Pipeable operator all the way
 
 * No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select or @Pluck` decorator instead.
@@ -40,6 +65,39 @@ export class MyComponent {
   @Pluck() featureState: Observable<any>;
 }
 ```
+
+* You can also make use of pluck operator, a wrapper function of `rxjs/operators/pluck` but supporting nice type inference.
+
+```typescript
+import { pluck } from '@ngrx-utils/store';
+
+@Component({
+  selector: 'sand-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnDestroy {
+  @Pluck('layout.sidenavOpened') opened$: Observable<boolean>;
+
+  sidenavMode: 'over' | 'push' | 'side';
+
+  constructor(bpo: BreakpointObserver, store: Store<LayoutState>) {
+    bpo
+      .observe([Breakpoints.XSmall])
+      .pipe(pluck('matches'), untilDestroy(this))
+      .subscribe(
+        isSmallScreen =>
+          (this.sidenavMode = isSmallScreen
+            ? (store.dispatch(createSetSidenav(false)), 'over')
+            : (store.dispatch(createSetSidenav(true)), 'side'))
+      );
+  }
+
+  ngOnDestroy() {}
+}
+```
+
+![picture](http://www.giphy.com/gifs/l4pT7qTuIvBW0LsmQ)
 
 > Note: Decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
 >
@@ -235,7 +293,7 @@ And you can start using it in any component. It also works with feature stores t
 
 `@Select` decorator accept a selector as first parameter, then pipeable operators just like `Observable.pipe()`
 
-`@Pluck` decorator accept string based property name of state object, can be used like `pluck` operator in rxjs but it accepts a  _dot separated_ shorthand syntax.
+`@Pluck` decorator accept string based property name of state object, can be used like `pluck` operator in rxjs but it accepts a _dot separated_ shorthand syntax.
 
 ```typescript
 import { Select, Pluck } from '@ngrx-utils/store';
@@ -331,12 +389,14 @@ See [changelog](CHANGELOG.md) for latest changes.
 
 * [x] Provide basic ngrx command
 * [ ] Use a config file to store all module action, reducer... declaration file path to continuous update and optimize your store when your app scale up
-* [ ] ~~Use schematics to scaffolding the full store implement best practices.~~ Use `@ngrx/schematics` to remove redundant work.
+* [ ] Use schematics to scaffolding the full store implement best practices.
 
 @ngrx-utils/store
 
 * [x] Introduce Pluck decorator for string select
 * [x] Select decorator support pipeable operator
+* [x] Strong typed pluck operator
+* [x] untilDestroy operator
 * [ ] Using store in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom). Example implement Web Worker Service in Angular: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
 
 @ngrx-utils/effects

@@ -1,5 +1,6 @@
 import { NgModule, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { WebWorkerService } from './web-worker.service';
 
 @Injectable()
 export class NgrxSelect {
@@ -14,6 +15,6 @@ export class NgrxSelect {
 }
 
 @NgModule({
-  providers: [NgrxSelect]
+  providers: [NgrxSelect, WebWorkerService]
 })
 export class NgrxUtilsModule {}

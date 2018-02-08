@@ -35,7 +35,7 @@ exports[`Find Book Page should compile 1`] = `
           
         <mat-input-container
           _ngcontent-c0=""
-          class="mat-input-container mat-form-field ng-tns-c3-0 mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-hide-placeholder mat-primary"
+          class="mat-input-container mat-form-field ng-tns-c3-0 mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-hide-placeholder"
         >
           <div
             class="mat-input-wrapper mat-form-field-wrapper"
