@@ -1,4 +1,4 @@
-import { select, Selector } from '@ngrx/store';
+import { Selector } from '@ngrx/store';
 import { OperatorFunction } from 'rxjs/interfaces';
 
 import { NgrxSelect } from './module';
@@ -100,7 +100,7 @@ export function Select<A, B>(
             throw new Error('NgrxSelect not connected to store!');
           }
 
-          return source$.pipe(select(mapFn), ...operations);
+          return source$.select(mapFn, ...operations);
         },
         ...descriptor
       });
