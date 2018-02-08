@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.2"></a>
+## [0.6.2](https://github.com/sandangel/ngrx-utils/compare/v0.6.1...v0.6.2) (2018-02-08)
+
+
+### Bug Fixes
+
+* **store:** use select method instead of operator ([b1213e9](https://github.com/sandangel/ngrx-utils/commit/b1213e9))
+
+
+
 <a name="0.6.0"></a>
 
 # [0.6.0](https://github.com/sandangel/ngrx-utils/compare/v0.5.2...v0.6.0) (2018-02-08)
