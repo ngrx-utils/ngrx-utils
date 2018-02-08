@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/effects",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/effects",
   "module": "release/@ngrx-utils/effects.es5.js",
   "es2015": "release/@ngrx-utils/effects.js",
