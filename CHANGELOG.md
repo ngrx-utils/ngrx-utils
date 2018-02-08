@@ -2,6 +2,57 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/sandangel/ngrx-utils/compare/v0.2.1...v0.6.0) (2018-02-08)
+
+
+* Merge pull request #11 from sandangel/master ([f51adfa](https://github.com/sandangel/ngrx-utils/commit/f51adfa)), closes [#11](https://github.com/sandangel/ngrx-utils/issues/11)
+
+
+### Bug Fixes
+
+* **cli:** rewrite path for excute file ([8164603](https://github.com/sandangel/ngrx-utils/commit/8164603))
+* **store:** remove access to static member ([445b11d](https://github.com/sandangel/ngrx-utils/commit/445b11d))
+
+
+### Code Refactoring
+
+* **store:** remove deep nested prop of Select ([0110678](https://github.com/sandangel/ngrx-utils/commit/0110678))
+
+
+### Features
+
+* **store:** add strong typed pluck operator ([7271de6](https://github.com/sandangel/ngrx-utils/commit/7271de6))
+* **store:** add untilDestroy pipeaple operator ([71c7305](https://github.com/sandangel/ngrx-utils/commit/71c7305))
+* **store:** experimental webworker service ([9b693ce](https://github.com/sandangel/ngrx-utils/commit/9b693ce))
+* **store:** instroduce Pluck decorator ([67c08eb](https://github.com/sandangel/ngrx-utils/commit/67c08eb))
+* **store:** select now support pipeable operator ([10977a1](https://github.com/sandangel/ngrx-utils/commit/10977a1))
+* **web-worker:** [WIP] initial work for web worker service ([0801e21](https://github.com/sandangel/ngrx-utils/commit/0801e21))
+
+
+### BREAKING CHANGES
+
+* feat(store): Select now support pipeable operator
+* **store:** Deep nested prop in Select decorator will no longer available.
+
+before:
+
+```typescript
+class MyComponent {
+  @Select('a.b.c') c: any;
+}
+```
+
+after:
+
+```typescript
+class MyComponent {
+  @Select('a', 'b', 'c') c: any;
+}
+```
+
+
+
 <a name="0.5.2"></a>
 ## [0.5.2](https://github.com/sandangel/ngrx-utils/compare/v0.5.1...v0.5.2) (2018-01-26)
 
