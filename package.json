@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/platform",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Monorepo for ngrx development utilities",
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -8,7 +8,7 @@
     "clean": "git clean -xdf && yarn && yarn run bootstrap",
     "build": "ts-node ./build/index.ts",
     "release": "yarn changelog && npm run build",
-    "release:publish": "npm run build && lerna publish --git-remote upstream",
+    "release:publish": "npm run build && lerna publish --force-publish --git-remote upstream",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "git:commit": "git-cz",
     "test": "lerna run --parallel test && jest",
