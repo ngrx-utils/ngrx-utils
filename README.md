@@ -97,7 +97,7 @@ export class AppComponent implements OnDestroy {
 }
 ```
 
-![picture](http://www.giphy.com/gifs/l4pT7qTuIvBW0LsmQ)
+![picture](https://media.giphy.com/media/3ohs4yQkU3hYGLl3Tq/giphy.gif)
 
 > Note: Decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
 >
