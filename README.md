@@ -17,6 +17,31 @@ yarn add -D @ngrx-utils/cli
 
 ## What in the box
 
+### untilDestroy pipeable operator
+
+* You no longer have to manually call unsubscribe with observable on `ngOnDestroy`:
+
+```typescript
+import { untilDestroy } from '@ngrx-utils/store';
+
+export class MyComponent implements OnDestroy {
+  user: User;
+
+  constructor(userService: UserService) {
+    userService
+      .getUsers()
+      .pipe(untilDestroy(this))
+      .subscribe(user => (this.user = user));
+  }
+
+  ngOnDestroy() {}
+}
+```
+
+* NOTE: You still have to declare `ngOnDestroy` in Component because Angular does not support dynamic add component method in AOT mode
+
+* Credit to @SanderElias, this operator is inspired from his idea but he's currently not publishing it as an npm package.
+
 ### `@Select & @Pluck` decorator: Pipeable operator all the way
 
 * No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select or @Pluck` decorator instead.
@@ -40,6 +65,39 @@ export class MyComponent {
   @Pluck() featureState: Observable<any>;
 }
 ```
+
+* You can also make use of pluck operator, a wrapper function of `rxjs/operators/pluck` but supporting nice type inference.
+
+```typescript
+import { pluck } from '@ngrx-utils/store';
+
+@Component({
+  selector: 'sand-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnDestroy {
+  @Pluck('layout.sidenavOpened') opened$: Observable<boolean>;
+
+  sidenavMode: 'over' | 'push' | 'side';
+
+  constructor(bpo: BreakpointObserver, store: Store<LayoutState>) {
+    bpo
+      .observe([Breakpoints.XSmall])
+      .pipe(pluck('matches'), untilDestroy(this))
+      .subscribe(
+        isSmallScreen =>
+          (this.sidenavMode = isSmallScreen
+            ? (store.dispatch(createSetSidenav(false)), 'over')
+            : (store.dispatch(createSetSidenav(true)), 'side'))
+      );
+  }
+
+  ngOnDestroy() {}
+}
+```
+
+![picture](http://www.giphy.com/gifs/l4pT7qTuIvBW0LsmQ)
 
 > Note: Decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
 >
