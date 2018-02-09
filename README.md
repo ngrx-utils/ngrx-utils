@@ -197,7 +197,7 @@ This Lookup Type is great but it just like duplicating your action type enum :(.
 
 #### What is the tradeoff:
 
-* When your action come from a stream like Web Socket, this operator won't work because we cannot deserialize an instance of class. In that case you should use `ofType` operator instead.
+* When your action come from a stream like Web Socket, or when you want to use Redux Dev Tools replay action, this operator won't work because we cannot deserialize an instance of class. In those case you should use `ofType` operator instead.
 
 ### Reducer - VSCode auto complete action type
 
