@@ -28,7 +28,12 @@ describe('Selected Book Page', () => {
         MatCardModule,
         NgrxUtilsModule
       ],
-      declarations: [SelectedBookPageComponent, BookDetailComponent, BookAuthorsComponent, AddCommasPipe]
+      declarations: [
+        SelectedBookPageComponent,
+        BookDetailComponent,
+        BookAuthorsComponent,
+        AddCommasPipe
+      ]
     });
 
     fixture = TestBed.createComponent(SelectedBookPageComponent);
@@ -36,8 +41,6 @@ describe('Selected Book Page', () => {
     store = TestBed.get(Store);
     ngrxSelect = TestBed.get(NgrxSelect);
     ngrxSelect.connect(store);
-
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should compile', () => {
@@ -47,20 +50,22 @@ describe('Selected Book Page', () => {
   });
 
   it('should dispatch a collection.AddBook action when addToCollection is called', () => {
+    const spy = jest.spyOn(store, 'dispatch');
     const $event: Book = generateMockBook();
     const action = new collection.AddBook($event);
 
     instance.addToCollection($event);
 
-    expect(store.dispatch).toHaveBeenLastCalledWith(action);
+    expect(spy).toHaveBeenLastCalledWith(action);
   });
 
   it('should dispatch a collection.RemoveBook action on removeFromCollection', () => {
+    const spy = jest.spyOn(store, 'dispatch');
     const $event: Book = generateMockBook();
     const action = new collection.RemoveBook($event);
 
     instance.removeFromCollection($event);
 
-    expect(store.dispatch).toHaveBeenLastCalledWith(action);
+    expect(spy).toHaveBeenLastCalledWith(action);
   });
 });

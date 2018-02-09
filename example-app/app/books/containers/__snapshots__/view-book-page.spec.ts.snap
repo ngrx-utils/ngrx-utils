@@ -2,7 +2,7 @@
 
 exports[`View Book Page should compile 1`] = `
 <bc-view-book-page
-  actionsSubscription={[Function Subscriber]}
+  ngOnDestroy={[Function Function]}
 >
   
       <bc-selected-book-page>
