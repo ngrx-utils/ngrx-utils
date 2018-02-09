@@ -1,7 +1,6 @@
 # @ngrx-utils [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils) [![Maintainability](https://api.codeclimate.com/v1/badges/481564ca973db91b89e5/maintainability)](https://codeclimate.com/github/ngrx-utils/ngrx-utils/maintainability)
 
-This is a library provide utilities function, decorator, directives..., cli tools to help reduce boilerplate and speedup your devs when working with ngrx using class based Action approach.
-All these packages will be provide align with @ngrx/platform. For example utilities for `@ngrx/store` will be put under `@ngrx-utils/store` package
+This is a library provide utility functions, decorators, directives..., cli tools to help reduce boilerplate and speedup your devs when working on Angular and `@ngrx` using class based Action approach.
 
 Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
 
@@ -30,10 +29,12 @@ export class MyComponent implements OnDestroy {
   constructor(userService: UserService) {
     userService
       .getUsers()
+      /** Automatically unsubscribe on destroy */
       .pipe(untilDestroy(this))
       .subscribe(user => (this.user = user));
   }
 
+  /** Must have */
   ngOnDestroy() {}
 }
 ```
@@ -41,6 +42,42 @@ export class MyComponent implements OnDestroy {
 * NOTE: You still have to declare `ngOnDestroy` in Component because Angular does not support dynamic add component method in AOT mode
 
 * Credit to @SanderElias, this operator is inspired from his idea but he's currently not publishing it as an npm package.
+
+### strong type `pluck` operattor
+
+* You can also make use of pluck operator, a wrapper function of `rxjs/operators/pluck` but supporting nice type inference.
+
+```typescript
+import { pluck } from '@ngrx-utils/store';
+
+@Component({
+  selector: 'sand-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnDestroy {
+  @Pluck('layout.sidenavOpened') opened$: Observable<boolean>;
+
+  sidenavMode: 'over' | 'push' | 'side';
+
+  constructor(bpo: BreakpointObserver, store: Store<LayoutState>) {
+    bpo
+      .observe([Breakpoints.XSmall])
+      /** Type check here */
+      .pipe(pluck('matches'), untilDestroy(this))
+      .subscribe(
+        isSmallScreen =>
+          (this.sidenavMode = isSmallScreen
+            ? (store.dispatch(createSetSidenav(false)), 'over')
+            : (store.dispatch(createSetSidenav(true)), 'side'))
+      );
+  }
+
+  ngOnDestroy() {}
+}
+```
+
+![picture](https://media.giphy.com/media/3ohs4yQkU3hYGLl3Tq/giphy.gif)
 
 ### `@Select & @Pluck` decorator: Pipeable operator all the way
 
@@ -66,39 +103,6 @@ export class MyComponent {
 }
 ```
 
-* You can also make use of pluck operator, a wrapper function of `rxjs/operators/pluck` but supporting nice type inference.
-
-```typescript
-import { pluck } from '@ngrx-utils/store';
-
-@Component({
-  selector: 'sand-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
-})
-export class AppComponent implements OnDestroy {
-  @Pluck('layout.sidenavOpened') opened$: Observable<boolean>;
-
-  sidenavMode: 'over' | 'push' | 'side';
-
-  constructor(bpo: BreakpointObserver, store: Store<LayoutState>) {
-    bpo
-      .observe([Breakpoints.XSmall])
-      .pipe(pluck('matches'), untilDestroy(this))
-      .subscribe(
-        isSmallScreen =>
-          (this.sidenavMode = isSmallScreen
-            ? (store.dispatch(createSetSidenav(false)), 'over')
-            : (store.dispatch(createSetSidenav(true)), 'side'))
-      );
-  }
-
-  ngOnDestroy() {}
-}
-```
-
-![picture](https://media.giphy.com/media/3ohs4yQkU3hYGLl3Tq/giphy.gif)
-
 > Note: Decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
 >
 > You can't use `this` keyword inside `@Select()` because it's a function call with different context
@@ -121,6 +125,12 @@ export class MyComponent {
 ```
 
 ### ofAction pipeable operator
+
+* Nicely infer type of parameter in your pipe:
+
+![picture](https://media.giphy.com/media/l49JB9GFcXdLn6vTi/giphy.gif)
+
+* Another nice thing is you can use `action instanceof GetUser` when using class based action to narrow type of actions, while with interface, you will have to do some thing like `if (action.type === fromActions.AuthActionType.RefreshUsers) // if (payload in AuthActionType.RefreshUsers) will work with typescript > 2.7`.
 
 #### Why this is better than ofType, default operator from @ngrx/effects?
 
@@ -183,11 +193,11 @@ export type AuthActionLookup = {
 
 This Lookup Type is great but it just like duplicating your action type enum :(. You can see a demo at [https://www.youtube.com/watch?v=Ks-EgpWpcEc](ngAir#144), around from minute 45 ~ 57
 
-* And with all of this, although you will have very nice type inference and static type checking but the trade off is when your app scale up with thousands actions, a **huge** amount of boilerplate will also be generated too. Thanks to `ofAction` pipeable operator, You now can get rid of all those boilerplate and type inference is **just work**. ofAction not only use action class as replace for ofType, but it will also smartly infer all Action type and you won't have to use type cast anymore.
+* And with all of this, although you will have very nice type inference and static type checking but the trade off is when your app scale up with hundreds of actions, a **huge** amount of boilerplate will also be generated too. Thanks to `ofAction` pipeable operator, You now can get rid of all those boilerplate and type inference is **just work**. ofAction not only use action class as replace for ofType, but it will also smartly infer all Action type and you won't have to use type cast anymore, especially when working on typescript < 2.7
 
-![picture](https://media.giphy.com/media/l49JB9GFcXdLn6vTi/giphy.gif)
+#### What is the tradeoff:
 
-* Another nice thing is you can use `action instanceof GetUser` type guard when using class based action to narrow type of actions, while with interface, you will have to do some thing like `if (action.type === fromActions.AuthActionType.RefreshUsers) // if (payload in AuthActionType.RefreshUsers) will work with typescript > 2.7`.
+* When your action come from a stream like Web Socket, this operator won't work because we cannot deserialize an instance of class. In that case you should use `ofType` operator instead.
 
 ### Reducer - VSCode auto complete action type
 
@@ -203,7 +213,7 @@ If you are using VSCode, add this config to your settings to show suggestions wi
 }
 ```
 
-Then when you type `case ''`, and trigger quick suggestion shortcut `Ctrl + Space`.
+Then when you type `case ''`, and trigger quick suggestion shortcut `Ctrl + Space`, BOOMMMM...
 
 ![picture](https://media.giphy.com/media/xULW8gMBNukDJQf9ZK/giphy.gif)
 
@@ -258,7 +268,7 @@ default:
 
 > This command actually is a modified version of @ngrx/codegen to accept class base action.
 
-## Getting Started
+## Getting Started in 1 minute
 
 ### Install
 
@@ -287,77 +297,7 @@ export class AppModule {
 }
 ```
 
-And you can start using it in any component. It also works with feature stores too. You don't have to do anything in your feature module. Don't forget to invoke the `connect` function when you are writing tests.
-
-### Select & Pluck decorator
-
-`@Select` decorator accept a selector as first parameter, then pipeable operators just like `Observable.pipe()`
-
-`@Pluck` decorator accept string based property name of state object, can be used like `pluck` operator in rxjs but it accepts a _dot separated_ shorthand syntax.
-
-```typescript
-import { Select, Pluck } from '@ngrx-utils/store';
-import { map } from 'rxjs/operators';
-
-export class MyComponent {
-  /** use property name when there is no specified
-   * same as this.myFeature = store.select('myFeature')
-   */
-  @Pluck() myFeature: Observable<any>;
-
-  /* does same way as store.select('myFeature', 'anotherProp') */
-  @Pluck('myFeature', 'anotherProp')
-  anotherProp: Observable<any>;
-
-  /* shorthand syntax but same as above */
-  @Pluck('myFeature.anotherProp') anotherProp: Observable<any>;
-
-  /* use selectors composed by createSelector */
-  @Select(fromStore.getMyWifeProp) myWifeProp: Observable<Dangerous | null>;
-
-  /* use pipeable operator to transform data */
-  @Select(fromStore.getMyWifeProp, map(a => !!a))
-  isMyWife: Observable<boolean>;
-}
-```
-
-### ofAction
-
-* You can use ofAction operator instead of ofType to filter your Action type in Effect:
-
-```typescript
-import { ofAction } from '@ngrx-utils/effects';
-import { Actions, Effect } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
-import { switchMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-
-import { RouterGo } from '../../rootStore';
-
-import { GetUser, RefreshUser, GetUserSuccess, GetUserFail } from '../actions';
-
-@Injectable()
-export class MyEffects {
-  constructor(private actions$: Actions, private myService: MyService) {}
-
-  @Effect()
-  getUser$ = this.actions$.pipe(
-    ofAction(GetUser, RefreshUser),
-    /* dont have to cast action type when there are multi actions */
-    switchMap((action) /* GetUser | RefreshUser */ =>
-      this.myService
-        .getAll(action.payload)
-        .pipe(map(res => new GetUserSuccess(res)), catchError(err => of(new GetUserFail(err)))))
-  );
-
-  @Effect()
-  getUserSuccess$ = this.actions$.pipe(
-    ofAction(GetUserSuccess),
-    /* automatically infer GetUserSuccess action type */
-    map(action => new RouterGo({ path: [action.payload] }))
-  );
-}
-```
+And you can start using `Select, Pluck` decorator in any component. It also works with feature stores too. You don't have to do anything in your feature module. Don't forget to invoke the `connect` function when you are writing tests.
 
 ### Example App
 
@@ -367,11 +307,11 @@ export class MyEffects {
 
 ### What's different with ngrx-actions
 
-* Only provide `@Select` and `ofAction` pipeable operator. We really feel that `@Store`, `createReducer` and `@Action` from ngrx-actions increase much more boilerplate when using it in our app.
+* Only provide `@Select` and `ofAction` pipeable operator. We really feel that `@Store`, `createReducer` and `@Action` from ngrx-actions increase much more boilerplate and lack of type infering when using it in our app.
 
 * No provide string based select with Select decorator, use `@Pluck` instead. Because you can use pipeable operator with `@Select` and it still has correct type inference inside: `@Select(getState, map(a /* 'a' has correct type infer */ => a.b))`
 
-* Better type inference with ofAction pipeable operator and use instanceof to filter action instead of call `new Action().type`. You won't have to use type cast.
+* Better type inference with ofAction pipeable operator and use instanceof to filter action instead of call `new Action().type`. You won't have to use type cast too.
 
 See [changelog](CHANGELOG.md) for latest changes.
 
@@ -397,7 +337,7 @@ See [changelog](CHANGELOG.md) for latest changes.
 * [x] Select decorator support pipeable operator
 * [x] Strong typed pluck operator
 * [x] untilDestroy operator
-* [ ] Using store in Web Worker for large Entities, inspired from [Stockroom](https://github.com/developit/stockroom). Example implement Web Worker Service in Angular: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
+* [ ] Web Worker Service to run heavy computing function in Web Worker thread, inspired from: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
 
 @ngrx-utils/effects
 
