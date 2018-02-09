@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/platform",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Monorepo for ngrx development utilities",
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -14,7 +14,7 @@
     "test": "lerna run --parallel test && jest",
     "deploy:builds": "yarn build && concurrently 'yarn run example:build:prod' 'ts-node build/deploy-build'",
     "ci": "yarn run test && yarn run deploy:builds",
-    "changelog": "standard-version",
+    "changelog": "standard-version -a",
     "cli": "ng",
     "copy:dist": "ncp dist/ ./node_modules/@ngrx-utils/",
     "example:start": "yarn run cli serve",
