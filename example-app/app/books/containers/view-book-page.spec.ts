@@ -31,7 +31,7 @@ describe('View Book Page', () => {
         {
           provide: Store,
           useValue: {
-            select: jest.fn(),
+            select: jest.fn().mockImplementation(() => ({ pipe: jest.fn() })),
             next: jest.fn(),
             pipe: jest.fn()
           }
