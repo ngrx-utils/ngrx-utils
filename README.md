@@ -1,4 +1,4 @@
-# NgRx Utils [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils) [![Maintainability](https://api.codeclimate.com/v1/badges/481564ca973db91b89e5/maintainability)](https://codeclimate.com/github/ngrx-utils/ngrx-utils/maintainability)
+# @ngrx-utils [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils) [![Maintainability](https://api.codeclimate.com/v1/badges/481564ca973db91b89e5/maintainability)](https://codeclimate.com/github/ngrx-utils/ngrx-utils/maintainability)
 
 This is a library provide utilities function, decorator, directives..., cli tools to help reduce boilerplate and speedup your devs when working with ngrx using class based Action approach.
 All these packages will be provide align with @ngrx/platform. For example utilities for `@ngrx/store` will be put under `@ngrx-utils/store` package
