@@ -100,7 +100,7 @@ export function Select<A, B>(
             throw new Error('NgrxSelect not connected to store!');
           }
 
-          return source$.select(mapFn, ...operations);
+          return source$.select(mapFn).pipe(...operations);
         },
         ...descriptor
       });

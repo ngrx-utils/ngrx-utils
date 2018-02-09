@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { createFeatureSelector, createSelector, Store as NgRxStore } from '@ngrx/store';
+import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map } from 'rxjs/operators';
@@ -55,7 +55,7 @@ describe('@ngrx-utils/store', () => {
   const msFeature = createFeatureSelector<FooState>('myFeature');
   const msBar = createSelector(msFeature, state => state.bar);
 
-  const store = new NgRxStore(of(globalState), undefined, undefined);
+  const store = new Store(of(globalState), undefined, undefined);
 
   beforeEach(() => {
     NgrxSelect.store = store;
