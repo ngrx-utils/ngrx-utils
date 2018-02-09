@@ -21,7 +21,7 @@
     "copy:dist": "ncp dist/ ./node_modules/@ngrx-utils/",
     "example:start": "yarn run cli serve",
     "example:start:aot": "yarn run cli serve -prod",
-    "example:build:prod": "yarn run copy:dist && yarn cli build -prod --base-href \"/platform/example-app/\" --output-path \"./dist/example-app\""
+    "example:build:prod": "yarn run copy:dist && yarn cli build -prod --progress false --base-href \"/platform/example-app/\" --output-path \"./dist/example-app\""
   },
   "dependencies": {
     "rxjs": "^5.5.6"
