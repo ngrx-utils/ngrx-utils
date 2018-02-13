@@ -124,7 +124,7 @@ export class MyComponent {
 }
 ```
 
-### ofAction pipeable operator
+### ofAction pipeable operator - deprecated
 
 * Nicely infer type of parameter in your pipe:
 
@@ -132,7 +132,7 @@ export class MyComponent {
 
 * Another nice thing is you can use `action instanceof GetUser` when using class based action to narrow type of actions, while with interface, you will have to do some thing like `if (action.type === fromActions.AuthActionType.RefreshUsers) // if (payload in AuthActionType.RefreshUsers) will work with typescript > 2.7`.
 
-#### Why this is better than ofType, default operator from @ngrx/effects?
+#### Why this is less boilerplate than ofType, default operator from @ngrx/effects?
 
 * It will accept class based actions as parameters. Although ngrx/schematics and ngrx/codegen will give you tools to automatically generate some boilerplate and scaffolding enum action, reducer... for your app, it will also add a fairly large amount lines of code into your codebase by using const or enum to store action type like this:
 
@@ -197,9 +197,9 @@ This Lookup Type is great but it just like duplicating your action type enum :(.
 
 #### What is the tradeoff:
 
-* When your action come from a stream like Web Socket, or when you want to use Redux Dev Tools replay action, this operator won't work because we cannot deserialize an instance of class. In those case you should use `ofType` operator instead.
+* When your action come from a stream like Web Socket, or when you want to use Redux Dev Tools to replay action, this operator won't work because we cannot deserialize an instance of class. In those case you should use `ofType` operator instead.
 
-### Reducer - VSCode auto complete action type
+### Reducer - VSCode autocomplete action type
 
 * Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and nice auto completion feature, we now can have auto complete action type without an enum or const.
 
@@ -291,12 +291,15 @@ import { NgrxUtilsModule } from '@ngrx-utils/store';
 })
 export class AppModule {
   /**
-   * Before
+   * BREAKING CHANGES from v0.6.3 to v0.7.0
+   * Before:
+   *
    * constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
    *   ngrxSelect.connect(store);
    * }
    *
    * After:
+   *
    * constructor() {}
    */
 }
@@ -346,4 +349,4 @@ See [changelog](CHANGELOG.md) for latest changes.
 
 @ngrx-utils/effects
 
-* [x] Have better way to filter action instead of calling new Action().type.
+* [x] Deprecate `ofAction` operator
