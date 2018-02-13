@@ -7,9 +7,9 @@ import * as util from './util';
  */
 export function removeArtifactFolders(config: Config) {
   return Promise.all([
-    util.exec('rimraf', ['./dist']),
+    util.cmd('rm -rf', ['./dist']),
     mapAsync(util.getAllPackages(config), async pkg => {
-      return await util.exec('rimraf', [`./modules/${pkg}/release`]);
+      return await util.cmd('rm -rf', [`./modules/${pkg}/release`]);
     })
   ]);
 }
@@ -205,8 +205,6 @@ export async function copyTypeDefinitionFiles(config: Config) {
     const target = file.replace('packages/', '');
     await util.copy(file, target);
   });
-
-  await util.removeRecursively(`./dist/packages/?(${packages.join('|')})`);
 }
 
 /**
@@ -270,6 +268,7 @@ export async function copyPackageJsonFiles(config: Config) {
     const jsonPkg = JSON.parse(jsonStrPkg);
     jsonPkg.version = JSON.parse(jsonStrRepo).version;
     delete jsonPkg['files'];
+    delete jsonPkg['jest'];
     return await util.writeFile(`${target}/package.json`, JSON.stringify(jsonPkg, null, 2));
   });
 }
@@ -278,14 +277,14 @@ export async function copyPackageJsonFiles(config: Config) {
  * Removes the packages folder
  */
 export async function removePackagesFolder(config: Config) {
-  await util.removeRecursively('./dist/packages');
+  await util.cmd('rm -rf', ['./dist/packages']);
 }
 
 /**
  * Removes the ngsummary files
  */
 export function removeSummaryFiles() {
-  return util.exec('rimraf', ['./dist/**/*.ngsummary.json']);
+  return util.cmd('rm -rf', ['./dist/**/*.ngsummary.json']);
 }
 
 /**
@@ -306,7 +305,7 @@ export async function copyPackagesToRelease(config: Config) {
  * Remove package.json in release folder to use module package.json
  */
 export function removePackageJsonInRelease() {
-  return util.exec('rimraf', ['**/modules/**/release/package.json']);
+  return util.exec('del', ['**/modules/**/release/package.json']);
 }
 
 interface PackageJson {
@@ -323,27 +322,19 @@ interface PackageJson {
  */
 export function rewriteModulePackageJson(config: Config) {
   return mapAsync(util.getAllPackages(config), async pkg => {
-    const jsonStr = await util.readFile(`./modules/${pkg}/package.json`);
+    const jsonStr = await util.readFile(`./dist/${pkg}/package.json`);
     const json: PackageJson = JSON.parse(jsonStr);
     const modulePaths = ['module', 'es2015', 'main', 'typings'];
-    if (json.main.includes('release')) {
-      for (const prop of modulePaths) {
-        json[prop] = json[prop].replace(/release\//, '');
-      }
 
-      if (json.bin && json.bin.ngrx) {
-        json.bin.ngrx = json.bin.ngrx.replace(/release\//, '');
-      }
-    } else {
-      for (const prop of modulePaths) {
-        json[prop] = `release/${json[prop]}`;
-      }
-
-      if (json.bin && json.bin.ngrx) {
-        json.bin.ngrx = `release/${json.bin.ngrx}`;
-      }
+    for (const prop of modulePaths) {
+      json[prop] = json[prop].replace(/release\//, '');
     }
-    await util.writeFile(`modules/${pkg}/package.json`, JSON.stringify(json, null, 2));
+
+    if (json.bin && json.bin.ngrx) {
+      json.bin.ngrx = json.bin.ngrx.replace(/release\//, '');
+    }
+
+    await util.writeFile(`./dist/${pkg}/package.json`, JSON.stringify(json, null, 2));
   });
 }
 

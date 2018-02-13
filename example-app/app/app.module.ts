@@ -4,12 +4,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxUtilsModule } from '@ngrx-utils/store';
 import { DBModule } from '@ngrx/db';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
-import { Store } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../environments/environment';
@@ -98,11 +97,4 @@ import { CustomRouterStateSerializer } from './shared/utils';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  /**
-   * Connect `@ngrx-utils` to your store
-   */
-  constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
-    ngrxSelect.connect(store);
-  }
-}
+export class AppModule {}

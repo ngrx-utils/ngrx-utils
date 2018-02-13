@@ -9,12 +9,22 @@ export class NgrxSelect {
    */
   static store: Store<any> | undefined = undefined;
 
+  /**
+   * @internal
+   */
   connect(store: Store<any>) {
     NgrxSelect.store = store;
   }
 }
 
 @NgModule({
-  providers: [NgrxSelect, WebWorkerService]
+  providers: [WebWorkerService, NgrxSelect]
 })
-export class NgrxUtilsModule {}
+export class NgrxUtilsModule {
+  /**
+   * @internal
+   */
+  constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
+    ngrxSelect.connect(store);
+  }
+}

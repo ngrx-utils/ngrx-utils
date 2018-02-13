@@ -3,7 +3,7 @@ import * as cp from 'child_process';
 import * as glob from 'glob';
 import * as fsExtra from 'fs-extra';
 import * as path from 'path';
-import * as rimraf from 'rimraf';
+import * as del from 'del';
 import { Config } from './config';
 
 export type RunnerFn = (config: Config) => Promise<any>;
@@ -55,16 +55,8 @@ export function getListOfFiles(globPath: string, exclude?: string | string[]): P
   });
 }
 
-export function removeRecursively(glob: string) {
-  return new Promise((resolve, reject) => {
-    rimraf(glob, err => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
+export function removeRecursively(...globs: string[]) {
+  return del(globs);
 }
 
 export function exec(command: string, args: string[], base: BaseFn = fromNpm): Promise<string> {

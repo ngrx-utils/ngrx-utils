@@ -280,20 +280,25 @@ yarn add @ngrx-utils/{store,effects}
 yarn add -D @ngrx-utils/cli
 ```
 
-Then in your app.module.ts (Only Add this code to your AppModule), connect ngrx-utils to your store:
+Then include `@ngrx-utils` to your app.module.ts (Only Add this code to your AppModule):
 
 ```typescript
-import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
-import { Store } from '@ngrx/store';
+import { NgrxUtilsModule } from '@ngrx-utils/store';
 
 @NgModule({
   //...
   imports: [, /* ... */ NgrxUtilsModule]
 })
 export class AppModule {
-  constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
-    ngrxSelect.connect(store);
-  }
+  /**
+   * Before
+   * constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
+   *   ngrxSelect.connect(store);
+   * }
+   *
+   * After:
+   * constructor() {}
+   */
 }
 ```
 
