@@ -2,25 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-<a name="0.6.3"></a>
-## [0.6.3](https://github.com/sandangel/ngrx-utils/compare/v0.6.2...v0.6.3) (2018-02-09)
+<a name="0.7.0"></a>
 
+# [0.7.0](https://github.com/sandangel/ngrx-utils/compare/v0.6.3...v0.7.0) (2018-02-13)
+
+### Code Refactoring
+
+* **effects:** deprecated ofAction operator ([00c2eeb](https://github.com/sandangel/ngrx-utils/commit/00c2eeb))
+
+### Features
+
+* auto connect to root store ([f18ca7c](https://github.com/sandangel/ngrx-utils/commit/f18ca7c))
+
+### BREAKING CHANGES
+
+* **effects:** Due to conditional type feature will release in TS 2.8, ofAction is no longer
+  needed and will be removed when v1.0 release
+* You won't need to explicitly connect @ngrx-utils to your store. But it won't harm if you let your code same as v0.6.3
+
+<a name="0.6.3"></a>
+
+## [0.6.3](https://github.com/sandangel/ngrx-utils/compare/v0.6.2...v0.6.3) (2018-02-09)
 
 ### Bug Fixes
 
 * **store:** spread Select addition operators in pipe ([9eb8401](https://github.com/sandangel/ngrx-utils/commit/9eb8401))
 
-
-
 <a name="0.6.2"></a>
-## [0.6.2](https://github.com/sandangel/ngrx-utils/compare/v0.6.1...v0.6.2) (2018-02-08)
 
+## [0.6.2](https://github.com/sandangel/ngrx-utils/compare/v0.6.1...v0.6.2) (2018-02-08)
 
 ### Bug Fixes
 
 * **store:** use select method instead of operator ([b1213e9](https://github.com/sandangel/ngrx-utils/commit/b1213e9))
-
-
 
 <a name="0.6.0"></a>
 
