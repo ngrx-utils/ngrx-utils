@@ -7,11 +7,11 @@ Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
 ## Quick start
 
 ```sh
-npm i -S @ngrx-utils/{store,effects}
-npm i -D @ngrx-utils/cli
+npm i -S @ngrx-utils/{store,effects} @ngrx/{store,effects,entity,store-devtools,router-store}
+npm i -D @ngrx-utils/cli @ngrx/schematics
 # or
-yarn add @ngrx-utils/{store,effects}
-yarn add -D @ngrx-utils/cli
+yarn add @ngrx-utils/{store,effects} @ngrx/{store,effects,entity,store-devtools,router-store}
+yarn add -D @ngrx-utils/cli @ngrx/schematics
 ```
 
 ## What in the box
@@ -79,13 +79,15 @@ export class AppComponent implements OnDestroy {
 
 ![picture](https://media.giphy.com/media/3ohs4yQkU3hYGLl3Tq/giphy.gif)
 
-### `@Select & @Pluck` decorator: Pipeable operator all the way
+### `@Select & @Pluck` decorator
 
 * No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select or @Pluck` decorator instead.
 
 * `@Select` decorator is now support pipeable operator => you can use operator like take(1) to automatically unsubscribe or transform that value so you won't need to create more selectors with nested property...
 
-* `@Select` accepts first parameter as a selector type `(state: any) => any` to select prop from your store (like selectors created with `createSelector` from `@ngrx/store`) and up to 8 pipeable operators. `@Pluck` is just like `pluck` operator from `rxjs` but it support a 'dot' separated shorthand syntax.
+* `@Select` accepts first parameter as a selector type `(state: any) => any` to select prop from your store (like selectors created with `createSelector` from `@ngrx/store`) and up to 8 pipeable operators.
+
+* `@Pluck` accepts an array of state property name start from root state. It also support a 'dot' separated shorthand syntax and use Component property name when no argument is specified.
 
 ```typescript
 import { take, map } from 'rxjs/operators';
@@ -305,7 +307,7 @@ export class AppModule {
 }
 ```
 
-And you can start using `Select, Pluck` decorator in any component. It also works with feature stores too. You don't have to do anything in your feature module. Don't forget to invoke the `connect` function when you are writing tests.
+And you can start using `Select, Pluck` decorator in any component. It also works with feature stores too. You don't have to do anything in your feature module. And it work like charm in unit test too. Just need to import NgrxUtilsModule to your `TestBed`
 
 ### Example App
 
@@ -319,7 +321,7 @@ And you can start using `Select, Pluck` decorator in any component. It also work
 
 * No provide string based select with Select decorator, use `@Pluck` instead. Because you can use pipeable operator with `@Select` and it still has correct type inference inside: `@Select(getState, map(a /* 'a' has correct type infer */ => a.b))`
 
-* Better type inference with ofAction pipeable operator and use instanceof to filter action instead of call `new Action().type`. You won't have to use type cast too.
+* You won't have to use type cast in `ofAction` operator
 
 See [changelog](CHANGELOG.md) for latest changes.
 
