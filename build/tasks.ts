@@ -284,7 +284,7 @@ export async function removePackagesFolder(config: Config) {
  * Removes the ngsummary files
  */
 export function removeSummaryFiles() {
-  return util.exec('del', ['./dist/**/*.ngsummary.json']);
+  return util.removeRecursively('./dist/**/*.ngsummary.json');
 }
 
 /**
@@ -305,7 +305,7 @@ export async function copyPackagesToRelease(config: Config) {
  * Remove package.json in release folder to use module package.json
  */
 export function removePackageJsonInRelease() {
-  return util.exec('del', ['**/modules/**/release/package.json']);
+  return util.removeRecursively('**/modules/**/release/package.json');
 }
 
 interface PackageJson {
