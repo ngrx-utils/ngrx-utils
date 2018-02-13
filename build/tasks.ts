@@ -284,7 +284,7 @@ export async function removePackagesFolder(config: Config) {
  * Removes the ngsummary files
  */
 export function removeSummaryFiles() {
-  return util.cmd('rm -rf', ['./dist/**/*.ngsummary.json']);
+  return util.exec('del', ['./dist/**/*.ngsummary.json']);
 }
 
 /**
