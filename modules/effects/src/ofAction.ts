@@ -4,7 +4,9 @@ import { filter } from 'rxjs/operators';
 
 import { ActionType } from './symbols';
 
-export function ofAction<T extends Action = Action>(allowedType: ActionType<T>): OperatorFunction<Action, T>;
+export function ofAction<T extends Action = Action>(
+  allowedType: ActionType<T>
+): OperatorFunction<Action, T>;
 export function ofAction<A extends Action, B extends Action>(
   a: ActionType<A>,
   b: ActionType<B>
@@ -20,7 +22,13 @@ export function ofAction<A extends Action, B extends Action, C extends Action, D
   c: ActionType<C>,
   d: ActionType<D>
 ): OperatorFunction<Action, A | B | C | D>;
-export function ofAction<A extends Action, B extends Action, C extends Action, D extends Action, E extends Action>(
+export function ofAction<
+  A extends Action,
+  B extends Action,
+  C extends Action,
+  D extends Action,
+  E extends Action
+>(
   a: ActionType<A>,
   b: ActionType<B>,
   c: ActionType<C>,
@@ -100,9 +108,11 @@ export function ofAction<
   i: ActionType<I>
 ): OperatorFunction<Action, A | B | C | D | E | F | G | H | I>;
 /**
- * Could have better type variable here when Variadic types in typescript land
- * https://github.com/Microsoft/TypeScript/issues/5453
+ * @deprecated
+ * Due to cannot replay in Redux dev tools
  */
-export function ofAction<T extends Action = Action>(...actions: ActionType[]): OperatorFunction<Action, T> {
+export function ofAction<T extends Action = Action>(
+  ...actions: ActionType[]
+): OperatorFunction<Action, T> {
   return filter<Action, T>((action: Action): action is T => actions.some(a => action instanceof a));
 }
