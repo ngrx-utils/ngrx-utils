@@ -1,25 +1,31 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { NgModule, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
-export class LetContext<T> {
-  $implicit: T | null = null;
-  ngLet: T | null = null;
+export class NgLetContext {
+  $implicit: any = null;
+  ngLet: any = null;
 }
 
 @Directive({
   selector: '[ngLet]'
 })
-export class NgLetDirective<T> {
-  private _context = new LetContext<T>();
+export class NgLetDirective {
+  private _context = new NgLetContext();
 
   @Input()
-  set ngLet(value: T) {
+  set ngLet(value: any) {
     this._context.$implicit = this._context.ngLet = value;
   }
 
-  constructor(_vcr: ViewContainerRef, _templateRef: TemplateRef<LetContext<T>>) {
+  constructor(_vcr: ViewContainerRef, _templateRef: TemplateRef<NgLetContext>) {
     _vcr.createEmbeddedView(_templateRef, this._context);
   }
 
   /** @internal */
-  public static ngIfUseIfTypeGuard: void;
+  public static ngLetUseIfTypeGuard: void;
 }
+
+@NgModule({
+  declarations: [NgLetDirective],
+  exports: [NgLetDirective]
+})
+export class NgUtilsModule {}
