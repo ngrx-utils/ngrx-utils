@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -7,15 +7,16 @@ import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
-import { NgrxSelect, Pluck, Select, untilDestroy, pluck } from '../src';
+import { Pluck, Select, untilDestroy, pluck, NgUtilsModule } from '../src';
+import { NgrxSelect } from '../src/module';
 
 @Component({
-  template: `<div></div>`,
+  template: '',
   selector: 'sand-test'
 })
 export class TestComponent implements OnDestroy {
   test$ = new Subject<number>();
-  test: number;
+  test = 10;
   sub: Subscription;
 
   constructor() {
@@ -24,6 +25,12 @@ export class TestComponent implements OnDestroy {
 
   ngOnDestroy() {}
 }
+
+@NgModule({
+  declarations: [TestComponent],
+  imports: [NgUtilsModule]
+})
+export class TestModule {}
 
 describe('@ngrx-utils/store', () => {
   interface FooState {
@@ -55,7 +62,7 @@ describe('@ngrx-utils/store', () => {
   const msFeature = createFeatureSelector<FooState>('myFeature');
   const msBar = createSelector(msFeature, state => state.bar);
 
-  const store = new Store(of(globalState), undefined, undefined);
+  const store = new Store(of(globalState), undefined as any, undefined as any);
 
   beforeEach(() => {
     NgrxSelect.store = store;
@@ -145,7 +152,7 @@ describe('@ngrx-utils/store', () => {
       })
     );
 
-    it('should unsubscribe when component destroyed', () => {
+    it('should unsubscribe when component is destroyed', () => {
       instance.test$.next(2);
       fixture.detectChanges();
 
