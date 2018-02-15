@@ -1,6 +1,5 @@
 import { NgModule, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { NgLetDirective } from './ngLet';
 import { WebWorkerService } from './web-worker.service';
 
 @Injectable()
@@ -29,9 +28,3 @@ export class NgrxUtilsModule {
     ngrxSelect.connect(store);
   }
 }
-
-@NgModule({
-  declarations: [NgLetDirective],
-  exports: [NgLetDirective]
-})
-export class NgUtilsModule {}
