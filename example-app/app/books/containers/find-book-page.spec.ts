@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule, MatInputModule, MatProgressSpinnerModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxUtilsModule } from '@ngrx-utils/store';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { AddCommasPipe } from '../../shared/pipes/add-commas';
@@ -20,7 +20,6 @@ describe('Find Book Page', () => {
   let fixture: ComponentFixture<FindBookPageComponent>;
   let store: Store<fromBooks.State>;
   let instance: FindBookPageComponent;
-  let ngrxSelect: NgrxSelect;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,8 +49,6 @@ describe('Find Book Page', () => {
     fixture = TestBed.createComponent(FindBookPageComponent);
     instance = fixture.componentInstance;
     store = TestBed.get(Store);
-    ngrxSelect = TestBed.get(NgrxSelect);
-    ngrxSelect.connect(store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
