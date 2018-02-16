@@ -19,9 +19,6 @@ export class NgLetDirective {
   constructor(_vcr: ViewContainerRef, _templateRef: TemplateRef<NgLetContext>) {
     _vcr.createEmbeddedView(_templateRef, this._context);
   }
-
-  /** @internal */
-  public static ngLetUseIfTypeGuard: void;
 }
 
 @NgModule({
