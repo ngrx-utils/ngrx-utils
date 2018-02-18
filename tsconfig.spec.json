@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "baseUrl": ".",
+    "rootDir": "./",
+    "paths": {
+      "@ngrx-utils/store": ["./modules/store"]
+    },
+    "types": ["jasmine", "node"]
+  },
+  "include": ["modules/**/*.spec.ts"]
+}
