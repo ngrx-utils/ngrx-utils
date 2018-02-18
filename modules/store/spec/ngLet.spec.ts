@@ -1,16 +1,18 @@
 import { Component, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Subject } from 'rxjs/Subject';
 
 import { NgUtilsModule } from '../src';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 
 @Component({
   template: '<span *ngLet="test as i">hello{{ i }}</span>',
   selector: 'sand-test'
 })
 export class TestComponent {
-  test$ = new Subject<number>();
+  test$: Observable<number>;
   test = 10;
   nestedTest = 20;
   functionTest = (a: number, b: number) => a + b;
@@ -18,7 +20,7 @@ export class TestComponent {
 
 @NgModule({
   declarations: [TestComponent],
-  imports: [NgUtilsModule],
+  imports: [NgUtilsModule, CommonModule],
   exports: [NgUtilsModule, TestComponent]
 })
 export class TestModule {}
@@ -29,21 +31,15 @@ describe('ngLet directive', () => {
     return fixture.componentInstance;
   }
 
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TestModule]
+    });
+  });
+
   afterEach(() => {
     fixture = null!;
   });
-
-  beforeEach(
-    async(() => {
-      debugger;
-      TestBed.configureTestingModule({
-        imports: [TestModule]
-      }).compileComponents();
-
-      fixture = TestBed.createComponent(TestComponent);
-      fixture.detectChanges();
-    })
-  );
 
   it(
     'should work in a template attribute',
@@ -53,7 +49,7 @@ describe('ngLet directive', () => {
       getComponent().test = 7;
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
-      expect(fixture.nativeElement).toContain('hello7');
+      expect(fixture.nativeElement.textContent).toBe('hello7');
     })
   );
 
@@ -64,7 +60,7 @@ describe('ngLet directive', () => {
       fixture = createTestComponent(template);
       getComponent().test = 5;
       fixture.detectChanges();
-      expect(fixture.nativeElement).toContain('hello5');
+      expect(fixture.nativeElement.textContent).toBe('hello5');
     })
   );
 
@@ -80,7 +76,7 @@ describe('ngLet directive', () => {
       getComponent().nestedTest = 5;
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
-      expect(fixture.nativeElement).toContain('hello8');
+      expect(fixture.nativeElement.textContent).toBe('hello8');
     })
   );
 
@@ -96,8 +92,21 @@ describe('ngLet directive', () => {
       getComponent().test = 4;
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(2);
-      expect(fixture.nativeElement).toContain('helloNumber5');
-      expect(fixture.nativeElement).toContain('helloFunction13');
+      expect(fixture.nativeElement.textContent).toContain('helloNumber5helloFunction13');
+    })
+  );
+
+  it(
+    'should work on async pipe',
+    async(() => {
+      const template = '<span *ngLet="test$ | async as t">helloAsync{{ t }}</span>';
+
+      fixture = createTestComponent(template);
+
+      getComponent().test$ = of(15);
+      fixture.detectChanges();
+      expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
+      expect(fixture.nativeElement.textContent).toContain('helloAsync15');
     })
   );
 });
