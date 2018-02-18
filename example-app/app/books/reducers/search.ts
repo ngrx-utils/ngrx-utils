@@ -1,4 +1,4 @@
-import { BookActions } from '../actions/book';
+import { BookActionTypes, BookActions } from '../actions/book';
 
 export interface State {
   ids: string[];
@@ -16,7 +16,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: BookActions): State {
   switch (action.type) {
-    case '[Book] Search': {
+    case BookActionTypes.Search: {
       const query = action.payload;
 
       if (query === '') {
@@ -36,7 +36,7 @@ export function reducer(state = initialState, action: BookActions): State {
       };
     }
 
-    case '[Book] Search Complete': {
+    case BookActionTypes.SearchComplete: {
       return {
         ids: action.payload.map(book => book.id),
         loading: false,
@@ -45,7 +45,7 @@ export function reducer(state = initialState, action: BookActions): State {
       };
     }
 
-    case '[Book] Search Error': {
+    case BookActionTypes.SearchError: {
       return {
         ...state,
         loading: false,
