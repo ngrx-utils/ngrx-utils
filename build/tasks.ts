@@ -268,7 +268,6 @@ export async function copyPackageJsonFiles(config: Config) {
     const jsonPkg = JSON.parse(jsonStrPkg);
     jsonPkg.version = JSON.parse(jsonStrRepo).version;
     delete jsonPkg['files'];
-    delete jsonPkg['jest'];
     return await util.writeFile(`${target}/package.json`, JSON.stringify(jsonPkg, null, 2));
   });
 }

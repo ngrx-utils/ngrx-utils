@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MatCardModule } from '@angular/material';
-import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxUtilsModule } from '@ngrx-utils/store';
 
 import { ViewBookPageComponent } from './view-book-page';
 import * as book from '../actions/book';
@@ -17,8 +17,6 @@ describe('View Book Page', () => {
   let params = new BehaviorSubject({});
   let fixture: ComponentFixture<ViewBookPageComponent>;
   let store: Store<fromBooks.State>;
-  let instance: ViewBookPageComponent;
-  let ngrxSelect: NgrxSelect;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,10 +45,7 @@ describe('View Book Page', () => {
     });
 
     fixture = TestBed.createComponent(ViewBookPageComponent);
-    instance = fixture.componentInstance;
     store = TestBed.get(Store);
-    ngrxSelect = TestBed.get(NgrxSelect);
-    ngrxSelect.connect(store);
   });
 
   it('should compile', () => {

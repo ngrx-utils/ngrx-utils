@@ -17,10 +17,8 @@
     "baseUrl": ".",
     "rootDir": "./",
     "paths": {
-      "@ngrx-utils/effects": ["./modules/effects"],
       "@ngrx-utils/store": ["./modules/store"]
     },
-    "types": ["node", "jest", "lodash", "prettier"],
     "plugins": [{ "name": "@angular/language-service" }]
   },
   "exclude": ["node_modules", "**/*/node_modules"]

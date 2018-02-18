@@ -3,7 +3,7 @@ import { SelectedBookPageComponent } from './selected-book-page';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material';
-import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxUtilsModule } from '@ngrx-utils/store';
 
 import * as collection from '../actions/collection';
 import * as fromBooks from '../reducers';
@@ -16,7 +16,6 @@ describe('Selected Book Page', () => {
   let fixture: ComponentFixture<SelectedBookPageComponent>;
   let store: Store<fromBooks.State>;
   let instance: SelectedBookPageComponent;
-  let ngrxSelect: NgrxSelect;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,8 +38,6 @@ describe('Selected Book Page', () => {
     fixture = TestBed.createComponent(SelectedBookPageComponent);
     instance = fixture.componentInstance;
     store = TestBed.get(Store);
-    ngrxSelect = TestBed.get(NgrxSelect);
-    ngrxSelect.connect(store);
   });
 
   it('should compile', () => {

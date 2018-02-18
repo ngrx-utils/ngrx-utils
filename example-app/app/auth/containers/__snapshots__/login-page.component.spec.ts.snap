@@ -5,8 +5,10 @@ exports[`Login Page should compile 1`] = `
   store={[Function Store]}
 >
   
+    
       <bc-login-form
     _nghost-c0=""
+    class="ng-star-inserted"
     ng-reflect-pending="false"
   >
     
@@ -248,6 +250,7 @@ exports[`Login Page should compile 1`] = `
     
     
   </bc-login-form>
+    
     
 </bc-login-page>
 `;

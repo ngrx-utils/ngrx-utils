@@ -3,7 +3,7 @@ import { MatInputModule, MatCardModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxUtilsModule, NgUtilsModule } from '@ngrx-utils/store';
 import { LoginPageComponent } from './login-page.component';
 import { LoginFormComponent } from '../components/login-form.component';
 import * as Auth from '../actions/auth';
@@ -13,7 +13,6 @@ describe('Login Page', () => {
   let fixture: ComponentFixture<LoginPageComponent>;
   let store: Store<fromAuth.State>;
   let instance: LoginPageComponent;
-  let ngrxSelect: NgrxSelect;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,7 +24,8 @@ describe('Login Page', () => {
         MatInputModule,
         MatCardModule,
         ReactiveFormsModule,
-        NgrxUtilsModule
+        NgrxUtilsModule,
+        NgUtilsModule
       ],
       declarations: [LoginPageComponent, LoginFormComponent]
     });
@@ -33,8 +33,6 @@ describe('Login Page', () => {
     fixture = TestBed.createComponent(LoginPageComponent);
     instance = fixture.componentInstance;
     store = TestBed.get(Store);
-    ngrxSelect = TestBed.get(NgrxSelect);
-    ngrxSelect.connect(store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });

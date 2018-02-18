@@ -9,11 +9,13 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'bc-login-page',
   template: `
+  <ng-container *ngLet="pending$ | async as pending">
     <bc-login-form
       (submitted)="onSubmit($event)"
-      [pending]="pending$ | async"
+      [pending]="pending"
       [errorMessage]="error$ | async">
     </bc-login-form>
+  </ng-container>
   `,
   styles: []
 })

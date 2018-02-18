@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgrxSelect, NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxUtilsModule } from '@ngrx-utils/store';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { AddCommasPipe } from '../../shared/pipes/add-commas';
@@ -17,8 +17,6 @@ import { CollectionPageComponent } from './collection-page';
 describe('Collection Page', () => {
   let fixture: ComponentFixture<CollectionPageComponent>;
   let store: Store<fromBooks.State>;
-  let instance: CollectionPageComponent;
-  let ngrxSelect: NgrxSelect;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,10 +41,7 @@ describe('Collection Page', () => {
     });
 
     fixture = TestBed.createComponent(CollectionPageComponent);
-    instance = fixture.componentInstance;
     store = TestBed.get(Store);
-    ngrxSelect = TestBed.get(NgrxSelect);
-    ngrxSelect.connect(store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });

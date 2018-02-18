@@ -1,4 +1,4 @@
-import { CollectionActions } from './../actions/collection';
+import { CollectionActionTypes, CollectionActions } from './../actions/collection';
 
 export interface State {
   loaded: boolean;
@@ -14,14 +14,14 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: CollectionActions): State {
   switch (action.type) {
-    case '[Collection] Load': {
+    case CollectionActionTypes.Load: {
       return {
         ...state,
         loading: true
       };
     }
 
-    case '[Collection] Load Success': {
+    case CollectionActionTypes.LoadSuccess: {
       return {
         loaded: true,
         loading: false,
@@ -29,8 +29,8 @@ export function reducer(state = initialState, action: CollectionActions): State 
       };
     }
 
-    case '[Collection] Add Book Success':
-    case '[Collection] Remove Book Fail': {
+    case CollectionActionTypes.AddBookSuccess:
+    case CollectionActionTypes.RemoveBookFail: {
       if (state.ids.indexOf(action.payload.id) > -1) {
         return state;
       }
@@ -41,8 +41,8 @@ export function reducer(state = initialState, action: CollectionActions): State 
       };
     }
 
-    case '[Collection] Add Book Fail':
-    case '[Collection] Remove Book Success': {
+    case CollectionActionTypes.RemoveBookSuccess:
+    case CollectionActionTypes.AddBookFail: {
       return {
         ...state,
         ids: state.ids.filter(id => id !== action.payload.id)
