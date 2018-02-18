@@ -3,7 +3,7 @@ import { MatInputModule, MatCardModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxUtilsModule, NgUtilsModule } from '@ngrx-utils/store';
 import { LoginPageComponent } from './login-page.component';
 import { LoginFormComponent } from '../components/login-form.component';
 import * as Auth from '../actions/auth';
@@ -24,7 +24,8 @@ describe('Login Page', () => {
         MatInputModule,
         MatCardModule,
         ReactiveFormsModule,
-        NgrxUtilsModule
+        NgrxUtilsModule,
+        NgUtilsModule
       ],
       declarations: [LoginPageComponent, LoginFormComponent]
     });

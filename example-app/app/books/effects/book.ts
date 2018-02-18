@@ -1,17 +1,16 @@
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
-import { ofAction } from '@ngrx-utils/effects';
-import { Actions, Effect } from '@ngrx/effects';
+import { Injectable, InjectionToken, Optional, Inject } from '@angular/core';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
-import { catchError, debounceTime, map, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { Scheduler } from 'rxjs/Scheduler';
 import { async } from 'rxjs/scheduler/async';
+import { empty } from 'rxjs/observable/empty';
+import { of } from 'rxjs/observable/of';
 
 import { GoogleBooksService } from '../../core/services/google-books';
-import { Search, SearchComplete, SearchError } from '../actions/book';
+import { BookActionTypes, SearchComplete, SearchError, Search } from '../actions/book';
 import { Book } from '../models/book';
+import { debounceTime, map, switchMap, skip, takeUntil, catchError } from 'rxjs/operators';
 
 export const SEARCH_DEBOUNCE = new InjectionToken<number>('Search Debounce');
 export const SEARCH_SCHEDULER = new InjectionToken<Scheduler>('Search Scheduler');
@@ -31,7 +30,7 @@ export const SEARCH_SCHEDULER = new InjectionToken<Scheduler>('Search Scheduler'
 export class BookEffects {
   @Effect()
   search$: Observable<Action> = this.actions$.pipe(
-    ofAction(Search),
+    ofType<Search>(BookActionTypes.Search),
     debounceTime(this.debounce || 300, this.scheduler || async),
     map(action => action.payload),
     switchMap(query => {
@@ -39,7 +38,7 @@ export class BookEffects {
         return empty();
       }
 
-      const nextSearch$ = this.actions$.pipe(ofAction(Search), skip(1));
+      const nextSearch$ = this.actions$.pipe(ofType(BookActionTypes.Search), skip(1));
 
       return this.googleBooks
         .searchBooks(query)
