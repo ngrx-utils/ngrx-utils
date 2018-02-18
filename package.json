@@ -23,7 +23,7 @@
     "example:start": "yarn run cli serve",
     "example:test": "jest",
     "example:start:aot": "yarn run cli serve -prod",
-    "example:build:prod": "yarn run copy:dist && yarn cli build -prod --progress false --base-href \"/platform/example-app/\" --output-path \"./example-app\""
+    "example:build:prod": "yarn run copy:dist && yarn cli build -prod --progress false --base-href \"/ngrx-utils/example-app/\" --output-path \"./example\""
   },
   "private": true,
   "dependencies": {
