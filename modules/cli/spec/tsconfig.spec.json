@@ -1,8 +1,0 @@
-{
-  "extends": "../tsconfig-build.json",
-  "compilerOptions": {
-    "module": "commonjs",
-    "types": ["node", "lodash", "prettier", "jest"]
-  },
-  "files": ["index.spec.ts"]
-}
