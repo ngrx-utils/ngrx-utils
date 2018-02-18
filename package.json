@@ -10,22 +10,23 @@
     "release": "yarn build && lerna publish --force-publish --skip-git",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cz": "git-cz",
-    "test:module": "lerna run --parallel test",
-    "test:example": "jest",
-    "test": "run-p test:module test:example",
+    "test:unit": "nyc node ./tests.js",
+    "test": "run-p test:unit example:test",
     "deploy:builds": "ts-node build/deploy-build",
     "deploy": "yarn build && run-p example:build:prod deploy:builds",
-    "ci": "run-s test deploy",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "ci": "run-s test coverage deploy",
     "changelog": "git add . && standard-version -a",
+    "format": "pretty-quick",
     "cli": "ng",
     "copy:dist": "ncp dist/ ./node_modules/@ngrx-utils/",
     "example:start": "yarn run cli serve",
+    "example:test": "jest",
     "example:start:aot": "yarn run cli serve -prod",
-    "example:build:prod": "yarn run copy:dist && yarn cli build -prod --progress false --base-href \"/platform/example-app/\" --output-path \"./dist/example-app\""
+    "example:build:prod": "yarn run copy:dist && yarn cli build -prod --progress false --base-href \"/platform/example-app/\" --output-path \"./example-app\""
   },
   "private": true,
   "dependencies": {
-    "node": "^8.9.4",
     "rxjs": "^5.5.6"
   },
   "devDependencies": {
@@ -37,10 +38,12 @@
     "@angular/compiler-cli": "^5.2.5",
     "@angular/core": "^5.2.5",
     "@angular/forms": "^5.2.5",
+    "@angular/http": "^5.2.5",
     "@angular/language-service": "^5.2.5",
     "@angular/material": "^5.2.1",
     "@angular/platform-browser": "^5.2.5",
     "@angular/platform-browser-dynamic": "^5.2.5",
+    "@angular/platform-server": "^5.2.5",
     "@angular/router": "^5.2.5",
     "@commitlint/cli": "^6.1.0",
     "@commitlint/config-conventional": "^6.1.0",
@@ -53,12 +56,13 @@
     "@ngrx/store-devtools": "^5.1.0",
     "@types/del": "^3.0.0",
     "@types/fs-extra": "^5.0.0",
-    "@types/jest": "^22.1.2",
+    "@types/jasmine": "^2.8.6",
+    "@types/jasminewd2": "^2.0.3",
+    "@types/jest": "^22.1.3",
     "@types/lodash": "^4.14.104",
     "@types/node": "^9.4.6",
     "@types/ora": "^1.3.1",
     "@types/prettier": "^1.10.0",
-    "caporal": "^0.9.0",
     "chalk": "^2.3.1",
     "commitizen": "^2.9.6",
     "cpy-cli": "^1.0.1",
@@ -68,7 +72,10 @@
     "glob": "^7.1.2",
     "hammerjs": "^2.0.8",
     "husky": "^0.14.3",
+    "jasmine": "^2.99.0",
+    "jasmine-core": "^2.99.0",
     "jasmine-marbles": "^0.2.0",
+    "jasmine-spec-reporter": "^4.2.1",
     "jest": "^22.3.0",
     "jest-preset-angular": "^5.0.0",
     "lerna": "^2.9.0",
@@ -77,9 +84,12 @@
     "ncp": "^2.0.0",
     "ngrx-store-freeze": "^0.2.1",
     "npm-run-all": "^4.1.2",
+    "nyc": "^11.4.1",
     "ora": "^1.4.0",
     "prettier": "^1.10.2",
     "pretty-format": "^22.1.0",
+    "pretty-quick": "^1.4.1",
+    "protractor": "~5.3.0",
     "rollup": "^0.56.1",
     "sorcery": "^0.10.0",
     "standard-version": "^4.3.0",
@@ -87,6 +97,7 @@
     "ts-node": "^4.1.0",
     "tslib": "^1.8.1",
     "tslint": "^5.9.1",
+    "tsutils": "2.21.1",
     "typescript": "~2.6.2",
     "uglify-js": "^3.3.11",
     "zone.js": "^0.8.20"
@@ -97,7 +108,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "prettier --parser typescript --write",
+      "yarn format --staged",
       "git add"
     ]
   },
@@ -160,5 +171,19 @@
   },
   "workspaces": [
     "modules/*"
-  ]
+  ],
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "**/*.spec",
+      "**/spec/**/*",
+      "/modules/schematics/src/*/files/**/*",
+      "**/schematics/src/utility/*"
+    ],
+    "include": [
+      "**/*.ts"
+    ]
+  }
 }

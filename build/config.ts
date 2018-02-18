@@ -14,15 +14,5 @@ export const packages: PackageDescription[] = [
     name: 'store',
     hasTestingModule: false,
     bundle: true
-  },
-  {
-    name: 'effects',
-    hasTestingModule: false,
-    bundle: true
-  },
-  {
-    name: 'cli',
-    hasTestingModule: false,
-    bundle: true
   }
 ];
