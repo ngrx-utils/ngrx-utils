@@ -13,7 +13,7 @@
     "test:unit": "nyc node ./tests.js",
     "test": "run-p test:unit example:test",
     "deploy:builds": "ts-node build/deploy-build",
-    "deploy": "yarn build && run-p example:build:prod deploy:builds",
+    "deploy": "yarn build && run-s example:build:prod deploy:builds",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "ci": "run-s test coverage deploy",
     "changelog": "git add . && standard-version -a",
