@@ -1,5 +1,5 @@
 import { Component, OnDestroy, NgModule } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -7,8 +7,9 @@ import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Pluck, Select, untilDestroy, pluck, NgUtilsModule } from '../src';
+import { Pluck, Select, untilDestroy, pluck, NgUtilsModule, NgrxUtilsModule } from '../src';
 import { NgrxSelect } from '../src/module';
+import { destroy$, addDestroyObservableToComponent } from '../src/untilDestroy';
 
 @Component({
   template: '',
@@ -64,28 +65,37 @@ describe('@ngrx-utils/store', () => {
 
   const store = new Store(of(globalState), undefined as any, undefined as any);
 
-  beforeEach(() => {
-    NgrxSelect.store = store;
+  afterEach(() => {
+    NgrxSelect.store = undefined;
+  });
+
+  describe('modules', () => {
+    it('should create module', () => {
+      const ngrxSelect = new NgrxSelect();
+      spyOn(ngrxSelect, 'connect').and.callThrough();
+      expect(ngrxSelect).toBeTruthy();
+      expect(new NgrxUtilsModule(ngrxSelect, store)).toBeTruthy();
+      expect(ngrxSelect.connect).toHaveBeenCalled();
+      expect(NgrxSelect.store).toEqual(store);
+    });
   });
 
   describe('select', () => {
     it('selects sub state with Select decorator', () => {
+      NgrxSelect.store = store;
       class MyStateSelector {
         @Select(msBar) bar$: Observable<any>; // using MemoizedSelector
       }
 
-      try {
-        const mss = new MyStateSelector();
+      const mss = new MyStateSelector();
 
-        mss.bar$.subscribe(n => {
-          expect(n).toBe(globalState.myFeature.bar);
-        });
-      } finally {
-        NgrxSelect.store = undefined;
-      }
+      mss.bar$.subscribe(n => {
+        expect(n).toBe(globalState.myFeature.bar);
+      });
     });
 
     it('should apply pipeable operator when provided', () => {
+      NgrxSelect.store = store;
       class MyStateSelector {
         @Select(
           msBar,
@@ -96,20 +106,17 @@ describe('@ngrx-utils/store', () => {
         bar$: Observable<any>; // using MemoizedSelector
       }
 
-      try {
-        const mss = new MyStateSelector();
+      const mss = new MyStateSelector();
 
-        mss.bar$.subscribe(n => {
-          expect(n).toBe(true);
-        });
-      } finally {
-        NgrxSelect.store = undefined;
-      }
+      mss.bar$.subscribe(n => {
+        expect(n).toBe(true);
+      });
     });
   });
 
   describe('pluck', () => {
     it('should select sub state with Pluck decorator', () => {
+      NgrxSelect.store = store;
       class MyStateSelector {
         @Pluck('myFeature', 'bar', 'a', 'b', 'c', 'd')
         hello$: Observable<string>;
@@ -117,22 +124,18 @@ describe('@ngrx-utils/store', () => {
         @Pluck('myFeature.bar.a.b.c.d') hi$: Observable<string>;
       }
 
-      try {
-        const mss = new MyStateSelector();
+      const mss = new MyStateSelector();
 
-        mss.hello$.subscribe(n => {
-          expect(n).toBe('world');
-        });
+      mss.hello$.subscribe(n => {
+        expect(n).toBe('world');
+      });
 
-        mss.myFeature.subscribe(n => {
-          expect(n).toBe(globalState.myFeature);
-        });
-        mss.hi$.subscribe(n => {
-          expect(n).toBe('world');
-        });
-      } finally {
-        NgrxSelect.store = undefined;
-      }
+      mss.myFeature.subscribe(n => {
+        expect(n).toBe(globalState.myFeature);
+      });
+      mss.hi$.subscribe(n => {
+        expect(n).toBe('world');
+      });
     });
   });
 
@@ -140,19 +143,16 @@ describe('@ngrx-utils/store', () => {
     let fixture: ComponentFixture<TestComponent>;
     let instance: TestComponent;
 
-    beforeEach(
-      async(() => {
-        TestBed.configureTestingModule({
-          declarations: [TestComponent]
-        }).compileComponents();
-
-        fixture = TestBed.createComponent(TestComponent);
-        instance = fixture.componentInstance;
-        fixture.detectChanges();
-      })
-    );
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        declarations: [TestComponent]
+      });
+    });
 
     it('should unsubscribe when component is destroyed', () => {
+      fixture = TestBed.createComponent(TestComponent);
+      instance = fixture.componentInstance;
+      fixture.detectChanges();
       instance.test$.next(2);
       fixture.detectChanges();
 
@@ -164,6 +164,40 @@ describe('@ngrx-utils/store', () => {
 
       expect(instance.test).toBe(2);
       expect(instance.sub.closed).toBe(true);
+    });
+
+    it('should throw error when component does not implement OnDestroy', () => {
+      class ErrorComponent {
+        test$ = new Subject<number>();
+        test = 10;
+        sub: Subscription;
+
+        constructor() {
+          this.sub = this.test$.pipe(untilDestroy(this)).subscribe(a => (this.test = a));
+        }
+      }
+      expect(() => new ErrorComponent()).toThrowError(
+        'untilDestroy operator needs the component to have an ngOnDestroy method'
+      );
+    });
+
+    it('should ensure symbol $destroy on component', () => {
+      class Test2Component {
+        ngOnDestroy() {}
+      }
+
+      const testComp = new Test2Component();
+      let symbols = Object.getOwnPropertySymbols(testComp);
+      expect(symbols).not.toContain(destroy$);
+      expect((testComp as any)[destroy$]).toBeUndefined();
+
+      const spy = jasmine
+        .createSpy('addObservableOnDestroy', addDestroyObservableToComponent)
+        .and.callThrough();
+      spy(testComp);
+      expect(spy).toHaveBeenCalled();
+      symbols = Object.getOwnPropertySymbols(testComp);
+      expect(symbols).toContain(destroy$);
     });
   });
 

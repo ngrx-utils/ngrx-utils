@@ -1,17 +1,18 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { NgUtilsModule } from '../src';
+import { NgUtilsModule, NgLetDirective } from '../src';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
 @Component({
-  template: '<span *ngLet="test as i">hello{{ i }}</span>',
+  template: '',
   selector: 'sand-test'
 })
 export class TestComponent {
+  @ViewChild(NgLetDirective) ngLetDirective: NgLetDirective;
   test$: Observable<number>;
   test = 10;
   nestedTest = 20;
@@ -39,6 +40,10 @@ describe('ngLet directive', () => {
 
   afterEach(() => {
     fixture = null!;
+  });
+
+  it('should create NgUtilsModule', () => {
+    expect(new NgUtilsModule()).toBeTruthy();
   });
 
   it(
@@ -107,6 +112,21 @@ describe('ngLet directive', () => {
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
       expect(fixture.nativeElement.textContent).toContain('helloAsync15');
+    })
+  );
+
+  it(
+    'should accept input',
+    async(() => {
+      const template = '<span *ngLet="test as i">hello{{ i }}</span>';
+
+      fixture = createTestComponent(template);
+      fixture.detectChanges();
+
+      expect(getComponent().ngLetDirective).toBeTruthy();
+      getComponent().ngLetDirective.ngLet = 21;
+      fixture.detectChanges();
+      expect(fixture.nativeElement.textContent).toContain('hello21');
     })
   );
 });
