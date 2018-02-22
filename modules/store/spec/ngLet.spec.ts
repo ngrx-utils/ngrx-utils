@@ -42,7 +42,7 @@ describe('ngLet directive', () => {
     fixture = null!;
   });
 
-  it('should create NgUtilsModule', () => {
+  it('should create NgLetModule', () => {
     expect(new NgLetModule()).toBeTruthy();
   });
 

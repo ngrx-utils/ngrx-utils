@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { NgUtilsModule } from '@ngrx-utils/store';
+import { NgLetModule } from '@ngrx-utils/store';
 import { LoginPageComponent } from './containers/login-page.component';
 import { LoginFormComponent } from './components/login-form.component';
 
@@ -17,7 +17,7 @@ import { MaterialModule } from '../material';
 export const COMPONENTS = [LoginPageComponent, LoginFormComponent];
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, MaterialModule, NgUtilsModule],
+  imports: [CommonModule, ReactiveFormsModule, MaterialModule, NgLetModule],
   declarations: COMPONENTS,
   exports: COMPONENTS
 })
