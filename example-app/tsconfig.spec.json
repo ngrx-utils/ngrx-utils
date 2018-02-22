@@ -12,7 +12,9 @@
     "types": ["jest", "node"],
     "baseUrl": ".",
     "rootDir": "../",
-    "paths": {}
+    "paths": {
+      "@ngrx-utils/store": ["../modules/store"]
+    }
   },
   "files": ["test.ts"],
   "include": ["**/*.spec.ts"]
