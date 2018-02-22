@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { NgUtilsModule, NgLetDirective } from '../src';
+import { NgLetModule, NgLetDirective } from '../src';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
@@ -21,8 +21,8 @@ export class TestComponent {
 
 @NgModule({
   declarations: [TestComponent],
-  imports: [NgUtilsModule, CommonModule],
-  exports: [NgUtilsModule, TestComponent]
+  imports: [NgLetModule, CommonModule],
+  exports: [NgLetModule, TestComponent]
 })
 export class TestModule {}
 
@@ -43,7 +43,7 @@ describe('ngLet directive', () => {
   });
 
   it('should create NgUtilsModule', () => {
-    expect(new NgUtilsModule()).toBeTruthy();
+    expect(new NgLetModule()).toBeTruthy();
   });
 
   it(

@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Pluck, Select, untilDestroy, pluck, NgUtilsModule, NgrxUtilsModule } from '../src';
+import { Pluck, Select, untilDestroy, pluck, NgLetModule, NgrxUtilsModule } from '../src';
 import { NgrxSelect } from '../src/module';
 import { destroy$, addDestroyObservableToComponent } from '../src/untilDestroy';
 
@@ -29,7 +29,7 @@ export class TestComponent implements OnDestroy {
 
 @NgModule({
   declarations: [TestComponent],
-  imports: [NgUtilsModule]
+  imports: [NgLetModule]
 })
 export class TestModule {}
 

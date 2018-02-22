@@ -25,4 +25,4 @@ export class NgLetDirective {
   declarations: [NgLetDirective],
   exports: [NgLetDirective]
 })
-export class NgUtilsModule {}
+export class NgLetModule {}
