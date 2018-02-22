@@ -12,10 +12,7 @@
     "types": ["jest", "node"],
     "baseUrl": ".",
     "rootDir": "../",
-    "paths": {
-      "@ngrx-utils/effects": ["../modules/effects"],
-      "@ngrx-utils/store": ["../modules/store"]
-    }
+    "paths": {}
   },
   "files": ["test.ts"],
   "include": ["**/*.spec.ts"]

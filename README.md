@@ -2,25 +2,78 @@
 
 [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils) [![Maintainability](https://api.codeclimate.com/v1/badges/481564ca973db91b89e5/maintainability)](https://codeclimate.com/github/ngrx-utils/ngrx-utils/maintainability) [![Coverage Status](https://coveralls.io/repos/github/ngrx-utils/ngrx-utils/badge.svg?branch=master)](https://coveralls.io/github/ngrx-utils/ngrx-utils?branch=master) [![Known Vulnerabilities](https://snyk.io/test/github/ngrx-utils/ngrx-utils/badge.svg)](https://snyk.io/test/github/ngrx-utils/ngrx-utils)
 
-This is a library provide utility functions, decorators, directives..., cli tools to help reduce boilerplate and speedup your devs when working on Angular and `@ngrx` using class based Action approach.
+This is a library provide utility functions, decorators, directives..., cli tools to help reduce boilerplate and speedup your devs when working on Angular and `@ngrx`.
 
-Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
+When you have built some cool stuffs and want to share but you just don't have time to build your own package, setup test, ci... Or when you feel the PR process at angular repo is taking too long since angular team are busy with their priorities, you can just send a PR here.
+
+I have found that the angular community has create tons of awesome features and they really want to add it to angular itself but their PR sometime just end up with a long long discussion and then be closed. Instead you could modular it to an NgModule, operators, functions, add it here and start using it at your project after CI done.
 
 ## Quick start
 
 ```sh
-npm i -S @ngrx-utils/{store,effects} @ngrx/{store,effects,entity,store-devtools,router-store}
-npm i -D @ngrx-utils/cli @ngrx/schematics
+npm i -S @ngrx-utils/store
 # or
-yarn add @ngrx-utils/{store,effects} @ngrx/{store,effects,entity,store-devtools,router-store}
-yarn add -D @ngrx-utils/cli @ngrx/schematics
+yarn add @ngrx-utils/store
 ```
 
-## What in the box
+## What in the box?
 
 ### ngLet directive
 
-* Upcoming documentations.
+* You will find yourself often use `*ngIf="stream$ | async as stream" to subscribe to an observable property and rename it to a template variable. The downside of this approach is the template will be removed even when you really want to use the value`false`,`0`... or when you use 2 observable property nested in template like this:
+
+```typescript
+@Component({
+  selector: 'my-comp',
+  template: `
+    <ng-container *ngIf="(filterDate$ | async) as filterDate">
+      <pick-date [registeredAt]="(device$ | async)?.registeredAt"
+                    (reloadItems)="onReloadTruckItems($event)"
+                    [firstDate]="filterDat.from"
+                    [secondDate]="filterDate.to"
+                    (loadItems)="onLoadTruckItems($event)"></pick-date>
+    </ng-container>  
+  `
+})
+export class MyComponent {
+  device$: Observable<Device>;
+  filterDate$: Observable<FilterDate>;
+
+  constructor(store: Store<State>) {
+    this.device$ = store.select('device');
+    this.filterDate$ = store.select('filterDate');
+  }
+}
+```
+
+* Look at filterDate$ property, you have to subscribe to it twice for firstDate and secondDate binding in `pick-date` component if you use normal approach. So you have to wrap template by `ng-container` and subscribe to it once as above. Unfortunately there was another binding need is `[registerAt]` on pick-date component and it's only available by `device.registerAt`.
+
+What if you have device but you don't have filterDate (If filterDate is null, may be it will just result as empty input of a form)? The template will then be completely removed from the page.
+
+* NgLet to rescue:
+
+```typescript
+import { NgLetModule } from '@ngrx-utils/store';
+
+@NgModule({
+  imports: [NgLetModule]
+})
+export class FeatureModule {}
+```
+
+Replace `*ngIf` with `*ngLet`:
+
+```html
+    <ng-container *ngLet="(filterDate$ | async) as filterDate">
+      <pick-date [registeredAt]="(device$ | async)?.registeredAt"
+                    (reloadItems)="onReloadTruckItems($event)"
+                    [firstDate]="filterDat.from"
+                    [secondDate]="filterDate.to"
+                    (loadItems)="onLoadTruckItems($event)"></pick-date>
+    </ng-container>  
+```
+
+This way your template display as normal even when filterDate does is null. ^^
 
 ### untilDestroy pipeable operator
 
@@ -86,6 +139,8 @@ export class AppComponent implements OnDestroy {
 ![picture](https://media.giphy.com/media/3ohs4yQkU3hYGLl3Tq/giphy.gif)
 
 ### `@Select & @Pluck` decorator
+
+* Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl.
 
 * No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select or @Pluck` decorator instead.
 
