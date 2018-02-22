@@ -102,7 +102,7 @@ export class MyComponent implements OnDestroy {
 
 * Credit to @SanderElias, this operator is inspired from his idea but he's currently not publishing it as an npm package.
 
-### strong type `pluck` operattor
+### strong type `pluck` operator
 
 * You can also make use of pluck operator, a wrapper function of `rxjs/operators/pluck` but supporting nice type inference.
 
@@ -234,7 +234,7 @@ And you can start using `Select, Pluck` decorator in any component. It also work
 
 ### What's different with ngrx-actions
 
-* Only provide `@Select` decorator. We really feel that the other stuffs from ngrx-actions increase much more boilerplate and lack of type infering when using it in our app.
+* Only provide `@Select` decorator. We really feel that the other stuffs from ngrx-actions increase much more boilerplate and lack of type inferring when using it in our app.
 
 * No provide string based select with Select decorator, use `@Pluck` instead. Because you can use pipeable operator with `@Select` and it still has correct type inference inside: `@Select(getState, map(a /* 'a' has correct type infer */ => a.b))`
 
