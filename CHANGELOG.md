@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/sandangel/ngrx-utils/compare/v0.7.1...v0.8.0) (2018-02-22)
+
+
+### Code Refactoring
+
+* remove cli, effects package ([16b8e77](https://github.com/sandangel/ngrx-utils/commit/16b8e77)), closes [#25](https://github.com/sandangel/ngrx-utils/issues/25)
+
+
+### Features
+
+* **store:** add ngLet directive ([1beaf25](https://github.com/sandangel/ngrx-utils/commit/1beaf25))
+* **store:** introduce ngLet directive ([899ad9c](https://github.com/sandangel/ngrx-utils/commit/899ad9c))
+
+
+### BREAKING CHANGES
+
+* Due to violation of Redux principle, effects and CLI package are removed. Please
+use ngrx-actions if you still want ofAction operator
+
+
+
 <a name="0.7.1"></a>
 ## [0.7.1](https://github.com/sandangel/ngrx-utils/compare/v0.7.0...v0.7.1) (2018-02-13)
 
