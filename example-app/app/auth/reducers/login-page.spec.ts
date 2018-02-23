@@ -10,7 +10,7 @@ describe('LoginPageReducer', () => {
 
       const result = reducer(undefined, action);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     });
   });
 
@@ -21,7 +21,7 @@ describe('LoginPageReducer', () => {
 
       const result = reducer(fromLoginPage.initialState, createAction);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     });
   });
 
@@ -32,7 +32,7 @@ describe('LoginPageReducer', () => {
 
       const result = reducer(fromLoginPage.initialState, createAction);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     });
   });
 
@@ -43,7 +43,7 @@ describe('LoginPageReducer', () => {
 
       const result = reducer(fromLoginPage.initialState, createAction);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     });
   });
 });

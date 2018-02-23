@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`View Book Page should compile 1`] = `
+<div
+  id="root0"
+  ng-version="5.2.6"
+>
+  
+    
+  <bc-selected-book-page>
+    
+    
+    <bc-book-detail
+      _nghost-c0=""
+    >
+      
+    
+      <!--bindings={
+  "ng-reflect-ng-if": null
+}-->
+      
+
+  
+    </bc-book-detail>
+    
+  
+  </bc-selected-book-page>
+  
+  
+</div>
+`;

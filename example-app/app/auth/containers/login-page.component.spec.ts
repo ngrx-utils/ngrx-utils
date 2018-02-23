@@ -55,7 +55,7 @@ describe('Login Page', () => {
   it('should compile', () => {
     fixture.detectChanges();
 
-    // expect(fixture).toMatchSnapshot();
+    expect(fixture.nativeElement).toMatchSnapshot();
   });
 
   it('should dispatch a login event on submit', () => {

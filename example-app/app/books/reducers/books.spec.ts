@@ -21,7 +21,7 @@ describe('BooksReducer', () => {
     it('should return the default state', () => {
       const result = reducer(undefined, {} as any);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     });
   });
 
@@ -36,7 +36,7 @@ describe('BooksReducer', () => {
 
       const result = reducer(booksInitialState, createAction);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     }
 
     function existingBooks(action: any, initialState: any, books: Book[]) {
@@ -55,7 +55,7 @@ describe('BooksReducer', () => {
 
       const result = reducer(initialState, createAction);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     }
 
     it('should add all books in the payload when none exist', () => {
@@ -85,7 +85,7 @@ describe('BooksReducer', () => {
 
       const result = reducer(fromBooks.initialState, action);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     });
 
     it('should return the existing state if the book exists', () => {
@@ -93,7 +93,7 @@ describe('BooksReducer', () => {
 
       const result = reducer(expectedResult, action);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     });
   });
 
@@ -103,7 +103,7 @@ describe('BooksReducer', () => {
 
       const result = reducer(initialState, action);
 
-      // expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot();
     });
   });
 
@@ -115,7 +115,7 @@ describe('BooksReducer', () => {
           selectedBookId: book1.id
         });
 
-        // expect(result).toMatchSnapshot();
+        expect(result).toMatchSnapshot();
       });
     });
   });
