@@ -229,6 +229,7 @@ You can using `Select, Pluck` decorator in any component. It also works with fea
 * Fork this repo
 * Add your awesome feature
 * Please do add some tests and docs to show others how to use it
+* Run `git add . && yarn cz` to automatic generate _Angular style_ commit
 * Try to build it with `yarn build`
 * Send a PR here.
 
