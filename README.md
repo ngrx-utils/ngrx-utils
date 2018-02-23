@@ -244,5 +244,4 @@ You can using `Select, Pluck` decorator in any component. It also works with fea
 * [x] ngLet directive
 * [ ] Web Worker Service to run heavy computing function in Web Worker thread, inspired from: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
 
-@ngrx-utils/effects - No longer been developed
-@ngrx-utils/cli - No longer been developed
+@ngrx-utils/effects, @ngrx-utils/cli - No longer been developed
