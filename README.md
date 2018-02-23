@@ -2,11 +2,13 @@
 
 [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils) [![Maintainability](https://api.codeclimate.com/v1/badges/481564ca973db91b89e5/maintainability)](https://codeclimate.com/github/ngrx-utils/ngrx-utils/maintainability) [![Coverage Status](https://coveralls.io/repos/github/ngrx-utils/ngrx-utils/badge.svg?branch=master)](https://coveralls.io/github/ngrx-utils/ngrx-utils?branch=master) [![Known Vulnerabilities](https://snyk.io/test/github/ngrx-utils/ngrx-utils/badge.svg)](https://snyk.io/test/github/ngrx-utils/ngrx-utils)
 
-This is a library provide utility functions, decorators, directives..., cli tools to help reduce boilerplate and speedup your devs when working on Angular and `@ngrx`.
+Have you ever had a feature request, proposal... and want to have it be implemented in Angular but the Angular team does not accept it for some reasons?
 
-When you have built some cool stuffs and want to share but you just don't have time to build your own package, setup test, ci... Or when you feel the PR process at angular repo is taking too long since angular team are busy with their priorities, you can just send a PR here.
+Have you ever built some cool stuffs and want to share but you just don't have time to build your own package, setup test, ci...
 
-I have found that the angular community has create tons of awesome features and they really want to add it to angular itself but their PR sometime just end up with a long long discussion and then be closed. Instead you could modular it to an NgModule, operators, functions, add it here and start using it at your project after CI done.
+Or have you ever feel that the PR process at angular repo is taking too long since the Angular team are busy with their priorities, goals...
+
+I have found that the Angular community has created tons of awesome features in Angular and they really want to add it to Angular itself but their PR sometime just end up with a long discussion and then be closed. Instead you could modular it in a tree shakable way to an NgModule, operators, functions, create some tests, documents and send an PR here. **It will be accepted**. Users then can choose whether to use your feature or not, and leave the tree shake job for `@angular/cli`.
 
 ## Quick start
 
@@ -20,7 +22,7 @@ yarn add @ngrx-utils/store
 
 ### ngLet directive
 
-* You will find yourself often use `*ngIf="stream$ | async as stream" to subscribe to an observable property and rename it to a template variable. The downside of this approach is the template will be removed even when you really want to use the value`false`,`0`... or when you use 2 observable property nested in template like this:
+* Do you find yourself often use `*ngIf="stream$ | async as stream" to subscribe to an observable property and rename it to a template variable? The downside of this approach is the template will be removed even when you really want to use the value`false`,`0`... or when you use 2 non-related observable property nested in template like this:
 
 ```typescript
 @Component({
@@ -40,15 +42,26 @@ export class MyComponent {
   filterDate$: Observable<FilterDate>;
 
   constructor(store: Store<State>) {
+    // these two property are non-related but do have some effect on each other in your UI
     this.device$ = store.select('device');
     this.filterDate$ = store.select('filterDate');
   }
 }
 ```
 
-* Look at filterDate$ property, you have to subscribe to it twice for firstDate and secondDate binding in `pick-date` component if you use normal approach. So you have to wrap template by `ng-container` and subscribe to it once as above. Unfortunately there was another binding need is `[registerAt]` on pick-date component and it's only available by `device.registerAt`.
+* Look at filterDate$ property, you have to subscribe to it twice for firstDate and secondDate binding in `pick-date` component if you use normal approach.
 
-What if you have device but you don't have filterDate (If filterDate is null, may be it will just result as empty input of a form)? The template will then be completely removed from the page.
+```html
+      <pick-date [registeredAt]="(device$ | async)?.registeredAt"
+                    (reloadItems)="onReloadTruckItems($event)"
+                    [firstDate]="(filterDate$ | async)?.from"
+                    [secondDate]="(filterDate$ | async)?.to"
+                    (loadItems)="onLoadTruckItems($event)"></pick-date>
+```
+
+So you have to wrap template by `ng-container` and subscribe to it once as above. Unfortunately there was another binding needed is `[registerAt]` on pick-date component and it's only available by `device.registerAt`.
+
+What if you have `device !== null` but `filterDate === null` (If filterDate is null, may be it will just result as an empty input of a form)? The `pick-date` component will then be completely removed from the page.
 
 * NgLet to rescue:
 
@@ -75,9 +88,11 @@ Replace `*ngIf` with `*ngLet`:
 
 This way your template display as normal even when filterDate does is null. ^^
 
+* Actually this is an feature request in angular for quite long time as described in [here](https://github.com/angular/angular/issues/15280) but not yet been accepted.
+
 ### untilDestroy pipeable operator
 
-* You no longer have to manually call unsubscribe with observable on `ngOnDestroy`:
+* Ever feel odd when have to manually call unsubscribe with observable in `ngOnDestroy`, or have to create a Subject property in every component?
 
 ```typescript
 import { untilDestroy } from '@ngrx-utils/store';
@@ -102,9 +117,9 @@ export class MyComponent implements OnDestroy {
 
 * Credit to @SanderElias, this operator is inspired from his idea but he's currently not publishing it as an npm package.
 
-### strong type `pluck` operator
+### Strong type `pluck` operator
 
-* You can also make use of pluck operator, a wrapper function of `rxjs/operators/pluck` but supporting nice type inference.
+* This is a wrapper function of `rxjs/operators/pluck` which has a nice type checking with plucked property. This was not possible before but now it can with typescript >= 2.6.2 which has improved a lot of type inference.
 
 ```typescript
 import { pluck } from '@ngrx-utils/store';
@@ -151,7 +166,18 @@ export class AppComponent implements OnDestroy {
 * `@Pluck` accepts an array of state property name start from root state. It also support a 'dot' separated shorthand syntax and use Component property name when no argument is specified.
 
 ```typescript
+// app.module.ts
+import { NgrxUtilsModule } from '@ngrx-utils/store';
+
+@NgModule({
+  // Include `NgrxUtilsModule` to your app.module.ts (Only add this to your AppModule):
+  imports: [, /* ... */ NgrxUtilsModule]
+})
+export class AppModule {}
+
+// my.component.ts
 import { take, map } from 'rxjs/operators';
+import { Select, Pluck } from '@ngrx-utils/store';
 
 export class MyComponent {
   @Select(fromRoot.getRouterState, map(state => state.url), take(1))
@@ -172,14 +198,17 @@ export class MyComponent {
 
 ```typescript
 /**
- * This won't work.
+ * Won't work.
  */
-export class MyComponent {
+export class MyNotWorkComponent {
   @Select(
     fromRoot.getRouterState,
-    map(state => /* `this` here is a global object*/ this.update(state))
+    /* `this` here is a global object */
+
+    map(state => this.update(state))
   )
-  url$: Observable<string>; /* if you use `Observable<number>` here it won't throw an error */
+  url$: Observable<string>;
+  /* if you use `Observable<number>` here TS compiler won't throw an error since decorator lack of type checking */
 
   update(state: any) {
     /* ... */
@@ -187,66 +216,21 @@ export class MyComponent {
 }
 ```
 
-## Getting Started in 1 minute
-
-### Install
-
-```sh
-npm i -S @ngrx-utils/{store,effects}
-npm i -D @ngrx-utils/cli
-# or
-yarn add @ngrx-utils/{store,effects}
-yarn add -D @ngrx-utils/cli
-```
-
-Then include `@ngrx-utils` to your app.module.ts (Only Add this code to your AppModule):
-
-```typescript
-import { NgrxUtilsModule } from '@ngrx-utils/store';
-
-@NgModule({
-  //...
-  imports: [, /* ... */ NgrxUtilsModule]
-})
-export class AppModule {
-  /**
-   * BREAKING CHANGES from v0.6.3 to v0.7.0
-   * Before:
-   *
-   * constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
-   *   ngrxSelect.connect(store);
-   * }
-   *
-   * After:
-   *
-   * constructor() {}
-   */
-}
-```
-
-And you can start using `Select, Pluck` decorator in any component. It also works with feature stores too. You don't have to do anything in your feature module. And it work like charm in unit test too. Just need to import NgrxUtilsModule to your `TestBed`
+You can using `Select, Pluck` decorator in any component. It also works with feature stores too. You don't have to do anything in your feature module. And it work like charm in unit test too. Just need to import NgrxUtilsModule to your `TestBed`
 
 ### Example App
 
-* This Example App is a fork of `@ngrx/platform` example app to show you how much boilerplate has been reduce when using `@ngrx-utils`
+* This Example App is a fork of `@ngrx/platform` example app for you to try out your new feature.
 
 * [Example App](example-app)
 
-### What's different with ngrx-actions
+## How to contribute
 
-* Only provide `@Select` decorator. We really feel that the other stuffs from ngrx-actions increase much more boilerplate and lack of type inferring when using it in our app.
-
-* No provide string based select with Select decorator, use `@Pluck` instead. Because you can use pipeable operator with `@Select` and it still has correct type inference inside: `@Select(getState, map(a /* 'a' has correct type infer */ => a.b))`
-
-See [changelog](CHANGELOG.md) for latest changes.
-
-## Common Questions
-
-* _Will this work with normal Redux?_ While its designed for Angular and NGRX it would work perfectly fine for normal Redux. If that gets requested, I'll be happy to add better support too.
-* _Do I have to rewrite my entire app to use this?_ No, you can use this in combination with the traditional switch statements or whatever you are currently doing.
-* _Does it support AoT?_ Yes but see above example for details on implementation.
-* _Does this work with NGRX Dev Tools?_ Yes, it does.
-* _How does it work with testing?_ Everything should work the same way but don't forget if you use the selector tool to include that in your test runner though.
+* Fork this repo
+* Add your awesome feature
+* Please do add some tests and docs to show others how to use it
+* Try to build it with `yarn build`
+* Send a PR here.
 
 ## ROADMAP to v1
 
@@ -258,3 +242,6 @@ See [changelog](CHANGELOG.md) for latest changes.
 * [x] untilDestroy operator
 * [x] ngLet directive
 * [ ] Web Worker Service to run heavy computing function in Web Worker thread, inspired from: [web-worker.service.ts](https://github.com/Tyler-V/angular-web-workers/blob/master/src/app/fibonacci/web-worker/web-worker.service.ts)
+
+@ngrx-utils/effects - No longer been developed
+@ngrx-utils/cli - No longer been developed
