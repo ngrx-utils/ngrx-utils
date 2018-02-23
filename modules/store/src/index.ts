@@ -1,6 +1,4 @@
-export { NgrxUtilsModule } from './module';
-export { Select } from './select';
-export { Pluck, pluck } from './pluck';
-export { WebWorkerService } from './web-worker.service';
-export { untilDestroy } from './untilDestroy';
-export { NgLetDirective, NgLetModule } from './ngLet';
+export { Select, Pluck, NgrxUtilsModule } from './decorators/index';
+export { WebWorkerService, WebWorkerModule } from './services/index';
+export { untilDestroy, pluck } from './operators/index';
+export { NgLetDirective, NgLetModule } from './directives/index';

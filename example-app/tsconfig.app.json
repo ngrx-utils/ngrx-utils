@@ -12,7 +12,9 @@
     "types": [],
     "baseUrl": ".",
     "rootDir": "../",
-    "paths": {}
+    "paths": {
+      "@ngrx-utils/store": ["../modules/store"]
+    }
   },
   "exclude": ["../node_modules", "test.ts", "**/*.spec.ts"]
 }

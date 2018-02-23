@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 import { MonoTypeOperatorFunction } from 'rxjs/interfaces';
 
 // create a symbol identify the observable I add to
@@ -8,8 +8,8 @@ import { MonoTypeOperatorFunction } from 'rxjs/interfaces';
 export const destroy$ = Symbol('destroy$');
 
 /**
- * an operator that takes until destroy it takes a components this a parameter
- * returns a lettable RxJS operator.
+ * An operator that takes until destroy it takes a components this a parameter
+ * returns a pipeable RxJS operator.
  */
 export const untilDestroy = <T>(component: any): MonoTypeOperatorFunction<T> => {
   if (component[destroy$] === undefined) {
@@ -17,7 +17,7 @@ export const untilDestroy = <T>(component: any): MonoTypeOperatorFunction<T> => 
     addDestroyObservableToComponent(component);
   }
 
-  // pipe in the takeuntil destroy$ and return the source unaltered
+  // pipe in the takeUntil destroy$ and return the source unaltered
   return takeUntil<T>(component[destroy$]);
 };
 

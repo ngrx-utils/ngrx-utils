@@ -1,27 +1,56 @@
 # Javascript Node CircleCI 2.0 configuration file
+version: 2
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
+var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}
+var_2: &node_image
+  docker:
       - image: circleci/node:8.9.4
+
+jobs:
+
+  test:
+    <<: *node_image
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+
+      - run: yarn install
+      - run: yarn run ci
+      - run: yarn run example:build:prod
+      - run: yarn run example:test
+
+      - save_cache:
+          key: *cache_key
+          paths:
+            - node_modules
+            - ~/.cache/yarn
+
+  deploy:
+    <<: *node_image
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
+          key: *cache_key
 
       - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
-      - run: yarn run ci
+      - run: yarn run build
+      - run: yarn run deploy:builds
 
       - store_artifacts:
           path: dist
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master

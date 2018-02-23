@@ -43,7 +43,7 @@ describe('Selected Book Page', () => {
   it('should compile', () => {
     fixture.detectChanges();
 
-    // expect(fixture).toMatchSnapshot();
+    expect(fixture.nativeElement).toMatchSnapshot();
   });
 
   it('should dispatch a collection.AddBook action when addToCollection is called', () => {
