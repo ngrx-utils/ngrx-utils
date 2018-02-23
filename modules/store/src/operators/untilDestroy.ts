@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 import { MonoTypeOperatorFunction } from 'rxjs/interfaces';
 
 // create a symbol identify the observable I add to

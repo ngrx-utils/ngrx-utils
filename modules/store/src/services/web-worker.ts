@@ -79,3 +79,10 @@ export class WebWorkerService {
     return promise;
   }
 }
+
+import { NgModule } from '@angular/core';
+
+@NgModule({
+  providers: [WebWorkerService]
+})
+export class WebWorkerModule {}
