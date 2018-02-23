@@ -1,4 +1,4 @@
-import { Component, OnDestroy, NgModule } from '@angular/core';
+import { Component, NgModule, OnDestroy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -7,9 +7,9 @@ import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Pluck, Select, untilDestroy, pluck, NgLetModule, NgrxUtilsModule } from '../src';
-import { NgrxSelect } from '../src/module';
-import { destroy$, addDestroyObservableToComponent } from '../src/untilDestroy';
+import { NgLetModule, NgrxUtilsModule, Pluck, pluck, Select, untilDestroy } from '../src';
+import { NgrxSelect } from '../src/decorators/module';
+import { addDestroyObservableToComponent, destroy$ } from '../src/operators/untilDestroy';
 
 @Component({
   template: '',
