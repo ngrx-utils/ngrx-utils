@@ -17,6 +17,7 @@ jobs:
       - restore_cache:
           key: *cache_key
 
+      - run: yarn install
       - run: yarn run ci
       - run: yarn run example:build:prod
       - run: yarn run example:test
