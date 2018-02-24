@@ -6,7 +6,7 @@
     "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
     "build": "node build/index.js",
-    "release": "yarn build && lerna publish --force-publish --skip-git",
+    "release": "NODE_ENV='release' yarn build && lerna publish --force-publish --skip-git",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cz": "git-cz",
     "test:unit": "nyc node ./tests.js",

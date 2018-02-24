@@ -1,7 +1,9 @@
 import * as tasks from './tasks';
-import { createBuilder } from './util';
+import { createBuilder, TaskDef } from './util';
 
-export const build = createBuilder([
+const release = process.env.NODE_ENV === 'release';
+
+const taskList: TaskDef[] = [
   ['Removing all build artifact Folder', tasks.removeArtifactFolders],
   ['Compiling packages with NGC', tasks.compilePackagesWithNgc],
   ['Bundling FESMs', tasks.bundleFesms],
@@ -17,7 +19,14 @@ export const build = createBuilder([
   ['Removing "./dist/packages" folder', tasks.removePackagesFolder],
   ['Removing summary files', tasks.removeSummaryFiles],
   ['Copying package.json files', tasks.copyPackageJsonFiles],
-  ['Rewriting package.json module path for build artifact', tasks.rewriteModulePackageJson],
-  ['Copying artifact files for release', tasks.copyPackagesToRelease],
-  ['Removing redundant package.json in release folder', tasks.removePackageJsonInRelease]
-]);
+  ['Rewriting package.json module path for build artifact', tasks.rewriteModulePackageJson]
+];
+
+if (release) {
+  taskList.push(
+    ['Copying artifact files for release', tasks.copyPackagesToRelease],
+    ['Removing redundant package.json in release folder', tasks.removePackageJsonInRelease]
+  );
+}
+
+export const build = createBuilder(taskList);
