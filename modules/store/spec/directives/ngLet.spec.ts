@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { NgLetModule, NgLetDirective } from '../src';
+import { NgLetModule, NgLetDirective } from '@ngrx-utils/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
