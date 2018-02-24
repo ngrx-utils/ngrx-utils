@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxSelectModule } from '@ngrx-utils/store';
 import { DBModule } from '@ngrx/db';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
@@ -75,7 +75,7 @@ import { CustomRouterStateSerializer } from './shared/utils';
     /**
      * Provide NgrxSelect service for connect to store instance
      */
-    NgrxUtilsModule,
+    NgrxSelectModule,
 
     /**
      * `provideDB` sets up @ngrx/db with the provided schema and makes the Database

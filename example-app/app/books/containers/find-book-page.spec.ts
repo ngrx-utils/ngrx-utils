@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule, MatInputModule, MatProgressSpinnerModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxSelectModule } from '@ngrx-utils/store';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { AddCommasPipe } from '../../shared/pipes/add-commas';
@@ -33,7 +33,7 @@ describe('Find Book Page', () => {
         MatCardModule,
         MatProgressSpinnerModule,
         ReactiveFormsModule,
-        NgrxUtilsModule
+        NgrxSelectModule
       ],
       declarations: [
         FindBookPageComponent,

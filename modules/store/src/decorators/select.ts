@@ -1,7 +1,7 @@
 import { Selector } from '@ngrx/store';
 import { OperatorFunction } from 'rxjs/interfaces';
 
-import { NgrxSelect } from './module';
+import { NgrxSelect } from './ngrx-select.module';
 
 export function Select<A, B>(mapFn: Selector<A, B>): (target: any, name: string) => void;
 export function Select<A, B, C>(

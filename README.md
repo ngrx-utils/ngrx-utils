@@ -167,11 +167,11 @@ export class AppComponent implements OnDestroy {
 
 ```typescript
 // app.module.ts
-import { NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxSelectModule } from '@ngrx-utils/store';
 
 @NgModule({
-  // Include `NgrxUtilsModule` to your app.module.ts (Only add this to your AppModule):
-  imports: [, /* ... */ NgrxUtilsModule]
+  // Include `NgrxSelectModule` to your app.module.ts (Only add this to your AppModule):
+  imports: [, /* ... */ NgrxSelectModule]
 })
 export class AppModule {}
 
@@ -216,7 +216,7 @@ export class MyNotWorkComponent {
 }
 ```
 
-You can using `Select, Pluck` decorator in any component. It also works with feature stores too. You don't have to do anything in your feature module. And it work like charm in unit test too. Just need to import NgrxUtilsModule to your `TestBed`
+You can using `Select, Pluck` decorator in any component. It also works with feature stores too. You don't have to do anything in your feature module. And it work like charm in unit test too. Just need to import NgrxSelectModule to your `TestBed`
 
 ### Example App
 

@@ -3,7 +3,7 @@ import { SelectedBookPageComponent } from './selected-book-page';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material';
-import { NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxSelectModule } from '@ngrx-utils/store';
 
 import * as collection from '../actions/collection';
 import * as fromBooks from '../reducers';
@@ -25,7 +25,7 @@ describe('Selected Book Page', () => {
           books: combineReducers(fromBooks.reducers)
         }),
         MatCardModule,
-        NgrxUtilsModule
+        NgrxSelectModule
       ],
       declarations: [
         SelectedBookPageComponent,

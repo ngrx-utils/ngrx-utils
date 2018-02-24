@@ -1,6 +1,6 @@
 import { pluck as pluckOperator } from 'rxjs/operators/pluck';
 
-import { NgrxSelect } from './module';
+import { NgrxSelect } from './ngrx-select.module';
 
 /**
  * Provide an utility for select a piece of state from Root State.

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MatCardModule } from '@angular/material';
-import { NgrxUtilsModule } from '@ngrx-utils/store';
+import { NgrxSelectModule } from '@ngrx-utils/store';
 
 import { ViewBookPageComponent } from './view-book-page';
 import * as book from '../actions/book';
@@ -20,7 +20,7 @@ describe('View Book Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatCardModule, NgrxUtilsModule],
+      imports: [MatCardModule, NgrxSelectModule],
       providers: [
         {
           provide: ActivatedRoute,

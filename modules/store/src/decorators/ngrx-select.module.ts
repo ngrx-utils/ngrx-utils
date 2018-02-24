@@ -19,10 +19,7 @@ export class NgrxSelect {
 @NgModule({
   providers: [NgrxSelect]
 })
-export class NgrxUtilsModule {
-  /**
-   * @internal
-   */
+export class NgrxSelectModule {
   constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
     ngrxSelect.connect(store);
   }
