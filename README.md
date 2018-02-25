@@ -1,7 +1,7 @@
 # @ngrx-utils
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/22189661/36641334-4e67aa84-1a71-11e8-9ac3-d7aff4544788.png">
+  <img width="800" alt="@ngrx-utils" src="https://user-images.githubusercontent.com/22189661/36641334-4e67aa84-1a71-11e8-9ac3-d7aff4544788.png">
 </p>
 
 [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils) [![Maintainability](https://api.codeclimate.com/v1/badges/481564ca973db91b89e5/maintainability)](https://codeclimate.com/github/ngrx-utils/ngrx-utils/maintainability) [![codecov](https://codecov.io/gh/ngrx-utils/ngrx-utils/branch/master/graph/badge.svg)](https://codecov.io/gh/ngrx-utils/ngrx-utils) [![Known Vulnerabilities](https://snyk.io/test/github/ngrx-utils/ngrx-utils/badge.svg)](https://snyk.io/test/github/ngrx-utils/ngrx-utils)
