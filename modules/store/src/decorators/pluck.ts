@@ -14,17 +14,15 @@ import { NgrxSelect } from './ngrx-select.module';
  * }
  */
 export function Pluck(path?: string, ...paths: string[]) {
-  return function(target: any, name: string) {
+  return function(target: any, propertyKey: string) {
     let props: string[];
 
     if (!path) {
-      path = name;
+      path = propertyKey;
     }
 
     if (typeof path !== 'string') {
-      throw new TypeError(
-        `Unexpected type '${typeof path}' in select operator,` + ` expected 'string'`
-      );
+      throw new TypeError(`Unexpected type '${typeof path}' in pluck operator, expected 'string'`);
     }
 
     props = paths.length ? [path, ...paths] : path.split('.');
@@ -32,10 +30,11 @@ export function Pluck(path?: string, ...paths: string[]) {
     /**
      * Get property descriptor for more precise define object property
      */
-    const descriptor = Object.getOwnPropertyDescriptor(target, name);
+    const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
 
-    if (delete target[name]) {
-      Object.defineProperty(target, name, {
+    if (delete target[propertyKey]) {
+      Object.defineProperty(target, propertyKey, {
+        ...descriptor,
         get() {
           const source$ = NgrxSelect.store;
 
@@ -44,8 +43,7 @@ export function Pluck(path?: string, ...paths: string[]) {
           }
 
           return source$.pipe(pluckOperator(...props));
-        },
-        ...descriptor
+        }
       });
     }
   };
