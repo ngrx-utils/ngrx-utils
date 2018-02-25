@@ -34,27 +34,24 @@ import * as Auth from '../../auth/actions/auth';
   `
 })
 export class AppComponent {
+  /**
+   * Selectors can be applied with the `select` operator which passes the state
+   * tree to the provided selector
+   *
+   * this.showSidenav$ = this.store.pipe(select(fromRoot.getShowSidenav));
+   * this.loggedIn$ = this.store.pipe(select(fromAuth.getLoggedIn));
+   */
   @Pluck('layout.showSidenav') showSidenav$: Observable<boolean>;
   @Select(fromAuth.getLoggedIn) loggedIn$: Observable<boolean>;
 
-  constructor() {
-    /**
-     * Selectors can be applied with the `select` operator which passes the state
-     * tree to the provided selector
-     *
-     * this.showSidenav$ = this.store.pipe(select(fromRoot.getShowSidenav));
-     * this.loggedIn$ = this.store.pipe(select(fromAuth.getLoggedIn));
-     */
-  }
-
+  /**
+   * All state updates are handled through dispatched actions in 'container'
+   * components. This provides a clear, reproducible history of state
+   * updates and user interaction through the life of our
+   * application.
+   */
   @Dispatch()
   closeSidenav() {
-    /**
-     * All state updates are handled through dispatched actions in 'container'
-     * components. This provides a clear, reproducible history of state
-     * updates and user interaction through the life of our
-     * application.
-     */
     return new layout.CloseSidenav();
   }
 
