@@ -1,9 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Select, Pluck } from '@ngrx-utils/store';
+import { Select, Pluck, Dispatch } from '@ngrx-utils/store';
 
-import * as fromRoot from '../../reducers';
 import * as fromAuth from '../../auth/reducers';
 import * as layout from '../actions/layout';
 import * as Auth from '../../auth/actions/auth';
@@ -39,7 +37,7 @@ export class AppComponent {
   @Pluck('layout.showSidenav') showSidenav$: Observable<boolean>;
   @Select(fromAuth.getLoggedIn) loggedIn$: Observable<boolean>;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor() {
     /**
      * Selectors can be applied with the `select` operator which passes the state
      * tree to the provided selector
@@ -49,6 +47,7 @@ export class AppComponent {
      */
   }
 
+  @Dispatch()
   closeSidenav() {
     /**
      * All state updates are handled through dispatched actions in 'container'
@@ -56,16 +55,18 @@ export class AppComponent {
      * updates and user interaction through the life of our
      * application.
      */
-    this.store.dispatch(new layout.CloseSidenav());
+    return new layout.CloseSidenav();
   }
 
+  @Dispatch()
   openSidenav() {
-    this.store.dispatch(new layout.OpenSidenav());
+    return new layout.OpenSidenav();
   }
 
+  @Dispatch()
   logout() {
     this.closeSidenav();
 
-    this.store.dispatch(new Auth.Logout());
+    return new Auth.Logout();
   }
 }

@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Select } from '@ngrx-utils/store';
+import { Select, Dispatch } from '@ngrx-utils/store';
 import { Observable } from 'rxjs/Observable';
 import { take } from 'rxjs/operators';
 
@@ -25,7 +25,8 @@ export class FindBookPageComponent {
 
   constructor(private store: Store<fromBooks.State>) {}
 
+  @Dispatch()
   search(query: string) {
-    this.store.dispatch(new book.Search(query));
+    return new book.Search(query);
   }
 }
