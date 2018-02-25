@@ -79,20 +79,21 @@ export function Select<A, B>(
   mapFn: ((state: A) => B),
   ...operations: OperatorFunction<any, any>[]
 ) {
-  return function(target: any, name: string): void {
+  return function(target: any, propertyKey: string): void {
     if (typeof mapFn !== 'function') {
       throw new TypeError(
-        `Unexpected type '${typeof mapFn}' in select operator,` + ` expected 'function'`
+        `Unexpected type '${typeof mapFn}' in select operator, expected 'function'`
       );
     }
 
     /**
      * Get property descriptor for more precise define object property
      */
-    const descriptor = Object.getOwnPropertyDescriptor(target, name);
+    const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
 
-    if (delete target[name]) {
-      Object.defineProperty(target, name, {
+    if (delete target[propertyKey]) {
+      Object.defineProperty(target, propertyKey, {
+        ...descriptor,
         get() {
           const source$ = NgrxSelect.store;
 
@@ -101,8 +102,7 @@ export function Select<A, B>(
           }
 
           return source$.select(mapFn).pipe(...operations);
-        },
-        ...descriptor
+        }
       });
     }
   };
