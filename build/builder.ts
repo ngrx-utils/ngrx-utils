@@ -1,10 +1,14 @@
 import * as tasks from './tasks';
 import { createBuilder, TaskDef } from './util';
+import { Config } from 'build/config';
 
-const release = process.env.NODE_ENV === 'release';
+const env = process.env.NODE_ENV;
 
-const taskList: TaskDef[] = [
-  ['Removing all build artifact Folder', tasks.removeArtifactFolders],
+let taskList: TaskDef[] = [];
+
+const cleanTasks: TaskDef[] = [['Removing all build artifact Folder', tasks.removeArtifactFolders]];
+
+const buildTasks: TaskDef[] = [
   ['Compiling packages with NGC', tasks.compilePackagesWithNgc],
   ['Bundling FESMs', tasks.bundleFesms],
   ['Down-leveling FESMs to ES5', tasks.downLevelFesmsToES5],
@@ -22,11 +26,28 @@ const taskList: TaskDef[] = [
   ['Rewriting package.json module path for build artifact', tasks.rewriteModulePackageJson]
 ];
 
-if (release) {
-  taskList.push(
-    ['Copying artifact files for release', tasks.copyPackagesToRelease],
-    ['Removing redundant package.json in release folder', tasks.removePackageJsonInRelease]
-  );
+const releaseTasks: TaskDef[] = [
+  ['Copying artifact files for release', tasks.copyPackagesToRelease],
+  ['Removing redundant package.json in release folder', tasks.removePackageJsonInRelease]
+];
+
+const deployTasks: TaskDef[] = [['Deploy builds', tasks.publishToRepo]];
+
+switch (env) {
+  case 'build':
+    taskList = [...cleanTasks, ...buildTasks];
+    break;
+  case 'release':
+    taskList = [...cleanTasks, ...buildTasks, ...releaseTasks];
+    break;
+  case 'deploy':
+    taskList = [...deployTasks];
+    break;
+  case 'clean':
+    taskList = [...cleanTasks];
+    break;
+  default:
+    taskList = [['Nothing to do', (config: Config) => Promise.resolve()]];
 }
 
 export const build = createBuilder(taskList);
