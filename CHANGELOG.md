@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/sandangel/ngrx-utils/compare/v0.9.0...v0.10.0) (2018-02-25)
+
+
+### Bug Fixes
+
+* **store:** fix incorrect descriptor spread order in Select decorator ([2a08ab0](https://github.com/sandangel/ngrx-utils/commit/2a08ab0))
+* **store:** fix incorrect spread descriptor in Pluck decorator ([817a0e1](https://github.com/sandangel/ngrx-utils/commit/817a0e1))
+
+
+### Features
+
+* **store:** introduce Dispatch decorator ([b6d2f9a](https://github.com/sandangel/ngrx-utils/commit/b6d2f9a))
+* **store:** reintroduce NgrxUtilsModule ([00b5177](https://github.com/sandangel/ngrx-utils/commit/00b5177))
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/sandangel/ngrx-utils/compare/v0.8.0...v0.9.0) (2018-02-24)
 
