@@ -1,3 +1,5 @@
+import { Action, Store } from '@ngrx/store';
+
 import { NgrxSelect } from './ngrx-select.module';
 
 export function Dispatch() {
@@ -17,17 +19,28 @@ export function Dispatch() {
         throw new Error('NgrxSelect not connected to store!');
       }
       // note usage of originalMethod here
-      const action = originalMethod.apply(this, args);
-      if (typeof action !== 'object' || (typeof action === 'object' && !('type' in action))) {
-        throw new TypeError(
-          `Unexpected action in method return type, expected object of type 'Action'`
-        );
+      const actions = originalMethod.apply(this, args);
+
+      if (Array.isArray(actions)) {
+        dispatch(source$, actions);
+      } else {
+        dispatch(source$, [actions]);
       }
-      source$.dispatch(action);
-      return action;
+      return actions;
     };
 
     // return edited descriptor as opposed to overwriting the descriptor
     return descriptor;
   };
+}
+
+function dispatch<T extends Action = Action>(source$: Store<any>, actions: T[]) {
+  actions.forEach(action => {
+    if (typeof action !== 'object' || (typeof action === 'object' && !('type' in action))) {
+      throw new TypeError(
+        `Unexpected action in method return type, expected object of type 'Action'`
+      );
+    }
+    source$.dispatch(action);
+  });
 }
