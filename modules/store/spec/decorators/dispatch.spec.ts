@@ -5,7 +5,8 @@ import { of } from 'rxjs/observable/of';
 
 describe('Dispatch', () => {
   const store = new Store(of({}), new ActionsSubject(), undefined as any);
-  const action = { type: 'test-action' };
+  const action1 = { type: 'test-action1' };
+  const action2 = { type: 'test-action2' };
 
   it('should dispatch action', () => {
     spyOn(store, 'dispatch').and.callThrough();
@@ -13,13 +14,13 @@ describe('Dispatch', () => {
     class TestComponent {
       @Dispatch()
       onAction() {
-        return action;
+        return action1;
       }
     }
 
     const testComp = new TestComponent();
     testComp.onAction();
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(store.dispatch).toHaveBeenCalledWith(action1);
   });
 
   it('should throw error when decorator is on accessor property', () => {
@@ -27,7 +28,7 @@ describe('Dispatch', () => {
       class TestComponent {
         @Dispatch()
         get action() {
-          return action;
+          return action1;
         }
       }
     }).toThrowError();
@@ -50,7 +51,7 @@ describe('Dispatch', () => {
     class TestComponent {
       @Dispatch()
       onAction() {
-        return action;
+        return action1;
       }
     }
 
@@ -69,5 +70,21 @@ describe('Dispatch', () => {
 
     const testComp = new TestComponent();
     expect(() => testComp.onAction()).toThrowError();
+  });
+
+  it('should dispatch array of actions', () => {
+    spyOn(store, 'dispatch').and.callThrough();
+    NgrxSelect.store = store;
+    class TestComponent {
+      @Dispatch()
+      onAction() {
+        return [action1, action2];
+      }
+    }
+
+    const testComp = new TestComponent();
+    testComp.onAction();
+    expect(store.dispatch).toHaveBeenCalledWith(action1);
+    expect(store.dispatch).toHaveBeenCalledWith(action2);
   });
 });
