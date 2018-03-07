@@ -23,14 +23,14 @@ export interface MatchExp {
   selector: '[routerLinkActiveMatch]'
 })
 export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
-  private curRoute = '';
-  private matchExp: MatchExp | null = null;
-  private onChangesHook = new Subject<MatchExp>();
+  private _curRoute = '';
+  private _matchExp: MatchExp | null = null;
+  private _onChangesHook = new Subject<MatchExp>();
 
   @Input('routerLinkActiveMatch')
   set routerLinkActiveMatch(v: MatchExp) {
     if (v && typeof v === 'object') {
-      this.matchExp = v;
+      this._matchExp = v;
     } else {
       throw new TypeError(
         `Wrong type of value for input of routerLinkActiveMatch directive, expected 'object'`
@@ -43,19 +43,19 @@ export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
       .pipe(
         untilDestroy(this),
         filter(e => e instanceof NavigationEnd),
-        combineLatest(this.onChangesHook)
+        combineLatest(this._onChangesHook)
       )
       .subscribe(([e]) => {
-        this.curRoute = (e as NavigationEnd).urlAfterRedirects;
-        if (this.matchExp) {
-          this._updateClass(this.matchExp);
+        this._curRoute = (e as NavigationEnd).urlAfterRedirects;
+        if (this._matchExp) {
+          this._updateClass(this._matchExp);
         }
       });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['routerLinkActiveMatch']) {
-      this.onChangesHook.next(changes['routerLinkActiveMatch'].currentValue);
+      this._onChangesHook.next(changes['routerLinkActiveMatch'].currentValue);
     }
   }
 
@@ -63,7 +63,7 @@ export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
     Object.keys(v).forEach(cls => {
       if (v[cls]) {
         const regexp = new RegExp(v[cls]);
-        if (this.curRoute.match(regexp)) {
+        if (this._curRoute.match(regexp)) {
           this._toggleClass(cls, true);
         } else {
           this._toggleClass(cls, false);
