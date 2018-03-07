@@ -6,8 +6,11 @@ export default {
     format: 'umd',
     globals: {
       '@angular/core': 'ng.core',
+      '@angular/router': 'ng.router',
       '@ngrx/store': 'ngrx.store',
-      'rxjs/Observable': 'Rx'
+      '@ngrx-utils/store': 'ngrxUtils.store',
+      'rxjs/Observable': 'Rx',
+      'rxjs/Subject': 'Rx'
     },
     exports: 'named'
   }

@@ -11,7 +11,7 @@ import { of } from 'rxjs/observable/of';
   template: '',
   selector: 'sand-test'
 })
-export class TestComponent {
+class TestComponent {
   @ViewChild(NgLetDirective) ngLetDirective: NgLetDirective;
   test$: Observable<number>;
   test = 10;
@@ -24,7 +24,7 @@ export class TestComponent {
   imports: [NgLetModule, CommonModule],
   exports: [NgLetModule, TestComponent]
 })
-export class TestModule {}
+class TestModule {}
 
 describe('ngLet directive', () => {
   let fixture: ComponentFixture<TestComponent>;
