@@ -24,7 +24,7 @@ export interface MatchExp {
 })
 export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
   private _curRoute = '';
-  private _matchExp: MatchExp | null = null;
+  private _matchExp: MatchExp = {};
   private _onChangesHook = new Subject<MatchExp>();
 
   @Input('routerLinkActiveMatch')
@@ -33,7 +33,8 @@ export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
       this._matchExp = v;
     } else {
       throw new TypeError(
-        `Wrong type of value for input of routerLinkActiveMatch directive, expected 'object'`
+        `Unexpected type '${typeof v}' of value for ` +
+          `input of routerLinkActiveMatch directive, expected 'object'`
       );
     }
   }
@@ -47,9 +48,8 @@ export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
       )
       .subscribe(([e]) => {
         this._curRoute = (e as NavigationEnd).urlAfterRedirects;
-        if (this._matchExp) {
-          this._updateClass(this._matchExp);
-        }
+
+        this._updateClass(this._matchExp);
       });
   }
 
@@ -61,28 +61,33 @@ export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
 
   private _updateClass(v: MatchExp): void {
     Object.keys(v).forEach(cls => {
-      if (v[cls]) {
+      if (v[cls] && typeof v[cls] === 'string') {
         const regexp = new RegExp(v[cls]);
         if (this._curRoute.match(regexp)) {
           this._toggleClass(cls, true);
         } else {
           this._toggleClass(cls, false);
         }
+      } else {
+        throw new TypeError(
+          `Could not convert match value to Regular Expression. ` +
+            `Unexpected type '${typeof v[cls]}' for value of key '${cls}' ` +
+            `in routerLinkActiveMatch directive match expression, expected 'non-empty string'`
+        );
       }
     });
   }
 
   private _toggleClass(classes: string, enabled: boolean): void {
     classes = classes.trim();
-    if (classes) {
-      classes.split(/\s+/g).forEach(cls => {
-        if (enabled) {
-          this._renderer.addClass(this._ngEl.nativeElement, cls);
-        } else {
-          this._renderer.removeClass(this._ngEl.nativeElement, cls);
-        }
-      });
-    }
+
+    classes.split(/\s+/g).forEach(cls => {
+      if (enabled) {
+        this._renderer.addClass(this._ngEl.nativeElement, cls);
+      } else {
+        this._renderer.removeClass(this._ngEl.nativeElement, cls);
+      }
+    });
   }
 
   ngOnDestroy() {}
