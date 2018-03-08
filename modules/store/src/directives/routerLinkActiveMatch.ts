@@ -41,9 +41,9 @@ export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
   constructor(router: Router, private _renderer: Renderer2, private _ngEl: ElementRef) {
     router.events
       .pipe(
-        untilDestroy(this),
         filter(e => e instanceof NavigationEnd),
-        combineLatest(this._onChangesHook)
+        combineLatest(this._onChangesHook),
+        untilDestroy(this)
       )
       .subscribe(([e]) => {
         this._curRoute = (e as NavigationEnd).urlAfterRedirects;
