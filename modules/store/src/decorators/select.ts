@@ -64,6 +64,10 @@ export function Select<A, B, C, D, E, F, G, H, I, J>(
   op7: OperatorFunction<H, I>,
   op8: OperatorFunction<I, J>
 ): (target: any, name: string) => void;
+export function Select<A, B, C>(
+  mapFn: Selector<A, B>,
+  ...ops: OperatorFunction<B, C>[]
+): (target: any, name: string) => void;
 
 /**
  * Select decorator act like pipe operator of Observable
@@ -95,13 +99,15 @@ export function Select<A, B>(
       Object.defineProperty(target, propertyKey, {
         ...descriptor,
         get() {
-          const source$ = NgrxSelect.store;
+          const store = NgrxSelect.store;
 
-          if (!source$) {
+          if (!store) {
             throw new Error('NgrxSelect not connected to store!');
           }
 
-          return source$.select(mapFn).pipe(...operations);
+          const source$ = store.select(mapFn);
+
+          return source$.pipe.apply(source$, operations);
         }
       });
     }
