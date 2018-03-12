@@ -3,63 +3,51 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 <a name="0.10.0"></a>
-# [0.10.0](https://github.com/sandangel/ngrx-utils/compare/v0.9.0...v0.10.0) (2018-02-25)
 
+# [0.10.0](https://github.com/sandangel/ngrx-utils/compare/v0.9.0...v0.10.0) (2018-02-25)
 
 ### Bug Fixes
 
 * **store:** fix incorrect descriptor spread order in Select decorator ([2a08ab0](https://github.com/sandangel/ngrx-utils/commit/2a08ab0))
 * **store:** fix incorrect spread descriptor in Pluck decorator ([817a0e1](https://github.com/sandangel/ngrx-utils/commit/817a0e1))
 
-
 ### Features
 
 * **store:** introduce Dispatch decorator ([b6d2f9a](https://github.com/sandangel/ngrx-utils/commit/b6d2f9a))
 * **store:** reintroduce NgrxUtilsModule ([00b5177](https://github.com/sandangel/ngrx-utils/commit/00b5177))
 
-
-
 <a name="0.9.0"></a>
-# [0.9.0](https://github.com/sandangel/ngrx-utils/compare/v0.8.0...v0.9.0) (2018-02-24)
 
+# [0.9.0](https://github.com/sandangel/ngrx-utils/compare/v0.8.0...v0.9.0) (2018-02-24)
 
 ### Code Refactoring
 
 * **store:** rename NgrxUtilsModule to NgrxSelectModule ([83d4add](https://github.com/sandangel/ngrx-utils/commit/83d4add))
 
-
 ### BREAKING CHANGES
 
 * **store:** Rename NgrxUtilsModule to NgrxSelectModule
 
-
-
 <a name="0.8.0"></a>
-# [0.8.0](https://github.com/sandangel/ngrx-utils/compare/v0.7.1...v0.8.0) (2018-02-22)
 
+# [0.8.0](https://github.com/sandangel/ngrx-utils/compare/v0.7.1...v0.8.0) (2018-02-22)
 
 ### Code Refactoring
 
 * remove cli, effects package ([16b8e77](https://github.com/sandangel/ngrx-utils/commit/16b8e77)), closes [#25](https://github.com/sandangel/ngrx-utils/issues/25)
 
-
 ### Features
 
-* **store:** add ngLet directive ([1beaf25](https://github.com/sandangel/ngrx-utils/commit/1beaf25))
 * **store:** introduce ngLet directive ([899ad9c](https://github.com/sandangel/ngrx-utils/commit/899ad9c))
-
 
 ### BREAKING CHANGES
 
 * Due to violation of Redux principle, effects and CLI package are removed. Please
-use ngrx-actions if you still want ofAction operator
-
-
+  use ngrx-actions if you still want ofAction operator
 
 <a name="0.7.1"></a>
+
 ## [0.7.1](https://github.com/sandangel/ngrx-utils/compare/v0.7.0...v0.7.1) (2018-02-13)
-
-
 
 <a name="0.7.0"></a>
 
@@ -101,7 +89,7 @@ use ngrx-actions if you still want ofAction operator
 
 ### Bug Fixes
 
-* **cli:** rewrite path for excute file ([8164603](https://github.com/sandangel/ngrx-utils/commit/8164603))
+* **cli:** rewrite path for execute file ([8164603](https://github.com/sandangel/ngrx-utils/commit/8164603))
 * **store:** remove access to static member ([445b11d](https://github.com/sandangel/ngrx-utils/commit/445b11d))
 
 ### Code Refactoring
@@ -113,7 +101,7 @@ use ngrx-actions if you still want ofAction operator
 * **store:** add strong typed pluck operator ([7271de6](https://github.com/sandangel/ngrx-utils/commit/7271de6))
 * **store:** add untilDestroy pipeaple operator ([71c7305](https://github.com/sandangel/ngrx-utils/commit/71c7305))
 * **store:** experimental webworker service ([9b693ce](https://github.com/sandangel/ngrx-utils/commit/9b693ce))
-* **store:** instroduce Pluck decorator ([67c08eb](https://github.com/sandangel/ngrx-utils/commit/67c08eb))
+* **store:** introduce Pluck decorator ([67c08eb](https://github.com/sandangel/ngrx-utils/commit/67c08eb))
 * **store:** select now support pipeable operator ([10977a1](https://github.com/sandangel/ngrx-utils/commit/10977a1))
 
 <a name="0.5.2"></a>
@@ -122,7 +110,7 @@ use ngrx-actions if you still want ofAction operator
 
 ### Bug Fixes
 
-* **cli:** rewrite path for excute file ([8164603](https://github.com/sandangel/ngrx-utils/commit/8164603))
+* **cli:** rewrite path for execute file ([8164603](https://github.com/sandangel/ngrx-utils/commit/8164603))
 
 <a name="0.5.0"></a>
 
@@ -138,5 +126,5 @@ use ngrx-actions if you still want ofAction operator
 
 ### Features
 
-* **store:** instroduce Pluck decorator ([67c08eb](https://github.com/sandangel/ngrx-utils/commit/67c08eb))
+* **store:** introduce Pluck decorator ([67c08eb](https://github.com/sandangel/ngrx-utils/commit/67c08eb))
 * **store:** select now support pipeable operator ([10977a1](https://github.com/sandangel/ngrx-utils/commit/10977a1))

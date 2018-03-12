@@ -11,7 +11,7 @@
     "one-line": [true, "check-open-brace", "check-whitespace"],
     "quotemark": [true, "single"],
     "semicolon": true,
-    "triple-equals": [true, "allow-null-check"],
+    "triple-equals": [false, "allow-null-check"],
     "typedef-whitespace": [
       true,
       {
@@ -23,6 +23,13 @@
       }
     ],
     "variable-name": [true, "ban-keywords", "allow-leading-underscore"],
-    "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"]
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-separator",
+      "check-type"
+    ]
   }
 }
