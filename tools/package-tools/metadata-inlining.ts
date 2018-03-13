@@ -1,7 +1,7 @@
-import {readFileSync, writeFileSync} from 'fs';
-import {basename} from 'path';
-import {sync as glob} from 'glob';
-import {join} from 'path';
+import { readFileSync, writeFileSync } from 'fs';
+import { basename } from 'path';
+import { sync as glob } from 'glob';
+import { join } from 'path';
 
 /**
  * Recurse through a parsed metadata.json file and inline all html and css.
@@ -35,7 +35,6 @@ export function inlineMetadataResources(metadata: any, componentResources: Map<s
   }
 }
 
-
 /** Inlines HTML and CSS resources into `metadata.json` files. */
 export function inlinePackageMetadataFiles(packagePath: string) {
   // Create a map of fileName -> fullFilePath. This is needed because the templateUrl and
@@ -52,6 +51,6 @@ export function inlinePackageMetadataFiles(packagePath: string) {
   glob(join(packagePath, '**/*.metadata.json')).forEach(path => {
     const metadata = JSON.parse(readFileSync(path, 'utf-8'));
     inlineMetadataResources(metadata, componentResources);
-    writeFileSync(path , JSON.stringify(metadata), 'utf-8');
+    writeFileSync(path, JSON.stringify(metadata), 'utf-8');
   });
 }

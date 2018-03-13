@@ -1,9 +1,8 @@
-import {join} from 'path';
-import {readdirSync, lstatSync, existsSync} from 'fs';
-import {spawnSync} from 'child_process';
-import {BuildPackage} from './build-package';
-import {platform} from 'os';
-
+import { join } from 'path';
+import { readdirSync, lstatSync, existsSync } from 'fs';
+import { spawnSync } from 'child_process';
+import { BuildPackage } from './build-package';
+import { platform } from 'os';
 
 /**
  * Gets secondary entry-points for a given package in the order they should be built.
@@ -20,11 +19,12 @@ export function getSecondaryEntryPointsForPackage(pkg: BuildPackage) {
 
   // Get the list of all entry-points as the list of directories in the package that have a
   // tsconfig-build.json
-  const entryPoints = getSubdirectoryNames(packageDir)
-      .filter(d => existsSync(join(packageDir, d, 'tsconfig-build.json')));
+  const entryPoints = getSubdirectoryNames(packageDir).filter(d =>
+    existsSync(join(packageDir, d, 'tsconfig-build.json'))
+  );
 
   // Create nodes that comprise the build graph.
-  const buildNodes: BuildNode[] = entryPoints.map(p => ({name: p, deps: [], depth: 0}));
+  const buildNodes: BuildNode[] = entryPoints.map(p => ({ name: p, deps: [], depth: 0 }));
 
   // Create a lookup for name -> build graph node.
   const nodeLookup = buildNodes.reduce((lookup, node) => {
@@ -38,18 +38,20 @@ export function getSecondaryEntryPointsForPackage(pkg: BuildPackage) {
   // Update the deps for each node to point to the appropriate BuildNodes.
   buildNodes.forEach(node => {
     const importStatementFindCommand = buildPackageImportStatementFindCommand(
-        join(packageDir, node.name), packageName);
+      join(packageDir, node.name),
+      packageName
+    );
 
     // Look for any imports that reference this same umbrella package and get the corresponding
     // BuildNode for each by looking at the import statements with grep.
-    node.deps = spawnSync(importStatementFindCommand.binary, importStatementFindCommand.args)
-    .stdout
-    .toString()
-    .split('\n')
-    .filter(n => n)
-    .map(importStatement => importStatement.match(importRegex)![1])
-    .filter(n => nodeLookup.has(n) && n !== node.name)
-    .map(depName => nodeLookup.get(depName)!) || [];
+    node.deps =
+      spawnSync(importStatementFindCommand.binary, importStatementFindCommand.args)
+        .stdout.toString()
+        .split('\n')
+        .filter(n => n)
+        .map(importStatement => importStatement.match(importRegex)![1])
+        .filter(n => nodeLookup.has(n) && n !== node.name)
+        .map(depName => nodeLookup.get(depName)!) || [];
   });
 
   // Concatenate the build order for each node into one global build order.
@@ -89,7 +91,6 @@ interface BuildNode {
   visited?: boolean;
   depth: number;
 }
-
 
 /**
  * `Partitions nodes into groups by depth. For example,

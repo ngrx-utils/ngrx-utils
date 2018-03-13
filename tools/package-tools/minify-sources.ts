@@ -1,5 +1,5 @@
-import {writeFileSync} from 'fs';
-import {basename} from 'path';
+import { writeFileSync } from 'fs';
+import { basename } from 'path';
 
 // There are no type definitions available for these imports.
 const uglify = require('uglify-js');

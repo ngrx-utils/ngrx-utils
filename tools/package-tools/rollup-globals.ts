@@ -1,10 +1,10 @@
-import {join} from 'path';
-import {getSubdirectoryNames} from './secondary-entry-points';
-import {buildConfig} from './build-config';
+import { join } from 'path';
+import { getSubdirectoryNames } from './secondary-entry-points';
+import { buildConfig } from './build-config';
 
 /** Method that converts dash-case strings to a camel-based string. */
-export const dashCaseToCamelCase =
-  (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+export const dashCaseToCamelCase = (str: string) =>
+  str.replace(/-([a-z])/g, g => g[1].toUpperCase());
 
 /** List of potential secondary entry-points for the cdk package. */
 const cdkSecondaryEntryPoints = getSubdirectoryNames(join(buildConfig.packagesDir, 'cdk'));
@@ -26,8 +26,8 @@ const rollupMatEntryPoints = matSecondaryEntryPoints.reduce((globals: any, entry
 
 /** Map of globals that are used inside of the different packages. */
 export const rollupGlobals = {
-  'tslib': 'tslib',
-  'moment': 'moment',
+  tslib: 'tslib',
+  moment: 'moment',
 
   '@angular/animations': 'ng.animations',
   '@angular/core': 'ng.core',
@@ -85,5 +85,5 @@ export const rollupGlobals = {
   'rxjs/operators/catchError': 'Rx.operators',
   'rxjs/operators/share': 'Rx.operators',
   'rxjs/operators/delay': 'Rx.operators',
-  'rxjs/operators/combineLatest': 'Rx.operators',
+  'rxjs/operators/combineLatest': 'Rx.operators'
 };

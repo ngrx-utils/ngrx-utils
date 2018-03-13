@@ -1,9 +1,7 @@
 import { Component, NgModule, OnDestroy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgLetModule, untilDestroy } from '@ngrx-utils/store';
-import {
-  destroy$
-} from '@ngrx-utils/store/src/operators/untilDestroy';
+import { destroy$ } from '@ngrx-utils/store/src/operators/untilDestroy';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 

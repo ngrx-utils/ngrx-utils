@@ -1,11 +1,11 @@
-import {task} from 'gulp';
-import {sync as glob} from 'glob';
-import {buildConfig} from 'material2-build-tools';
+import { task } from 'gulp';
+import { sync as glob } from 'glob';
+import { buildConfig } from 'material2-build-tools';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from 'typescript';
 
-const {packagesDir} = buildConfig;
+const { packagesDir } = buildConfig;
 
 interface ExampleMetadata {
   component: string;
@@ -54,10 +54,7 @@ function buildImportsTemplate(metadata: ExampleMetadata): string {
  * Builds the examples metadata including title, component, etc.
  */
 function buildExamplesTemplate(metadata: ExampleMetadata): string {
-  const fields = [
-    `title: '${metadata.title.trim()}'`,
-    `component: ${metadata.component}`,
-  ];
+  const fields = [`title: '${metadata.title.trim()}'`, `component: ${metadata.component}`];
 
   // if no additional files or selectors were provided,
   // return null since we don't care about if these were not found
@@ -96,7 +93,10 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {ExampleMaterialModule} from './material-module';
-${extractedMetadata.map(r => buildImportsTemplate(r)).join('').trim()}
+${extractedMetadata
+    .map(r => buildImportsTemplate(r))
+    .join('')
+    .trim()}
 
 export interface LiveExample {
   title: string;
@@ -106,11 +106,17 @@ export interface LiveExample {
 }
 
 export const EXAMPLE_COMPONENTS: {[key: string]: LiveExample} = {
-  ${extractedMetadata.map(r => buildExamplesTemplate(r)).join('').trim()}
+  ${extractedMetadata
+    .map(r => buildExamplesTemplate(r))
+    .join('')
+    .trim()}
 };
 
 export const EXAMPLE_LIST = [
-  ${extractedMetadata.map(r => buildListTemplate(r)).join('').trim()}
+  ${extractedMetadata
+    .map(r => buildListTemplate(r))
+    .join('')
+    .trim()}
 ];
 
 @NgModule({
@@ -142,7 +148,12 @@ function convertToDashCase(name: string): string {
  */
 function parseExampleMetadata(fileName: string, sourceContent: string): ParsedMetadataResults {
   const sourceFile = ts.createSourceFile(
-    fileName, sourceContent, ts.ScriptTarget.Latest, false, ts.ScriptKind.TS);
+    fileName,
+    sourceContent,
+    ts.ScriptTarget.Latest,
+    false,
+    ts.ScriptKind.TS
+  );
 
   const metas: any[] = [];
 
@@ -204,8 +215,10 @@ task('build-examples-module', () => {
 
   for (const sourcePath of matchedFiles) {
     const sourceContent = fs.readFileSync(sourcePath, 'utf-8');
-    const { primaryComponent, secondaryComponents } =
-      parseExampleMetadata(sourcePath, sourceContent);
+    const { primaryComponent, secondaryComponents } = parseExampleMetadata(
+      sourcePath,
+      sourceContent
+    );
 
     if (primaryComponent) {
       // Generate a unique id for the component by converting the class name to dash-case.

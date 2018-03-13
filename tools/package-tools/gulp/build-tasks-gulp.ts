@@ -1,12 +1,11 @@
-import {dest, src, task} from 'gulp';
-import {join} from 'path';
-import {composeRelease} from '../build-release';
-import {inlineResourcesForDirectory} from '../inline-resources';
-import {buildScssTask} from './build-scss-task';
-import {sequenceTask} from './sequence-task';
-import {watchFiles} from './watch-files';
-import {BuildPackage} from '../build-package';
-
+import { dest, src, task } from 'gulp';
+import { join } from 'path';
+import { composeRelease } from '../build-release';
+import { inlineResourcesForDirectory } from '../inline-resources';
+import { buildScssTask } from './build-scss-task';
+import { sequenceTask } from './sequence-task';
+import { watchFiles } from './watch-files';
+import { BuildPackage } from '../build-package';
 
 // There are no type definitions available for these imports.
 const htmlmin = require('gulp-htmlmin');
@@ -45,26 +44,32 @@ export function createPackageBuildTasks(buildPackage: BuildPackage, preBuildTask
    */
   task(`${taskName}:clean-build`, sequenceTask('clean', `${taskName}:build`));
 
-  task(`${taskName}:build`, sequenceTask(
-    // Run the pre build gulp tasks.
-    ...preBuildTasks,
-    // Build all required packages before building.
-    ...dependencyNames.map(pkgName => `${pkgName}:build`),
-    // Build ESM and assets output.
-    `${taskName}:assets`,
-    `${taskName}:build:esm`,
-    // Inline assets into ESM output.
-    `${taskName}:assets:inline`,
-    // Build bundles on top of inlined ESM output.
-    `${taskName}:build:bundles`,
-  ));
+  task(
+    `${taskName}:build`,
+    sequenceTask(
+      // Run the pre build gulp tasks.
+      ...preBuildTasks,
+      // Build all required packages before building.
+      ...dependencyNames.map(pkgName => `${pkgName}:build`),
+      // Build ESM and assets output.
+      `${taskName}:assets`,
+      `${taskName}:build:esm`,
+      // Inline assets into ESM output.
+      `${taskName}:assets:inline`,
+      // Build bundles on top of inlined ESM output.
+      `${taskName}:build:bundles`
+    )
+  );
 
-  task(`${taskName}:build-no-bundles`, sequenceTask(
-    // Build the ESM output that includes all test files. Also build assets for the package.
-    [`${taskName}:build:esm:tests`, `${taskName}:assets`],
-    // Inline assets into ESM output.
-    `${taskName}:assets:inline`
-  ));
+  task(
+    `${taskName}:build-no-bundles`,
+    sequenceTask(
+      // Build the ESM output that includes all test files. Also build assets for the package.
+      [`${taskName}:build:esm:tests`, `${taskName}:assets`],
+      // Inline assets into ESM output.
+      `${taskName}:assets:inline`
+    )
+  );
 
   /**
    * Release tasks for the package. Tasks compose the release output for the package.
@@ -92,23 +97,26 @@ export function createPackageBuildTasks(buildPackage: BuildPackage, preBuildTask
     `${taskName}:assets:html`
   ]);
 
-  task(`${taskName}:assets:scss`, buildScssTask(
-    buildPackage.outputDir, buildPackage.sourceDir, true)
+  task(
+    `${taskName}:assets:scss`,
+    buildScssTask(buildPackage.outputDir, buildPackage.sourceDir, true)
   );
 
-  task(`${taskName}:assets:es5-scss`, buildScssTask(
-      buildPackage.esm5OutputDir, buildPackage.sourceDir, true)
+  task(
+    `${taskName}:assets:es5-scss`,
+    buildScssTask(buildPackage.esm5OutputDir, buildPackage.sourceDir, true)
   );
 
   task(`${taskName}:assets:copy-styles`, () => {
     return src(stylesGlob)
-        .pipe(dest(buildPackage.outputDir))
-        .pipe(dest(buildPackage.esm5OutputDir));
+      .pipe(dest(buildPackage.outputDir))
+      .pipe(dest(buildPackage.esm5OutputDir));
   });
   task(`${taskName}:assets:html`, () => {
-    return src(htmlGlob).pipe(htmlmin(htmlMinifierOptions))
-        .pipe(dest(buildPackage.outputDir))
-        .pipe(dest(buildPackage.esm5OutputDir));
+    return src(htmlGlob)
+      .pipe(htmlmin(htmlMinifierOptions))
+      .pipe(dest(buildPackage.outputDir))
+      .pipe(dest(buildPackage.esm5OutputDir));
   });
 
   task(`${taskName}:assets:inline`, () => inlineResourcesForDirectory(buildPackage.outputDir));

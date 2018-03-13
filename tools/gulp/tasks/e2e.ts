@@ -1,13 +1,13 @@
-import {task} from 'gulp';
-import {join} from 'path';
-import {ngcBuildTask, copyTask, execNodeTask, serverTask} from '../util/task_helpers';
-import {copySync} from 'fs-extra';
-import {buildConfig, sequenceTask, watchFiles} from 'material2-build-tools';
+import { task } from 'gulp';
+import { join } from 'path';
+import { ngcBuildTask, copyTask, execNodeTask, serverTask } from '../util/task_helpers';
+import { copySync } from 'fs-extra';
+import { buildConfig, sequenceTask, watchFiles } from 'material2-build-tools';
 
 // There are no type definitions available for these imports.
 const gulpConnect = require('gulp-connect');
 
-const {outputDir, packagesDir, projectDir} = buildConfig;
+const { outputDir, packagesDir, projectDir } = buildConfig;
 
 /** Path to the directory where all releases are created. */
 const releasesDir = join(outputDir, 'releases');
@@ -24,27 +24,33 @@ const assetsGlob = join(appDir, '**/*.+(html|css|json|ts)');
 /**
  * Builds and serves the e2e-app and runs protractor once the e2e-app is ready.
  */
-task('e2e', sequenceTask(
-  [':test:protractor:setup', 'serve:e2eapp'],
-  ':test:protractor',
-  ':serve:e2eapp:stop',
-  'screenshots',
-));
+task(
+  'e2e',
+  sequenceTask(
+    [':test:protractor:setup', 'serve:e2eapp'],
+    ':test:protractor',
+    ':serve:e2eapp:stop',
+    'screenshots'
+  )
+);
 
 /** Task that builds the e2e-app in AOT mode. */
-task('e2e-app:build', sequenceTask(
-  'clean',
-  [
-    'cdk:build-release',
-    'material:build-release',
-    'cdk-experimental:build-release',
-    'material-experimental:build-release',
-    'material-moment-adapter:build-release',
-    'material-examples:build-release'
-  ],
-  ['e2e-app:copy-release', 'e2e-app:copy-assets'],
-  'e2e-app:build-ts'
-));
+task(
+  'e2e-app:build',
+  sequenceTask(
+    'clean',
+    [
+      'cdk:build-release',
+      'material:build-release',
+      'cdk-experimental:build-release',
+      'material-experimental:build-release',
+      'material-moment-adapter:build-release',
+      'material-examples:build-release'
+    ],
+    ['e2e-app:copy-release', 'e2e-app:copy-assets'],
+    'e2e-app:build-ts'
+  )
+);
 
 /** Task that copies all required assets to the output folder. */
 task('e2e-app:copy-assets', copyTask(assetsGlob, outDir));
@@ -88,4 +94,3 @@ task('e2e-app:copy-release', () => {
   copySync(join(releasesDir, 'material-examples'), join(outDir, 'material-examples'));
   copySync(join(releasesDir, 'material-moment-adapter'), join(outDir, 'material-moment-adapter'));
 });
-

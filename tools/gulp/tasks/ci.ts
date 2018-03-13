@@ -1,5 +1,4 @@
-import {task} from 'gulp';
-
+import { task } from 'gulp';
 
 task('ci:lint', ['lint']);
 

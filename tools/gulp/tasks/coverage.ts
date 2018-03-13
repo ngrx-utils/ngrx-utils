@@ -1,10 +1,10 @@
-import {task} from 'gulp';
-import {join} from 'path';
-import {existsSync} from 'fs-extra';
-import {spawnSync} from 'child_process';
-import {isTravisMasterBuild} from '../util/travis-ci';
-import {openFirebaseDashboardApp} from '../util/firebase';
-import {buildConfig} from 'material2-build-tools';
+import { task } from 'gulp';
+import { join } from 'path';
+import { existsSync } from 'fs-extra';
+import { spawnSync } from 'child_process';
+import { isTravisMasterBuild } from '../util/travis-ci';
+import { openFirebaseDashboardApp } from '../util/firebase';
+import { buildConfig } from 'material2-build-tools';
 
 /** Path to the file that includes all coverage information form Karma. */
 const coverageResultFile = join(buildConfig.outputDir, 'coverage/coverage-summary.json');
@@ -32,11 +32,16 @@ task('coverage:upload', () => {
 
 /** Uploads the coverage results to the firebase database. */
 function uploadResults(results: any): Promise<void> {
-  const latestSha = spawnSync('git', ['rev-parse', 'HEAD']).stdout.toString().trim();
+  const latestSha = spawnSync('git', ['rev-parse', 'HEAD'])
+    .stdout.toString()
+    .trim();
   const dashboardApp = openFirebaseDashboardApp();
   const database = dashboardApp.database();
 
-  return database.ref('coverage-reports').child(latestSha).set(results)
+  return database
+    .ref('coverage-reports')
+    .child(latestSha)
+    .set(results)
     .catch((err: any) => console.error(err))
     .then(() => dashboardApp.delete());
 }

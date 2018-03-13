@@ -1,8 +1,12 @@
-import {task} from 'gulp';
-import {tsBuildTask, copyTask, serverTask} from '../util/task_helpers';
-import {join} from 'path';
+import { task } from 'gulp';
+import { tsBuildTask, copyTask, serverTask } from '../util/task_helpers';
+import { join } from 'path';
 import {
-  buildConfig, copyFiles, buildScssTask, sequenceTask, watchFiles
+  buildConfig,
+  copyFiles,
+  buildScssTask,
+  sequenceTask,
+  watchFiles
 } from 'material2-build-tools';
 import {
   cdkPackage,
@@ -15,7 +19,7 @@ import {
 // These imports don't have any typings provided.
 const firebaseTools = require('firebase-tools');
 
-const {outputDir, packagesDir, projectDir} = buildConfig;
+const { outputDir, packagesDir, projectDir } = buildConfig;
 
 /** Path to the directory where all bundles live. */
 const bundlesDir = join(outputDir, 'bundles');
@@ -33,7 +37,7 @@ const appVendors = [
   'core-js',
   'web-animations-js',
   'moment',
-  'tslib',
+  'tslib'
 ];
 
 /** Glob that matches all required vendors for the demo-app. */
@@ -52,12 +56,13 @@ task(':watch:devapp', () => {
   watchFiles(join(cdkPackage.sourceDir, '**/*'), ['cdk:build-no-bundles']);
   watchFiles(join(materialPackage.sourceDir, '**/!(*.scss)'), ['material:build-no-bundles']);
   watchFiles(join(materialPackage.sourceDir, '**/*.scss'), [':build:devapp:material-with-styles']);
-  watchFiles(join(momentAdapterPackage.sourceDir, '**/*'),
-      ['material-moment-adapter:build-no-bundles']);
-  watchFiles(join(materialExperimentalPackage.sourceDir, '**/*'),
-      ['material-experimental:build-no-bundles']);
-  watchFiles(join(cdkExperimentalPackage.sourceDir, '**/*'),
-      ['cdk-experimental:build-no-bundles']);
+  watchFiles(join(momentAdapterPackage.sourceDir, '**/*'), [
+    'material-moment-adapter:build-no-bundles'
+  ]);
+  watchFiles(join(materialExperimentalPackage.sourceDir, '**/*'), [
+    'material-experimental:build-no-bundles'
+  ]);
+  watchFiles(join(cdkExperimentalPackage.sourceDir, '**/*'), ['cdk-experimental:build-no-bundles']);
 });
 
 /** Path to the demo-app tsconfig file. */
@@ -71,18 +76,22 @@ task(':serve:devapp', serverTask(outDir, true));
 
 // The themes for the demo-app are built by using the SCSS mixins from Material.
 // Therefore when SCSS files have been changed, the custom theme needs to be rebuilt.
-task(':build:devapp:material-with-styles', sequenceTask(
-  'material:build-no-bundles', ':build:devapp:scss'
-));
+task(
+  ':build:devapp:material-with-styles',
+  sequenceTask('material:build-no-bundles', ':build:devapp:scss')
+);
 
-task('build:devapp', sequenceTask(
-  'cdk:build-no-bundles',
-  'material:build-no-bundles',
-  'cdk-experimental:build-no-bundles',
-  'material-experimental:build-no-bundles',
-  'material-moment-adapter:build-no-bundles',
-  [':build:devapp:assets', ':build:devapp:scss', ':build:devapp:ts']
-));
+task(
+  'build:devapp',
+  sequenceTask(
+    'cdk:build-no-bundles',
+    'material:build-no-bundles',
+    'cdk-experimental:build-no-bundles',
+    'material-experimental:build-no-bundles',
+    'material-moment-adapter:build-no-bundles',
+    [':build:devapp:assets', ':build:devapp:scss', ':build:devapp:ts']
+  )
+);
 
 task('serve:devapp', ['build:devapp'], sequenceTask([':serve:devapp', ':watch:devapp']));
 
@@ -92,12 +101,21 @@ task('stage-deploy:devapp', ['build:devapp'], () => {
   copyFiles(bundlesDir, '*.+(js|map)', join(outDir, 'dist/bundles'));
   copyFiles(cdkPackage.outputDir, '**/*.+(js|map)', join(outDir, 'dist/packages/cdk'));
   copyFiles(materialPackage.outputDir, '**/*.+(js|map)', join(outDir, 'dist/packages/material'));
-  copyFiles(materialExperimentalPackage.outputDir, '**/*.+(js|map)',
-      join(outDir, 'dist/packages/material-experimental'));
-  copyFiles(cdkExperimentalPackage.outputDir, '**/*.+(js|map)',
-      join(outDir, 'dist/packages/cdk-experimental'));
-  copyFiles(materialPackage.outputDir, '**/prebuilt/*.+(css|map)',
-      join(outDir, 'dist/packages/material'));
+  copyFiles(
+    materialExperimentalPackage.outputDir,
+    '**/*.+(js|map)',
+    join(outDir, 'dist/packages/material-experimental')
+  );
+  copyFiles(
+    cdkExperimentalPackage.outputDir,
+    '**/*.+(js|map)',
+    join(outDir, 'dist/packages/cdk-experimental')
+  );
+  copyFiles(
+    materialPackage.outputDir,
+    '**/prebuilt/*.+(css|map)',
+    join(outDir, 'dist/packages/material')
+  );
 });
 
 /**
@@ -105,8 +123,17 @@ task('stage-deploy:devapp', ['build:devapp'], () => {
  * set for project directory using the Firebase CLI.
  */
 task('deploy:devapp', ['stage-deploy:devapp'], () => {
-  return firebaseTools.deploy({cwd: projectDir, only: 'hosting'})
-    // Firebase tools opens a persistent websocket connection and the process will never exit.
-    .then(() => { console.log('Successfully deployed the demo-app to firebase'); process.exit(0); })
-    .catch((err: any) => { console.log(err); process.exit(1); });
+  return (
+    firebaseTools
+      .deploy({ cwd: projectDir, only: 'hosting' })
+      // Firebase tools opens a persistent websocket connection and the process will never exit.
+      .then(() => {
+        console.log('Successfully deployed the demo-app to firebase');
+        process.exit(0);
+      })
+      .catch((err: any) => {
+        console.log(err);
+        process.exit(1);
+      })
+  );
 });

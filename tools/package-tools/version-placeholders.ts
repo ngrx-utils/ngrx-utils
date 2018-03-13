@@ -1,7 +1,7 @@
-import {readFileSync, writeFileSync} from 'fs';
-import {platform} from 'os';
-import {buildConfig} from './build-config';
-import {spawnSync} from 'child_process';
+import { readFileSync, writeFileSync } from 'fs';
+import { platform } from 'os';
+import { buildConfig } from './build-config';
+import { spawnSync } from 'child_process';
 
 /** Variable that is set to the string for version placeholders. */
 const versionPlaceholderText = '0.0.0-PLACEHOLDER';
@@ -38,8 +38,8 @@ export function replaceVersionPlaceholders(packageDir: string) {
 /** Finds all files in the specified package dir where version placeholders are included. */
 function findFilesWithPlaceholders(packageDir: string): string[] {
   const findCommand = buildPlaceholderFindCommand(packageDir);
-  return spawnSync(findCommand.binary, findCommand.args).stdout
-    .toString()
+  return spawnSync(findCommand.binary, findCommand.args)
+    .stdout.toString()
     .split(/[\n\r]/)
     .filter(String);
 }

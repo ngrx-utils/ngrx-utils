@@ -1,10 +1,10 @@
-import {join, dirname} from 'path';
-import {uglifyJsFile} from './minify-sources';
-import {buildConfig} from './build-config';
-import {BuildPackage} from './build-package';
-import {rollupRemoveLicensesPlugin} from './rollup-remove-licenses';
-import {rollupGlobals, dashCaseToCamelCase} from './rollup-globals';
-import {remapSourcemap} from './sourcemap-remap';
+import { join, dirname } from 'path';
+import { uglifyJsFile } from './minify-sources';
+import { buildConfig } from './build-config';
+import { BuildPackage } from './build-package';
+import { rollupRemoveLicensesPlugin } from './rollup-remove-licenses';
+import { rollupGlobals, dashCaseToCamelCase } from './rollup-globals';
+import { remapSourcemap } from './sourcemap-remap';
 
 // There are no type definitions available for these imports.
 const rollup = require('rollup');
@@ -13,7 +13,6 @@ const rollupAlias = require('rollup-plugin-alias');
 
 /** Directory where all bundles will be created in. */
 const bundlesDir = join(buildConfig.outputDir, 'bundles');
-
 
 /** Utility for creating bundles from raw ngc output. */
 export class PackageBundler {
@@ -40,7 +39,7 @@ export class PackageBundler {
       esm2015Dest: join(bundlesDir, `${packageName}.js`),
       esm5Dest: join(bundlesDir, `${packageName}.es5.js`),
       umdDest: join(bundlesDir, `${packageName}.umd.js`),
-      umdMinDest: join(bundlesDir, `${packageName}.umd.min.js`),
+      umdMinDest: join(bundlesDir, `${packageName}.umd.min.js`)
     });
   }
 
@@ -59,7 +58,7 @@ export class PackageBundler {
       esm2015Dest: join(bundlesDir, `${packageName}`, `${entryPoint}.js`),
       esm5Dest: join(bundlesDir, `${packageName}`, `${entryPoint}.es5.js`),
       umdDest: join(bundlesDir, `${packageName}-${entryPoint}.umd.js`),
-      umdMinDest: join(bundlesDir, `${packageName}-${entryPoint}.umd.min.js`),
+      umdMinDest: join(bundlesDir, `${packageName}-${entryPoint}.umd.min.js`)
     });
   }
 
@@ -75,7 +74,7 @@ export class PackageBundler {
       moduleName: config.moduleName,
       entry: config.entryFile,
       dest: config.esm2015Dest,
-      format: 'es',
+      format: 'es'
     });
 
     // Build FESM-5 bundle file.
@@ -84,7 +83,7 @@ export class PackageBundler {
       moduleName: config.moduleName,
       entry: config.esm5EntryFile,
       dest: config.esm5Dest,
-      format: 'es',
+      format: 'es'
     });
 
     // Create UMD bundle of ES5 output.
@@ -121,14 +120,12 @@ export class PackageBundler {
 
         console.warn(message);
       },
-      plugins: [
-        rollupRemoveLicensesPlugin,
-      ]
+      plugins: [rollupRemoveLicensesPlugin]
     };
 
     const writeOptions = {
       name: config.moduleName || 'ng.material',
-      amd: {id: config.importName},
+      amd: { id: config.importName },
       banner: buildConfig.licenseBanner,
       format: config.format,
       file: config.dest,
@@ -149,9 +146,10 @@ export class PackageBundler {
       // If each secondary entry-point is re-exported at the root, we want to exclude those
       // secondary entry-points from the rollup globals because we want the UMD for the
       // primary entry-point to include *all* of the sources for those entry-points.
-      if (this.buildPackage.exportsSecondaryEntryPointsAtRoot &&
-          config.moduleName === `ng.${this.buildPackage.name}`) {
-
+      if (
+        this.buildPackage.exportsSecondaryEntryPointsAtRoot &&
+        config.moduleName === `ng.${this.buildPackage.name}`
+      ) {
         const importRegex = new RegExp(`@angular/${this.buildPackage.name}/.+`);
         external = external.filter(e => !importRegex.test(e));
 
@@ -159,7 +157,8 @@ export class PackageBundler {
         // to the actual file location so that rollup can resolve the imports (otherwise they
         // will be treated as external dependencies and not included in the bundle).
         bundleOptions.plugins.push(
-            rollupAlias(this.getResolvedSecondaryEntryPointImportPaths(config.dest)));
+          rollupAlias(this.getResolvedSecondaryEntryPointImportPaths(config.dest))
+        );
       }
 
       bundleOptions.external = external;
@@ -175,14 +174,19 @@ export class PackageBundler {
    * @returns Map of alias to resolved path.
    */
   private getResolvedSecondaryEntryPointImportPaths(bundleOutputDir: string) {
-    return this.buildPackage.secondaryEntryPoints.reduce((map, p) => {
-      map[`@angular/${this.buildPackage.name}/${p}`] =
-          join(dirname(bundleOutputDir), this.buildPackage.name, `${p}.es5.js`);
-      return map;
-    }, {} as {[key: string]: string});
+    return this.buildPackage.secondaryEntryPoints.reduce(
+      (map, p) => {
+        map[`@angular/${this.buildPackage.name}/${p}`] = join(
+          dirname(bundleOutputDir),
+          this.buildPackage.name,
+          `${p}.es5.js`
+        );
+        return map;
+      },
+      {} as { [key: string]: string }
+    );
   }
 }
-
 
 /** Configuration for creating library bundles. */
 interface BundlesConfig {

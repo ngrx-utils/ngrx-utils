@@ -1,4 +1,4 @@
-import {findBuildConfig} from './find-build-config';
+import { findBuildConfig } from './find-build-config';
 
 export interface BuildConfig {
   /** Current version of the project. */
@@ -20,7 +20,7 @@ const buildConfigPath = findBuildConfig();
 
 if (!buildConfigPath) {
   throw 'Material2 Build tools were not able to find a build config. ' +
-  'Please create a "build-config.js" file in your project.';
+    'Please create a "build-config.js" file in your project.';
 }
 
 // Load the config file using a basic CommonJS import.

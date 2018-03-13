@@ -1,5 +1,5 @@
-import {src, dest} from 'gulp';
-import {join} from 'path';
+import { src, dest } from 'gulp';
+import { join } from 'path';
 
 // These imports lack of type definitions.
 const gulpSass = require('gulp-sass');

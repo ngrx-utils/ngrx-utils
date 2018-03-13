@@ -6,8 +6,8 @@
     "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
     "run:tasks": "node build/index.js",
-    "build": "cross-env NODE_ENV='build' yarn run:tasks",
-    "release": "cross-env NODE_ENV='release' yarn run:tasks && lerna publish --force-publish --skip-git",
+    "build": "ng-packagr -p modules/store",
+    "release": "yarn build && lerna publish --force-publish --skip-git",
     "clean": "cross-env NODE_ENV='clean' yarn run:tasks",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cz": "git-cz",
@@ -28,7 +28,7 @@
   },
   "private": true,
   "dependencies": {
-    "rxjs": "^5.5.6"
+    "rxjs": "^5.5.7"
   },
   "devDependencies": {
     "@angular/animations": "^5.2.8",
@@ -116,9 +116,10 @@
     "lodash": "^4.17.5",
     "magic-string": "^0.22.4",
     "minimist": "^1.2.0",
+    "ng-packagr": "^2.2.0",
     "ngrx-store-freeze": "^0.2.1",
     "npm-run-all": "^4.1.2",
-    "nyc": "^11.4.1",
+    "nyc": "^11.6.0",
     "ora": "^2.0.0",
     "prettier": "^1.11.1",
     "pretty-format": "^22.4.0",
@@ -131,6 +132,7 @@
     "ts-jest": "^22.4.1",
     "ts-node": "^5.0.1",
     "tsconfig-paths": "^3.1.1",
+    "tsickle": "^0.27.2",
     "tslib": "^1.8.1",
     "tslint": "^5.9.1",
     "tsutils": "2.22.2",
