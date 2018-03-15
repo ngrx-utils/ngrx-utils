@@ -1,8 +1,3 @@
-export { Select, Pluck, NgrxSelectModule, Dispatch, NgrxUtilsModule } from './src/decorators';
-export { untilDestroy, pluck } from './src/operators';
-export {
-  NgLetDirective,
-  NgLetModule,
-  RouterLinkActiveMatchModule,
-  RouterLinkActiveMatch
-} from './src/directives';
+export * from './decorators';
+export * from './operators';
+export * from './directives';

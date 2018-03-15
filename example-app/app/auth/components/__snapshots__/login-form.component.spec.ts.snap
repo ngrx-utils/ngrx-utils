@@ -4,7 +4,7 @@ exports[`Login Page should compile 1`] = `
 <div
   _nghost-c0=""
   id="root0"
-  ng-version="5.2.8"
+  ng-version="5.2.9"
 >
   
     
@@ -128,7 +128,7 @@ exports[`Login Page should disable the form if pending 1`] = `
 <div
   _nghost-c1=""
   id="root1"
-  ng-version="5.2.8"
+  ng-version="5.2.9"
 >
   
     
@@ -254,7 +254,7 @@ exports[`Login Page should display an error message if provided 1`] = `
 <div
   _nghost-c2=""
   id="root2"
-  ng-version="5.2.8"
+  ng-version="5.2.9"
 >
   
     
