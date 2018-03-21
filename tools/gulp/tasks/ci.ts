@@ -1,20 +1,14 @@
-import { task } from 'gulp';
+import { parallel, task, series } from 'gulp';
 
-task('ci:lint', ['lint']);
+task('ci:lint', series('lint'));
 
 // Travis sometimes does not exit the process and times out. This is to prevent that.
-task('ci:test', ['test:single-run'], () => process.exit(0));
+task('ci:test', series('test:single-run'));
 
-task('ci:e2e', ['e2e']);
+/** Task to compile all library. */
+task('ci:build', series('build'));
 
-/** Task to verify that all components work with AOT compilation. */
-task('ci:aot', ['aot:build']);
+/** Task that uploads the coverage results to codecov. */
+task('ci:coverage', series('coverage:upload'));
 
-/** Task which reports the size of the library and stores it in a database. */
-task('ci:payload', ['payload']);
-
-/** Task that uploads the coverage results to a firebase database. */
-task('ci:coverage', ['coverage:upload']);
-
-/** Task that verifies if all Material components are working with platform-server. */
-task('ci:prerender', ['prerender']);
+task('ci', series('build', parallel('ci:lint', 'ci:test'), 'ci:coverage'));

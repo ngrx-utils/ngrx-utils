@@ -1,5 +1,5 @@
 import { task } from 'gulp';
-import { cleanTask } from '../util/task_helpers';
+import { cleanTask } from '../util';
 import { buildConfig } from 'material2-build-tools';
 
 /** Deletes the dist/ directory. */

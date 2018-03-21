@@ -1,35 +1,29 @@
-import { task } from 'gulp';
-import { execNodeTask } from '../util/task_helpers';
+import { series, task } from 'gulp';
+import { buildConfig, replaceVersionPlaceholders } from 'material2-build-tools';
 import { join } from 'path';
-import { buildConfig, sequenceTask } from 'material2-build-tools';
 
-const { packagesDir } = buildConfig;
+import { execNodeTask } from '../util';
 
-/** Path to the demo-app source directory. */
-const demoAppSource = join(packagesDir, 'demo-app');
+const { packagesDir, outputDir } = buildConfig;
 
-/** Path to the tsconfig file that builds the AOT files. */
-const tsconfigFile = join(demoAppSource, 'tsconfig-aot.json');
+const storePackage = join(packagesDir, 'store');
 
-/** Builds the demo-app assets and builds the required release packages. */
-task(
-  'aot:deps',
-  sequenceTask(
-    [
-      'cdk:build-release',
-      'material:build-release',
-      'cdk-experimental:build-release',
-      'material-experimental:build-release',
-      'material-moment-adapter:build-release'
-    ],
-    // Build the assets after the releases have been built, because the demo-app assets import
-    // SCSS files from the release packages.
-    [':build:devapp:assets', ':build:devapp:scss']
-  )
-);
+/** Replace version placeholder in release package */
+task('replace-version', done => {
+  replaceVersionPlaceholders(outputDir);
+  done();
+});
+
+task('build:ng-packagr', execNodeTask('ng-packagr', 'ng-packagr', ['-p', storePackage]));
+
+/** Builds the store packages */
+task('store:build-release', series('clean', 'build:ng-packagr', 'replace-version'));
+
+/** Builds the example app */
+task('example:build-release', execNodeTask('@angular/cli', 'ng', ['build', '--prod']));
+
+/** Builds the required release packages. */
+task('build:deps', series('store:build-release', 'example:build-release'));
 
 /** Build the demo-app and a release to confirm that the library is AOT-compatible. */
-task('aot:build', sequenceTask('clean', 'aot:deps', 'aot:compiler-cli'));
-
-/** Build the demo-app and a release to confirm that the library is AOT-compatible. */
-task('aot:compiler-cli', execNodeTask('@angular/compiler-cli', 'ngc', ['-p', tsconfigFile]));
+task('build', series('build:deps'));

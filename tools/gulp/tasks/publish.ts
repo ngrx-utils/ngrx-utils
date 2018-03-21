@@ -1,22 +1,17 @@
+import chalk from 'chalk';
 import { spawn } from 'child_process';
 import { existsSync, statSync } from 'fs-extra';
-import { join } from 'path';
-import { task } from 'gulp';
-import { execTask } from '../util/task_helpers';
-import { buildConfig, sequenceTask } from 'material2-build-tools';
-import chalk from 'chalk';
+import { series, task } from 'gulp';
+import { buildConfig } from 'material2-build-tools';
 import * as minimist from 'minimist';
+import { join } from 'path';
+
+import { execTask } from '../util';
 
 const { yellow, green, red, grey } = chalk;
 
 /** Packages that will be published to NPM by the release task. */
-export const releasePackages = [
-  'cdk',
-  'material',
-  'cdk-experimental',
-  'material-experimental',
-  'material-moment-adapter'
-];
+export const releasePackages = ['store'];
 
 /** Regular Expression that matches valid version numbers of Angular Material. */
 export const validVersionRegex = /^\d+\.\d+\.\d+(-(alpha|beta|rc)\.\d+)?$/;
@@ -24,21 +19,10 @@ export const validVersionRegex = /^\d+\.\d+\.\d+(-(alpha|beta|rc)\.\d+)?$/;
 /** Parse command-line arguments for release task. */
 const argv = minimist(process.argv.slice(3));
 
-task(
-  'publish',
-  sequenceTask(
-    ':publish:whoami',
-    ':publish:build-releases',
-    'validate-release:check-bundles',
-    ':publish',
-    ':publish:logout'
-  )
-);
-
 /** Task that builds all releases that will be published. */
 task(
   ':publish:build-releases',
-  sequenceTask('clean', releasePackages.map(packageName => `${packageName}:build-release`))
+  series('clean', ...releasePackages.map(packageName => `${packageName}:build-release`))
 );
 
 /** Make sure we're logged in. */
@@ -165,3 +149,16 @@ function _execNpmPublish(tag: string, packageName: string): Promise<{}> | undefi
     });
   });
 }
+
+import './validate-release';
+
+task(
+  'publish',
+  series(
+    ':publish:whoami',
+    ':publish:build-releases',
+    'validate-release',
+    ':publish',
+    ':publish:logout'
+  )
+);

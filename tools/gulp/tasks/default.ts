@@ -1,9 +1,7 @@
-import { task } from 'gulp';
+import { task, parallel } from 'gulp';
 import chalk from 'chalk';
 
 const { yellow } = chalk;
-
-task('default', ['help']);
 
 task('help', function() {
   console.log();
@@ -11,3 +9,5 @@ task('help', function() {
   console.log(`You're probably looking for ${yellow('test')} or ${yellow('serve:devapp')}.`);
   console.log();
 });
+
+task('default', parallel('help'));
