@@ -1,4 +1,4 @@
-import { series, task } from 'gulp';
+import { series, task, parallel } from 'gulp';
 import { buildConfig, replaceVersionPlaceholders } from 'material2-build-tools';
 import { join } from 'path';
 
@@ -20,10 +20,10 @@ task('build:ng-packagr', execNodeTask('ng-packagr', 'ng-packagr', ['-p', storePa
 task('store:build-release', series('clean', 'build:ng-packagr', 'replace-version'));
 
 /** Builds the example app */
-task('example:build-release', execNodeTask('@angular/cli', 'ng', ['build', '--prod']));
+task('build:example', execNodeTask('@angular/cli', 'ng', ['build', '--prod']));
 
 /** Builds the required release packages. */
-task('build:deps', series('store:build-release', 'example:build-release'));
+task('build:deps', parallel('store:build-release'));
 
 /** Build the demo-app and a release to confirm that the library is AOT-compatible. */
-task('build', series('build:deps'));
+task('build', series('build:deps', 'build:example'));

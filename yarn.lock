@@ -4266,8 +4266,8 @@ https-proxy-agent@^2.1.0:
     debug "^3.1.0"
 
 husky@^0.15.0-rc.9:
-  version "0.15.0-rc.9"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-0.15.0-rc.9.tgz#6f5f3b670f02acbe0cd8157820be4244d82a6ee6"
+  version "0.15.0-rc.12"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-0.15.0-rc.12.tgz#24123fc87f20647036c6de0dd4ad84f8ce60dcaf"
   dependencies:
     cosmiconfig "^4.0.0"
     execa "^0.9.0"

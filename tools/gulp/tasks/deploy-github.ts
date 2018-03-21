@@ -1,4 +1,4 @@
-import { task } from 'gulp';
+import { task, series } from 'gulp';
 import { cmd, git } from 'material2-build-tools';
 
 import { releasePackages } from './publish';
@@ -42,4 +42,6 @@ function _publishToRepo() {
   };
 }
 
-task('deploy:github-builds', _publishToRepo);
+task('deploy:upload', _publishToRepo);
+
+task('deploy:github-builds', series('build:deps', 'deploy:upload'));
