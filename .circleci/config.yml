@@ -6,7 +6,7 @@ version: 2
 var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}
 var_2: &node_image
   docker:
-      - image: circleci/node:8.9.4
+      - image: circleci/node:8.10.0
 
 jobs:
 
@@ -18,9 +18,8 @@ jobs:
           key: *cache_key
 
       - run: yarn install
-      - run: yarn run ci
-      - run: yarn run example:build:prod
-      - run: yarn run example:test
+      - run: yarn gulp ci
+      - run: yarn format:check
 
       - save_cache:
           key: *cache_key
@@ -37,8 +36,7 @@ jobs:
           key: *cache_key
 
       - run: yarn install
-      - run: yarn run build
-      - run: yarn run deploy:builds
+      - run: yarn gulp deploy:github-builds
 
       - store_artifacts:
           path: dist
