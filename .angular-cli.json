@@ -1,62 +1,74 @@
 {
-    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "project": {
-      "name": "example-app"
-    },
-    "apps": [
-      {
-        "root": "example-app",
-        "outDir": "example-dist",
-        "assets": [
-          "assets",
-          "favicon.ico"
-        ],
-        "index": "index.html",
-        "main": "main.ts",
-        "polyfills": "polyfills.ts",
-        "test": "test.ts",
-        "tsconfig": "tsconfig.app.json",
-        "testTsconfig": "tsconfig.spec.json",
-        "prefix": "bc",
-        "styles": [
-          "styles.css"
-        ],
-        "scripts": [],
-        "environmentSource": "environments/environment.ts",
-        "environments": {
-          "dev": "environments/environment.ts",
-          "prod": "environments/environment.prod.ts"
-        }
-      }
-    ],
-    "e2e": {
-      "protractor": {
-        "config": "./protractor.conf.js"
-      }
-    },
-    "lint": [
-      {
-        "project": "example-app/tsconfig.app.json"
-      },
-      {
-        "project": "example-app/tsconfig.spec.json"
-      },
-      {
-        "project": "e2e/tsconfig.e2e.json"
-      }
-    ],
-    "test": {
-      "karma": {
-        "config": "./karma.conf.js"
-      }
-    },
-    "defaults": {
-      "styleExt": "css",
-      "component": {
-        "inlineStyle": true,
-        "inlineTemplate": true,
-        "flat": true,
-        "spec": false
-      }
+  "$schema": "./node_modules/@nrwl/schematics/src/schema.json",
+  "project": {
+    "name": "ngrx-utils",
+    "npmScope": "ngrx-utils",
+    "latestMigration": "20180313-add-tags"
+  },
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
     }
+  },
+  "lint": [
+    {
+      "project": "./tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "apps/example/src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "apps/example/e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "apps": [
+    {
+      "name": "example",
+      "root": "apps/example/src",
+      "outDir": "dist/example",
+      "assets": ["assets", "favicon.ico"],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "../../../test.js",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "../../../tsconfig.spec.json",
+      "prefix": "",
+      "styles": ["styles.scss"],
+      "scripts": [],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      },
+      "tags": []
+    },
+    {
+      "name": "store",
+      "root": "libs/store/src",
+      "test": "../../../test.js",
+      "appRoot": "",
+      "tags": []
+    },
+    {
+      "name": "ngrx-utils",
+      "root": ".",
+      "appRoot": ""
+    }
+  ],
+  "defaults": {
+    "schematics": {
+      "collection": "@nrwl/schematics"
+    },
+    "styleExt": "scss",
+    "component": {}
   }
+}
