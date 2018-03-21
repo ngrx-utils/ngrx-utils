@@ -1,13 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "outDir": "./dist/out-tsc/spec",
     "module": "commonjs",
-    "baseUrl": ".",
-    "rootDir": "./",
-    "paths": {
-      "@ngrx-utils/store": ["./modules/store"]
-    },
+    "target": "es5",
     "types": ["jasmine", "node"]
   },
-  "include": ["modules/**/*.spec.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["**/e2e/*.ts", "**/*.e2e-spec.ts", "**/*.po.ts", "node_modules", "tmp", "tools/**/*"]
 }
