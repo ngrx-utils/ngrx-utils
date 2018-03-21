@@ -6,7 +6,7 @@ version: 2
 var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}
 var_2: &node_image
   docker:
-      - image: circleci/node:8.10.0
+      - image: circleci/node:8.10.0-browsers
 
 jobs:
 
