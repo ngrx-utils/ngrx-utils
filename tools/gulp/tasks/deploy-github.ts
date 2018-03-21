@@ -42,6 +42,6 @@ function _publishToRepo() {
   };
 }
 
-task('deploy:upload', _publishToRepo);
+task('deploy:upload', _publishToRepo());
 
 task('deploy:github-builds', series('build:deps', 'deploy:upload'));
