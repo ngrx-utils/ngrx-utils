@@ -12,7 +12,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators/filter';
 import { combineLatest } from 'rxjs/operators/combineLatest';
 
-import { untilDestroy } from '@ngrx-utils/store';
+import { untilDestroy } from '../operators';
 import { Subject } from 'rxjs/Subject';
 
 export interface MatchExp {

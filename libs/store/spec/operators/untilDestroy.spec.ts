@@ -1,7 +1,7 @@
 import { Component, NgModule, OnDestroy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgLetModule, untilDestroy } from '@ngrx-utils/store';
-import { destroy$ } from '@ngrx-utils/store/src/operators/untilDestroy';
+import { destroy$ } from '../../src/operators/untilDestroy';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
   template: '',
   selector: 'sand-test'
 })
-export class TestComponent implements OnDestroy {
+class TestComponent implements OnDestroy {
   test$ = new Subject<number>();
   test = 10;
   sub: Subscription;
@@ -25,7 +25,8 @@ export class TestComponent implements OnDestroy {
   declarations: [TestComponent],
   imports: [NgLetModule]
 })
-export class TestModule {}
+class TestModule {}
+
 describe('untilDestroy', () => {
   let fixture: ComponentFixture<TestComponent>;
   let instance: TestComponent;
@@ -69,7 +70,7 @@ describe('untilDestroy', () => {
   });
 
   it('should ensure symbol $destroy on component', () => {
-    class Test2Component {
+    class Test2Component implements OnDestroy {
       test$ = new Subject<number>();
       constructor() {
         this.test$.pipe(untilDestroy(this)).subscribe();
@@ -78,7 +79,7 @@ describe('untilDestroy', () => {
     }
 
     const testComp = new Test2Component();
-    let symbols = Object.getOwnPropertySymbols(testComp);
+    const symbols = Object.getOwnPropertySymbols(testComp);
     expect(symbols).toContain(destroy$);
   });
 });

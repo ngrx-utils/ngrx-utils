@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/store",
-  "version": "0.10.0",
+  "version": "0.0.0-PLACEHOLDER",
   "description": "Utilities to help reduce your code boilerplate when working with @ngrx/store",
   "repository": {
     "type": "git",
@@ -24,15 +24,15 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@angular/core": "^5.1.3",
-    "@angular/router": "^5.1.3",
+    "@angular/core": "0.0.0-NG",
+    "@angular/router": "0.0.0-NG",
     "@ngrx/store": "^5.0.0",
     "rxjs": "^5.5.6"
   },
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
     "workingDirectory": "../../.ng_build",
-    "dest": "../../dist/store",
+    "dest": "../../dist/releases/store",
     "lib": {
       "entryFile": "public_api.ts",
       "umdModuleIds": {

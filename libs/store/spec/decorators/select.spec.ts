@@ -1,11 +1,11 @@
-import { NgrxSelectModule, Pluck, Select } from '@ngrx-utils/store';
-import { NgrxSelect } from '@ngrx-utils/store/src/decorators/ngrx-select.module';
-import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
+import { Select } from '@ngrx-utils/store';
 import { Observable } from 'rxjs/Observable';
+import { NgrxSelect } from '../../src/decorators/ngrx-select.module';
+import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 import { map } from 'rxjs/operators';
 
-describe('Pluck', () => {
+describe('Select', () => {
   interface FooState {
     foo: boolean | null;
     bar?: {
@@ -36,32 +36,43 @@ describe('Pluck', () => {
   const msBar = createSelector(msFeature, state => state.bar);
 
   const store = new Store(of(globalState), undefined as any, undefined as any);
-  it('should select sub state with Pluck decorator', () => {
+
+  it('selects sub state with Select decorator', () => {
     NgrxSelect.store = store;
     class MyStateSelector {
-      @Pluck('myFeature', 'bar', 'a', 'b', 'c', 'd')
-      hello$: Observable<string>;
-      @Pluck() myFeature: Observable<FooState>; // implied by name
-      @Pluck('myFeature.bar.a.b.c.d') hi$: Observable<string>;
+      @Select(msBar) bar$: Observable<any>; // using MemoizedSelector
     }
 
     const mss = new MyStateSelector();
 
-    mss.hello$.subscribe(n => {
-      expect(n).toBe('world');
-    });
-
-    mss.myFeature.subscribe(n => {
-      expect(n).toBe(globalState.myFeature);
-    });
-    mss.hi$.subscribe(n => {
-      expect(n).toBe('world');
+    mss.bar$.subscribe(n => {
+      expect(n).toBe(globalState.myFeature.bar);
     });
   });
+
+  it('should apply pipeable operator when provided', () => {
+    NgrxSelect.store = store;
+    class MyStateSelector {
+      @Select(
+        msBar,
+        map(a => {
+          return !!a;
+        })
+      )
+      bar$: Observable<any>; // using MemoizedSelector
+    }
+
+    const mss = new MyStateSelector();
+
+    mss.bar$.subscribe(n => {
+      expect(n).toBe(true);
+    });
+  });
+
   it('should throw error when user not import NgrxSelectModule', () => {
     NgrxSelect.store = undefined;
     class MyStateSelector {
-      @Pluck('bar$') bar$: Observable<any>; // using MemoizedSelector
+      @Select(msBar) bar$: Observable<any>; // using MemoizedSelector
     }
 
     const mss = new MyStateSelector();
@@ -74,21 +85,7 @@ describe('Pluck', () => {
 
     expect(() => {
       class MyStateSelector {
-        @Pluck((() => {}) as any)
-        bar$: Observable<any>; // using MemoizedSelector
-      }
-    }).toThrowError();
-  });
-
-  it('should throw error when property is non-configurable', () => {
-    function seal(target: any, name: string) {
-      Object.seal(target);
-    }
-    NgrxSelect.store = store;
-    expect(() => {
-      class MyStateSelector {
-        @Pluck('bar$')
-        @seal
+        @Select('msBar' as any)
         bar$: Observable<any>; // using MemoizedSelector
       }
     }).toThrowError();

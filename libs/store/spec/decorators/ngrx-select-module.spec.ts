@@ -1,5 +1,5 @@
 import { NgrxSelectModule, NgrxUtilsModule } from '@ngrx-utils/store';
-import { NgrxSelect } from '@ngrx-utils/store/src/decorators/ngrx-select.module';
+import { NgrxSelect } from '../../src/decorators/ngrx-select.module';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 

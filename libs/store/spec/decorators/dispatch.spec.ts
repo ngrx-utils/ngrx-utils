@@ -1,7 +1,8 @@
 import { Dispatch } from '@ngrx-utils/store';
-import { NgrxSelect } from '@ngrx-utils/store/src/decorators/ngrx-select.module';
-import { Store, ActionsSubject } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
+
+import { NgrxSelect } from '../../src/decorators/ngrx-select.module';
 
 describe('Dispatch', () => {
   const store = new Store(of({}), new ActionsSubject(), undefined as any);

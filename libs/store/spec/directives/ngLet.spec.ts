@@ -131,7 +131,7 @@ describe('ngLet directive', () => {
   );
 });
 
-export function createTestComponent(template: string): ComponentFixture<TestComponent> {
+function createTestComponent(template: string): ComponentFixture<TestComponent> {
   return TestBed.overrideComponent(TestComponent, { set: { template } }).createComponent(
     TestComponent
   );

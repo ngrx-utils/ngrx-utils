@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 describe('RouterLinkActiveMatch', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [Test2Component, Test1Component, Test3Component, Test4Component, RootCmp],
+      declarations: [Test2Component, Test1Component, Test3Component, Test4Component, RootComponent],
       imports: [
         RouterLinkActiveMatchModule,
         RouterTestingModule.withRoutes([
@@ -23,7 +23,7 @@ describe('RouterLinkActiveMatch', () => {
     'should add class to element when route is match',
     fakeAsync(
       inject([Router], (router: Router) => {
-        const fixture = createRoot(router, RootCmp);
+        const fixture = createRoot(router, RootComponent);
         router.navigateByUrl('/test1');
         advance(fixture);
 
@@ -38,7 +38,7 @@ describe('RouterLinkActiveMatch', () => {
     'should add class to element including origin classes when route is match',
     fakeAsync(
       inject([Router], (router: Router) => {
-        const fixture = createRoot(router, RootCmp);
+        const fixture = createRoot(router, RootComponent);
         router.navigateByUrl('/test2');
         advance(fixture);
 
@@ -54,7 +54,7 @@ describe('RouterLinkActiveMatch', () => {
     'should remove classes when url not match',
     fakeAsync(
       inject([Router], (router: Router) => {
-        const fixture = createRoot(router, RootCmp);
+        const fixture = createRoot(router, RootComponent);
         router.navigateByUrl('/test1');
         advance(fixture);
 
@@ -75,7 +75,7 @@ describe('RouterLinkActiveMatch', () => {
     'should throw error when receive wrong type of value input',
     fakeAsync(
       inject([Router], (router: Router) => {
-        const fixture = createRoot(router, RootCmp);
+        const fixture = createRoot(router, RootComponent);
         router.navigateByUrl('/test1');
         advance(fixture);
         const el = fixture.debugElement.query(By.directive(Test4Component));
@@ -90,7 +90,7 @@ describe('RouterLinkActiveMatch', () => {
     'should throw error when value of key in @Input is not non-empty string',
     fakeAsync(
       inject([Router], (router: Router) => {
-        const fixture = createRoot(router, RootCmp);
+        const fixture = createRoot(router, RootComponent);
         advance(fixture);
 
         const el = fixture.debugElement.query(By.directive(Test4Component));
@@ -105,7 +105,7 @@ describe('RouterLinkActiveMatch', () => {
     'should not call update class when there are no change in routerLinkActiveMatch input',
     fakeAsync(
       inject([Router], (router: Router) => {
-        const fixture = createRoot(router, RootCmp);
+        const fixture = createRoot(router, RootComponent);
         router.navigateByUrl('/test1');
         advance(fixture);
 
@@ -127,7 +127,7 @@ describe('RouterLinkActiveMatch', () => {
           'test1-class': 'test1'
         }">Test1</a>
   `,
-  selector: 'test1'
+  selector: 'test-1'
 })
 class Test1Component {}
 
@@ -137,7 +137,7 @@ class Test1Component {}
         'test2-class': 'test2'
       }" class="origin-class">Test2</a>
   `,
-  selector: 'test2'
+  selector: 'test-2'
 })
 class Test2Component {}
 
@@ -146,7 +146,7 @@ class Test2Component {}
     'test2-class': 'test2',
     'test1-class': 'test1'
   }" class="origin-class">Test3</a>`,
-  selector: 'test3'
+  selector: 'test-3'
 })
 class Test3Component {}
 
@@ -154,7 +154,7 @@ class Test3Component {}
   template: `
     <a [routerLinkActiveMatch]="test4" class="origin-class">Test4</a>
   `,
-  selector: 'test4'
+  selector: 'test-4'
 })
 class Test4Component {
   test4: any = {
@@ -168,9 +168,9 @@ class Test4Component {
 
 @Component({
   selector: 'root-cmp',
-  template: `<router-outlet></router-outlet><test3></test3><test4></test4>`
+  template: `<router-outlet></router-outlet><test-3></test-3><test-4></test-4>`
 })
-class RootCmp {}
+class RootComponent {}
 
 function advance(fixture: ComponentFixture<any>): void {
   tick();
