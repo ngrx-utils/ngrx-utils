@@ -28,17 +28,5 @@
     "@angular/router": "0.0.0-NG",
     "@ngrx/store": "^5.0.0",
     "rxjs": "^5.5.6"
-  },
-  "ngPackage": {
-    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "workingDirectory": "../../.ng_build",
-    "dest": "../../dist/releases/store",
-    "lib": {
-      "entryFile": "public_api.ts",
-      "umdModuleIds": {
-        "@ngrx/store": "ngrx.store",
-        "@ngrx-utils/store": "ngrxUtils.store"
-      }
-    }
   }
 }
