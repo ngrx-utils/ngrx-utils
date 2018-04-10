@@ -9,7 +9,6 @@
     "strictNullChecks": true,
     "noEmitOnError": true,
     "noImplicitAny": true,
-    "esModuleInterop": true,
     "target": "es5",
     "baseUrl": ".",
     "paths": {}

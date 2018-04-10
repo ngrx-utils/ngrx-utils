@@ -1,20 +1,20 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strict": true,
+    "strictPropertyInitialization": false,
     "target": "es2015",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"],
-    "baseUrl": ".",
     "paths": {
-      "@ngrx-utils/*": ["libs/*"]
-    },
-    "plugins": [{ "name": "@angular/language-service" }]
-  },
-  "exclude": ["node_modules", "tmp"]
+      "@ngrx-utils/store": ["dist/releases/store"]
+    }
+  }
 }

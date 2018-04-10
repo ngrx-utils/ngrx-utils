@@ -13,7 +13,7 @@ const buildVersion = package.version;
  * Required Angular version for all Angular Material packages. This version will be used
  * as the peer dependency version for Angular in all release packages.
  */
-const angularVersion = '>=5.0.0 <7.0.0';
+const angularVersion = '^6.0.0-rc.0 || ^6.0.0';
 
 /** License that will be placed inside of all created bundles. */
 const buildLicense = `/**
@@ -29,7 +29,8 @@ module.exports = {
   projectVersion: buildVersion,
   angularVersion: angularVersion,
   projectDir: __dirname,
-  packagesDir: join(__dirname, 'libs'),
-  outputDir: join(__dirname, 'dist'),
-  licenseBanner: buildLicense
+  packagesDir: join(__dirname, 'projects'),
+  outputDir: join(__dirname, 'dist/releases'),
+  licenseBanner: buildLicense,
+  releasePackages: ['store']
 };

@@ -3,7 +3,7 @@ import { spawn } from 'child_process';
 import { existsSync, statSync } from 'fs-extra';
 import { series, task } from 'gulp';
 import { buildConfig } from '../utils';
-import minimist from 'minimist';
+import * as minimist from 'minimist';
 import { join } from 'path';
 
 import { execTask } from '../utils';
