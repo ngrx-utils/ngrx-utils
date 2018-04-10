@@ -13,14 +13,18 @@ export interface BuildConfig {
   outputDir: string;
   /** License banner that will be placed inside of every bundle. */
   licenseBanner: string;
+  /** Array of package name to release */
+  releasePackages: string[];
 }
 
 // Search for a build config by walking up the current working directory of the Node process.
 const buildConfigPath = findBuildConfig();
 
 if (!buildConfigPath) {
-  throw 'Material2 Build tools were not able to find a build config. ' +
-    'Please create a "build-config.js" file in your project.';
+  throw new Error(
+    'Build tools were not able to find a build config. ' +
+      'Please create a "build-config.js" file in your project.'
+  );
 }
 
 // Load the config file using a basic CommonJS import.

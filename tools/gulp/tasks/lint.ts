@@ -1,5 +1,6 @@
 import { task } from 'gulp';
-import { execNodeTask } from '../util';
+
+import { execNodeTask } from '../utils';
 
 /** Task to run ng lint against the apps/ and libs/ directories. */
-task('lint', execNodeTask('@angular/cli', 'ng', ['lint']));
+export const lint = execNodeTask('@angular/cli', 'ng', ['lint']);

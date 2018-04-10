@@ -1,20 +1,15 @@
-import { task } from 'gulp';
+import { parallel } from 'gulp';
 
-import { execNodeTask } from '../util';
+import { execNodeTask, buildConfig } from '../utils';
+
+const { releasePackages } = buildConfig;
 
 /**
  * Runs the unit tests. Does not watch for changes.
  * This task should be used when running tests on the CI server.
  */
-task(
-  'test:single-run',
-  execNodeTask('@angular/cli', 'ng', ['test', '--single-run', '--code-coverage'])
+export const testLibs = parallel(
+  ...releasePackages.map(pkg =>
+    execNodeTask('@angular/cli', 'ng', ['test', pkg, '--code-coverage', '--progress', 'false'])
+  )
 );
-
-/**
- * [Watch task] Runs the unit tests, rebuilding and re-testing when sources change.
- * Does not inline resources.
- *
- * This task should be used when running unit tests locally.
- */
-task('test', execNodeTask('@angular/cli', 'ng', ['test']));

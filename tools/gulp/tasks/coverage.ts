@@ -1,9 +1,26 @@
 import { task, series } from 'gulp';
-import { buildConfig } from 'material2-build-tools';
+import { buildConfig } from '../utils';
 import { join } from 'path';
-import { execNodeTask } from '../util';
+import { createReadStream, createWriteStream } from 'fs';
+import { execNodeTask } from '../utils';
+
+export const coverageFile = join(buildConfig.outputDir, 'lcov.info');
 
 /** Path to the file that includes all coverage information form Karma. */
-const coverageResultFile = join(buildConfig.projectDir, 'coverage/lcov.info');
+export const coverageUpload = execNodeTask('codecov', 'codecov', ['-f', coverageFile]);
 
-task('coverage:upload', execNodeTask('codecov', 'codecov', ['-f', coverageResultFile]));
+export const coverageGenerate = (done: () => void) => {
+  concatCoverageFiles();
+  done();
+};
+
+function concatCoverageFiles() {
+  const releasePackages = ['store', 'example'];
+  releasePackages.map(pkg => join(buildConfig.packagesDir, `${pkg}/coverage/lcov.info`)).map(file =>
+    createReadStream(file).pipe(
+      createWriteStream(coverageFile, {
+        flags: 'a'
+      })
+    )
+  );
+}

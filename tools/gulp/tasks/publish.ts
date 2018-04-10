@@ -2,16 +2,16 @@ import chalk from 'chalk';
 import { spawn } from 'child_process';
 import { existsSync, statSync } from 'fs-extra';
 import { series, task } from 'gulp';
-import { buildConfig } from 'material2-build-tools';
-import * as minimist from 'minimist';
+import { buildConfig } from '../utils';
+import minimist from 'minimist';
 import { join } from 'path';
 
-import { execTask } from '../util';
+import { execTask } from '../utils';
 
 const { yellow, green, red, grey } = chalk;
 
 /** Packages that will be published to NPM by the release task. */
-export const releasePackages = ['store'];
+const { releasePackages } = buildConfig;
 
 /** Regular Expression that matches valid version numbers of Angular Material. */
 export const validVersionRegex = /^\d+\.\d+\.\d+(-(alpha|beta|rc)\.\d+)?$/;
@@ -19,24 +19,14 @@ export const validVersionRegex = /^\d+\.\d+\.\d+(-(alpha|beta|rc)\.\d+)?$/;
 /** Parse command-line arguments for release task. */
 const argv = minimist(process.argv.slice(3));
 
-/** Task that builds all releases that will be published. */
-task(
-  ':publish:build-releases',
-  series('clean', ...releasePackages.map(packageName => `${packageName}:build-release`))
-);
+export const npmWhoAmI = execTask('npm', ['whoami'], {
+  silent: true,
+  errMessage: 'You must be logged in to publish.'
+});
 
-/** Make sure we're logged in. */
-task(
-  ':publish:whoami',
-  execTask('npm', ['whoami'], {
-    silent: true,
-    errMessage: 'You must be logged in to publish.'
-  })
-);
+export const npmLogout = execTask('npm', ['logout']);
 
-task(':publish:logout', execTask('npm', ['logout']));
-
-task(':publish', async () => {
+export const npmPublish = async (done: () => void) => {
   const tag = argv['tag'];
   const version = buildConfig.projectVersion;
   const currentDir = process.cwd();
@@ -88,10 +78,11 @@ task(':publish', async () => {
   }
 
   process.chdir(currentDir);
-});
+  done();
+};
 
 function _execNpmPublish(tag: string, packageName: string): Promise<{}> | undefined {
-  const packageDir = join(buildConfig.outputDir, 'releases', packageName);
+  const packageDir = join(buildConfig.outputDir, packageName);
 
   if (!statSync(packageDir).isDirectory()) {
     return;
@@ -141,7 +132,7 @@ function _execNpmPublish(tag: string, packageName: string): Promise<{}> | undefi
     });
 
     childProcess.on('close', (code: number) => {
-      if (code == 0) {
+      if (code === 0) {
         resolve();
       } else {
         reject(new Error(`Could not publish ${packageName}, status: ${code}.`));
@@ -149,16 +140,3 @@ function _execNpmPublish(tag: string, packageName: string): Promise<{}> | undefi
     });
   });
 }
-
-import './validate-release';
-
-task(
-  'publish',
-  series(
-    ':publish:whoami',
-    ':publish:build-releases',
-    'validate-release',
-    ':publish',
-    ':publish:logout'
-  )
-);

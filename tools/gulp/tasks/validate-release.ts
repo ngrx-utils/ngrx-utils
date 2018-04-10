@@ -2,14 +2,14 @@ import { task, series } from 'gulp';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import chalk from 'chalk';
-import { releasePackages } from './publish';
 import { sync as glob } from 'glob';
-import { buildConfig } from 'material2-build-tools';
+import { buildConfig } from '../utils';
 
 const { green, red } = chalk;
 
 /** Path to the directory where all releases are created. */
-const releasesDir = join(buildConfig.outputDir, 'releases');
+const releasesDir = buildConfig.outputDir;
+const { releasePackages } = buildConfig;
 
 /** RegExp that matches Angular component inline styles that contain a sourcemap reference. */
 const inlineStylesSourcemapRegex = /styles: ?\[["'].*sourceMappingURL=.*["']/;
@@ -33,7 +33,7 @@ function checkReleasePackage(packageName: string): string[] {
  */
 function checkEs2015ReleaseBundle(bundlePath: string): string[] {
   const bundleContent = readFileSync(bundlePath, 'utf8');
-  let failures: string[] = [];
+  const failures: string[] = [];
 
   if (inlineStylesSourcemapRegex.exec(bundleContent) !== null) {
     failures.push('Bundles contain sourcemap references in component styles.');
@@ -47,7 +47,7 @@ function checkEs2015ReleaseBundle(bundlePath: string): string[] {
 }
 
 /** Task that checks the release bundles for any common mistakes before releasing to the public. */
-task('validate-release:check-bundles', done => {
+export const validateRelease = (done: () => void) => {
   const releaseFailures = releasePackages
     .map(packageName => checkReleasePackage(packageName))
     .map((failures, index) => ({ failures, packageName: releasePackages[index] }));
@@ -58,12 +58,10 @@ task('validate-release:check-bundles', done => {
 
   if (releaseFailures.some(({ failures }) => failures.length > 0)) {
     // Throw an error to notify Gulp about the failures that have been detected.
-    throw 'Release output is not valid and not ready for being released.';
+    throw new Error('Release output is not valid and not ready for being released.');
   } else {
     console.log(green('Release output has been checked and everything looks fine.'));
   }
 
   done();
-});
-
-task('validate-release', series('validate-release:check-bundles'));
+};

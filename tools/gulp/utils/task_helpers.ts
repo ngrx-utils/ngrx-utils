@@ -2,7 +2,8 @@ import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as gulp from 'gulp';
 import * as path from 'path';
-import { buildConfig } from 'material2-build-tools';
+
+import { buildConfig } from './build-config';
 
 // Those imports lack typings.
 const del = require('del');
@@ -14,7 +15,7 @@ const { projectDir } = buildConfig;
 
 /** If the string passed in is a glob, returns it, otherwise append '**\/*' to it. */
 function _globify(maybeGlob: string, suffix = '**/*') {
-  if (maybeGlob.indexOf('*') != -1) {
+  if (maybeGlob.indexOf('*') !== -1) {
     return maybeGlob;
   }
   try {
@@ -67,7 +68,7 @@ export function execTask(
       if (options.failOnStderr && stderrData.length) {
         done(stderrData.join('\n'));
       } else {
-        code != 0 ? done(options.errMessage || `Process failed with code ${code}`) : done();
+        code !== 0 ? done(options.errMessage || `Process failed with code ${code}`) : done();
       }
     });
   };
