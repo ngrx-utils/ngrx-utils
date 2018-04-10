@@ -1,0 +1,9 @@
+{
+  "name": "@ngrx-utils/store",
+  "version": "0.0.0-PLACEHOLDER",
+  "peerDependencies": {
+    "@angular/common": "0.0.0-NG",
+    "@angular/core": "0.0.0-NG",
+    "@ngrx/store": "^6.0.0-beta.0"
+  }
+}
