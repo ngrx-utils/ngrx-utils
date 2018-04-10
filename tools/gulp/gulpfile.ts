@@ -46,4 +46,7 @@ task('npm:whoami', npmWhoAmI);
 task('npm:logout', npmLogout);
 task('npm:publish', npmPublish);
 task('validate-release', validateRelease);
-task('publish', series('npm:whoami', 'build:all', 'validate-release', 'npm:publish', 'npm:logout'));
+task(
+  'publish',
+  series('npm:whoami', 'build:release', 'validate-release', 'npm:publish', 'npm:logout')
+);
