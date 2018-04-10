@@ -18,10 +18,7 @@ jobs:
           key: *cache_key
 
       - run: yarn install
-      - run: yarn gulp ci:build
-      - run: yarn gulp ci:lint
-      - run: yarn ng test store --code-coverage --progress false
-      - run: yarn gulp ci:coverage
+      - run: yarn gulp ci
 
       - save_cache:
           key: *cache_key

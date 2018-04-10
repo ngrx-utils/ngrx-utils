@@ -10,6 +10,8 @@ const { releasePackages } = buildConfig;
  */
 export const testLibs = parallel(
   ...releasePackages.map(pkg =>
-    execNodeTask('@angular/cli', 'ng', ['test', pkg, '--code-coverage', '--progress', 'false'])
+    execNodeTask('@angular/cli', 'ng', ['test', pkg, '--code-coverage', '--progress', 'false'], {
+      failOnStderr: false
+    })
   )
 );
