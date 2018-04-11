@@ -30,7 +30,7 @@
     "@ngrx/store": "^6.0.0-beta.0",
     "@ngrx/store-devtools": "^6.0.0-beta.0",
     "core-js": "^2.5.4",
-    "rxjs": "^6.0.0-rc.0",
+    "rxjs": "^6.0.0-tactical-rc.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
@@ -75,6 +75,7 @@
     "protractor": "^5.3.1",
     "puppeteer": "^1.2.0",
     "resolve-bin": "^0.4.0",
+    "rxjs-compat": "^6.0.0-tactical-rc.1",
     "ts-node": "^5.0.0",
     "tsconfig-paths": "^3.2.0",
     "tsickle": "^0.27.5",
@@ -100,6 +101,12 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e $GIT_PARAMS"
     }
   }
 }

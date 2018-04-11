@@ -7891,13 +7891,17 @@ rx@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
 
+rxjs-compat@^6.0.0-tactical-rc.1:
+  version "6.0.0-tactical-rc.1"
+  resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.0.0-tactical-rc.1.tgz#cff95c3fa6be6e6454df1c4dbd8bfb3a87d3c0a7"
+
 rxjs@^5.4.2, rxjs@^5.5.0:
   version "5.5.8"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.8.tgz#b2b0809a57614ad6254c03d7446dea0d83ca3791"
   dependencies:
     symbol-observable "1.0.1"
 
-rxjs@^6.0.0-beta.3, rxjs@^6.0.0-rc.0:
+rxjs@^6.0.0-beta.3, rxjs@^6.0.0-rc.0, rxjs@^6.0.0-tactical-rc.1:
   version "6.0.0-tactical-rc.1"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.0.0-tactical-rc.1.tgz#1fe1f1204132d1c71c72f249a487f8e76a5ec1d5"
   dependencies:
