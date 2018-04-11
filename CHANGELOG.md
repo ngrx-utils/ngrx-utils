@@ -1,6 +1,16 @@
-# Change Log
+<a name="0.11.0-beta.0"></a>
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+# [0.11.0-beta.0](https://github.com/sandangel/ngrx-utils/compare/v0.10.0...v0.11.0-beta.0) (2018-04-11)
+
+### Features
+
+* **store:** add routerLinkActiveMatch directive ([0bc108f](https://github.com/sandangel/ngrx-utils/commit/0bc108f))
+* **store:** support dispatch multi actions in @Dispatch() ([c7d8195](https://github.com/sandangel/ngrx-utils/commit/c7d8195))
+* **store:** push pipe for ngZone: 'noop' ([771b195](https://github.com/sandangel/ngrx-utils/commit/771b195))
+
+### Code Refactoring
+
+* **store:** upgrade to Angular 6, rxjs 6 and Ngrx 6
 
 <a name="0.10.0"></a>
 
