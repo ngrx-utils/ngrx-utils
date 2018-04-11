@@ -1,4 +1,4 @@
-import { cmd, git, buildConfig } from '../utils';
+import { buildConfig, cmd, git } from '../utils';
 
 /**
  * Deploy build artifacts to repos

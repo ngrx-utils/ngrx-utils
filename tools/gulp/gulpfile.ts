@@ -1,13 +1,15 @@
-import { task, series, parallel } from 'gulp';
-import { cleanDist, cleanCoverage } from './tasks/clean';
-import { replaceVersion, buildAll } from './tasks/builds';
+import { parallel, series, task } from 'gulp';
+
+import { buildAll, replaceVersion } from './tasks/builds';
+import { changelog } from './tasks/changelog';
+import { cleanCoverage, cleanDist } from './tasks/clean';
 import { coverageGenerate, coverageUpload } from './tasks/coverage';
 import { help } from './tasks/default';
+import { deployGithubBuilds } from './tasks/deploy-github';
 import { lint } from './tasks/lint';
+import { npmLogout, npmPublish, npmWhoAmI } from './tasks/publish';
 import { testUnit } from './tasks/unit-test';
 import { validateRelease } from './tasks/validate-release';
-import { npmWhoAmI, npmLogout, npmPublish } from './tasks/publish';
-import { deployGithubBuilds } from './tasks/deploy-github';
 
 task('clean:dist', cleanDist);
 task('replace-version', replaceVersion);
@@ -44,6 +46,8 @@ task('ci:build', buildRelease);
 task('ci:coverage', coverage);
 const ci = series('ci:build', parallel('ci:lint', 'ci:test'), 'ci:coverage');
 task('ci', ci);
+
+task('changelog', changelog);
 
 /** Make sure we're logged in. */
 task('npm:whoami', npmWhoAmI);

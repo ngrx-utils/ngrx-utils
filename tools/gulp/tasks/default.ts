@@ -1,4 +1,3 @@
-import { task, parallel } from 'gulp';
 import chalk from 'chalk';
 
 const { yellow } = chalk;

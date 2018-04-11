@@ -1,8 +1,7 @@
-import { task, series } from 'gulp';
-import { buildConfig } from '../utils';
-import { join } from 'path';
 import { createReadStream, createWriteStream } from 'fs';
-import { execNodeTask } from '../utils';
+import { join } from 'path';
+
+import { buildConfig, execNodeTask } from '../utils';
 
 export const coverageFile = join(buildConfig.outputDir, 'lcov.info');
 

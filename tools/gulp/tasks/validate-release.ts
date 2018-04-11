@@ -1,8 +1,8 @@
-import { task, series } from 'gulp';
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
 import chalk from 'chalk';
+import { readFileSync } from 'fs';
 import { sync as glob } from 'glob';
+import { join } from 'path';
+
 import { buildConfig } from '../utils';
 
 const { green, red } = chalk;

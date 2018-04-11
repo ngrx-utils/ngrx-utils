@@ -1,5 +1,3 @@
-import { task } from 'gulp';
-
 import { execNodeTask } from '../utils';
 
 /** Task to run ng lint against the apps/ and libs/ directories. */

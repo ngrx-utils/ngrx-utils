@@ -1,6 +1,6 @@
 import { parallel } from 'gulp';
 
-import { execNodeTask, buildConfig } from '../utils';
+import { buildConfig, execNodeTask } from '../utils';
 
 const { releasePackages } = buildConfig;
 

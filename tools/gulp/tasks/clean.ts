@@ -1,6 +1,4 @@
-import { task } from 'gulp';
-import { cleanTask, buildConfig } from '../utils';
-
+import { buildConfig, cleanTask } from '../utils';
 import { coverageFile } from './coverage';
 
 /** Deletes the dist/ directory. */
