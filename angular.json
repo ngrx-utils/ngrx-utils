@@ -21,7 +21,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/store/src/test.ts",
+            "main": "projects/store/test.ts",
             "tsConfig": "projects/store/tsconfig.spec.json",
             "karmaConfig": "projects/store/karma.conf.js"
           }
@@ -157,6 +157,27 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "projects/example-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "ngrx-utils": {
+      "root": "",
+      "projectType": "library",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "./test.ts",
+            "tsConfig": "./tsconfig.spec.json",
+            "karmaConfig": "./karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["./tsconfig.lint.json", "./tsconfig.spec.json"],
             "exclude": ["**/node_modules/**"]
           }
         }

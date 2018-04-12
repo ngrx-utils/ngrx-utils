@@ -51,7 +51,11 @@ export function execTask(
 ) {
   return (done: (err?: string) => void) => {
     const env = Object.assign({}, process.env, options.env);
-    const childProcess = child_process.spawn(binPath, args, { env });
+    let bin = binPath;
+    if (/^win/.test(process.platform) && binPath === 'npm') {
+      bin = `${binPath}.cmd`;
+    }
+    const childProcess = child_process.spawn(bin, args, { env });
     const stderrData: string[] = [];
 
     if (!options.silentStdout && !options.silent) {

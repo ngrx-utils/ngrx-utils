@@ -3,12 +3,34 @@ version: 2
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}
+var_1: &cache_key npm-cache-{{ checksum "package-lock.json" }}
 var_2: &node_image
   docker:
-      - image: circleci/node:8.11.1-browsers
+      - image: circleci/node:latest-browsers
 
 jobs:
+  build:
+    <<: *node_image
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - run: sudo npm up -g npm && npm ci
+      - run: npm run gulp ci:build
+
+      - save_cache:
+          key: *cache_key
+          paths:
+            - node_modules
+            - ~/.npm
+
+  lint:
+    <<: *node_image
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - run: npm run gulp ci:lint
 
   test:
     <<: *node_image
@@ -16,15 +38,7 @@ jobs:
       - checkout
       - restore_cache:
           key: *cache_key
-
-      - run: yarn install
-      - run: yarn gulp ci
-
-      - save_cache:
-          key: *cache_key
-          paths:
-            - node_modules
-            - ~/.cache/yarn
+      - run: npm run gulp ci:test
 
   deploy:
     <<: *node_image
@@ -34,8 +48,8 @@ jobs:
       - restore_cache:
           key: *cache_key
 
-      - run: yarn install
-      - run: yarn gulp deploy
+      - run: sudo npm up -g npm && npm ci
+      - run: npm run gulp deploy
 
       - store_artifacts:
           path: dist/releases
@@ -44,7 +58,13 @@ workflows:
   version: 2
   build-test-deploy:
     jobs:
-      - test
+      - build
+      - lint:
+          requires:
+            - build
+      - test:
+          requires:
+            - build
       - deploy:
           requires:
             - test

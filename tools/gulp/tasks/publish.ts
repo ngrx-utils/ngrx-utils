@@ -111,7 +111,12 @@ function _execNpmPublish(tag: string, packageName: string): Promise<{}> | undefi
       return;
     }
 
-    const childProcess = spawn(command, args);
+    let bin = command;
+    if (/^win/.test(process.platform)) {
+      bin = `${command}.cmd`;
+    }
+
+    const childProcess = spawn(bin, args);
     childProcess.stdout.on('data', (data: Buffer) => {
       console.log(
         `  stdout: ${data

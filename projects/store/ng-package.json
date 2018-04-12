@@ -3,7 +3,7 @@
   "dest": "../../dist/releases/store",
   "deleteDestPath": false,
   "lib": {
-    "entryFile": "src/public_api.ts",
+    "entryFile": "public_api.ts",
     "umdModuleIds": {
       "@ngrx/store": "ngrx.store",
       "@ngrx-utils/store": "ngrxUtils.store",
