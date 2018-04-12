@@ -9,6 +9,28 @@ var_2: &node_image
       - image: circleci/node:latest-browsers
 
 jobs:
+  build:
+    <<: *node_image
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - run: sudo npm up -g npm && npm ci
+      - run: npm run gulp ci:build
+
+      - save_cache:
+          key: *cache_key
+          paths:
+            - node_modules
+            - ~/.npm
+
+  lint:
+    <<: *node_image
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - run: npm run gulp ci:lint
 
   test:
     <<: *node_image
@@ -16,14 +38,7 @@ jobs:
       - checkout
       - restore_cache:
           key: *cache_key
-      - run: sudo npm up -g npm && npm ci
-      - run: npm run gulp ci
-
-      - save_cache:
-          key: *cache_key
-          paths:
-            - node_modules
-            - ~/.npm
+      - run: npm run gulp ci:test
 
   deploy:
     <<: *node_image
@@ -43,7 +58,13 @@ workflows:
   version: 2
   build-test-deploy:
     jobs:
-      - test
+      - build
+      - lint:
+          requires:
+            - build
+      - test:
+          requires:
+            - build
       - deploy:
           requires:
             - test
