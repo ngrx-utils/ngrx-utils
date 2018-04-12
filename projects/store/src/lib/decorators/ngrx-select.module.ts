@@ -1,24 +1,18 @@
 import { NgModule, Injectable, SkipSelf, Optional } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NgrxSelect {
-  /**
-   * @internal
-   */
   static store: Store<any> | undefined = undefined;
 
-  /**
-   * @internal
-   */
   connect(store: Store<any>) {
     NgrxSelect.store = store;
   }
 }
 
-@NgModule()
+@NgModule({
+  providers: [NgrxSelect]
+})
 export class NgrxSelectModule {
   constructor(
     ngrxSelect: NgrxSelect,
