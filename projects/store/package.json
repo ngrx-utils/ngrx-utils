@@ -5,5 +5,27 @@
     "@angular/common": "0.0.0-NG",
     "@angular/core": "0.0.0-NG",
     "@ngrx/store": "^6.0.0-beta.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngrx-utils/ngrx-utils.git"
+  },
+  "keywords": [
+    "@ngrx/store",
+    "NgRx",
+    "Angular",
+    "Store",
+    "Redux",
+    "@ngrx-utils/store"
+  ],
+  "author": "San Nguyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ngrx-utils/ngrx-utils/issues"
+  },
+  "homepage": "https://github.com/ngrx-utils/ngrx-utils#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
 }
