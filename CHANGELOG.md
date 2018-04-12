@@ -1,3 +1,13 @@
+<a name="0.11.0-beta.1"></a>
+# [0.11.0-beta.1](https://github.com/sandangel/ngrx-utils/compare/0.11.0-beta.0...0.11.0-beta.1) (2018-04-12)
+
+
+### Bug Fixes
+
+* switch back to angular 5 for compatible with ng-packagr ([51830b0](https://github.com/sandangel/ngrx-utils/commit/51830b0))
+
+
+
 <a name="0.11.0-beta.0"></a>
 
 # [0.11.0-beta.0](https://github.com/sandangel/ngrx-utils/compare/v0.10.0...v0.11.0-beta.0) (2018-04-11)
