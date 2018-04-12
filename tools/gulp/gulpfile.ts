@@ -3,7 +3,7 @@ import { parallel, series, task } from 'gulp';
 import { buildAll, replaceVersion } from './tasks/builds';
 import { changelog } from './tasks/changelog';
 import { cleanCoverage, cleanDist } from './tasks/clean';
-import { coverageGenerate, coverageUpload } from './tasks/coverage';
+import { coverageUpload } from './tasks/coverage';
 import { help } from './tasks/default';
 import { deployGithubBuilds } from './tasks/deploy-github';
 import { lint } from './tasks/lint';
@@ -21,9 +21,8 @@ task('build:release', buildRelease);
 
 /** Test coverage */
 task('coverage:clean', cleanCoverage);
-task('coverage:generate', coverageGenerate);
 task('coverage:upload', coverageUpload);
-const coverage = series('coverage:clean', 'coverage:generate', 'coverage:upload');
+const coverage = series('coverage:upload');
 task('coverage', coverage);
 
 task('help', help);

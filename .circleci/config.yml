@@ -6,7 +6,7 @@ version: 2
 var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}
 var_2: &node_image
   docker:
-      - image: circleci/node:8.11.1-browsers
+      - image: circleci/node:latest-browsers
 
 jobs:
 
@@ -17,14 +17,14 @@ jobs:
       - restore_cache:
           key: *cache_key
 
-      - run: yarn install
-      - run: yarn gulp ci
+      - run: npm ci
+      - run: npm run gulp ci
 
       - save_cache:
           key: *cache_key
           paths:
             - node_modules
-            - ~/.cache/yarn
+            - ~/.npm
 
   deploy:
     <<: *node_image
@@ -34,8 +34,8 @@ jobs:
       - restore_cache:
           key: *cache_key
 
-      - run: yarn install
-      - run: yarn gulp deploy
+      - run: npm ci
+      - run: npm run gulp deploy
 
       - store_artifacts:
           path: dist/releases
