@@ -3,7 +3,7 @@ version: 2
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}
+var_1: &cache_key npm-cache-{{ checksum "package-json.lock" }}
 var_2: &node_image
   docker:
       - image: circleci/node:latest-browsers
@@ -16,8 +16,7 @@ jobs:
       - checkout
       - restore_cache:
           key: *cache_key
-
-      - run: npm ci
+      - run: npm up -g npm && npm ci
       - run: npm run gulp ci
 
       - save_cache:
@@ -34,6 +33,7 @@ jobs:
       - restore_cache:
           key: *cache_key
 
+      - run: npm up -g npm && 
       - run: npm ci
       - run: npm run gulp deploy
 
