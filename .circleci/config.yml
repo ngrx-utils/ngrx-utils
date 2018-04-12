@@ -3,7 +3,7 @@ version: 2
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-var_1: &cache_key npm-cache-{{ checksum "package-json.lock" }}
+var_1: &cache_key npm-cache-{{ checksum "package-lock.json" }}
 var_2: &node_image
   docker:
       - image: circleci/node:latest-browsers
