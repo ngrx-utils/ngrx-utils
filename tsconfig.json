@@ -11,10 +11,17 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "target": "es2015",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017", 
+      "dom"
+    ],
     "paths": {
-      "@ngrx-utils/store": ["projects/store"]
+      "@ngrx-utils/store": [
+        "projects/store"
+      ]
     }
   }
 }

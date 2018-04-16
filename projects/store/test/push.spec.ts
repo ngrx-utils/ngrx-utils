@@ -1,7 +1,8 @@
 import { EventEmitter, WrappedValue } from '@angular/core';
-import { async, inject, TestBed } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { PushPipe } from '@ngrx-utils/store';
-import { AsyncTestCompleter, SpyChangeDetectorRef } from '../utils';
+
+import { AsyncTestCompleter, SpyChangeDetectorRef } from './helpers';
 
 describe('PushPipe', () => {
   describe('Observable', () => {

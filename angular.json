@@ -7,17 +7,6 @@
       "root": "projects/store",
       "projectType": "library",
       "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "project": "projects/store/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/store/ng-package.prod.json"
-            }
-          }
-        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -29,8 +18,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["projects/store/tsconfig.lint.json", "projects/store/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "projects/store/tsconfig.lint.json",
+              "projects/store/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -137,7 +131,9 @@
               "projects/example/tsconfig.app.json",
               "projects/example/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -157,7 +153,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "projects/example-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -171,14 +169,24 @@
           "options": {
             "main": "./test.ts",
             "tsConfig": "./tsconfig.spec.json",
-            "karmaConfig": "./karma.conf.js"
+            "karmaConfig": "./karma.conf.js",
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "test.ts", "**/test/**/*"
+            ],
+            "progress": false
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["./tsconfig.lint.json", "./tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "./tsconfig.lint.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }

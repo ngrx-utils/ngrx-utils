@@ -1,2 +1,7 @@
 package.json
+package-lock.json
 **/coverage
+tslint.json
+*.yml
+**/tsconfig*.json
+angular.json

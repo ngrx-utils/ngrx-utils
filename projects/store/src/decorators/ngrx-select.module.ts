@@ -1,7 +1,9 @@
 import { NgModule, Injectable, SkipSelf, Optional } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NgrxSelect {
   static store: Store<any> | undefined = undefined;
 
@@ -10,9 +12,7 @@ export class NgrxSelect {
   }
 }
 
-@NgModule({
-  providers: [NgrxSelect]
-})
+@NgModule()
 export class NgrxSelectModule {
   constructor(
     ngrxSelect: NgrxSelect,
