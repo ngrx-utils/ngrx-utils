@@ -13,7 +13,7 @@ git_repository(
 # your npm dependencies. You must still run the package manager.
 load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories")
 
-check_bazel_version("0.12.0")
+check_bazel_version("0.11.1")
 
 node_repositories(package_json = ["//:package.json"])
 

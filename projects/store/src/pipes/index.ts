@@ -1,1 +1,1 @@
-export { PushPipe, PushPipeModule } from './push';
+export * from './push';

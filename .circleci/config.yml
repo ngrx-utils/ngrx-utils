@@ -23,6 +23,7 @@ jobs:
           paths:
             - node_modules
             - ~/.cache/yarn
+            - ~/.cache/bazel
 
   lint:
     <<: *node_image

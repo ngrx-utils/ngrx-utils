@@ -1,2 +1,2 @@
-export { NgLetDirective, NgLetModule } from './ngLet';
-export { RouterLinkActiveMatchModule, RouterLinkActiveMatch } from './routerLinkActiveMatch';
+export * from './ngLet';
+export * from './routerLinkActiveMatch';

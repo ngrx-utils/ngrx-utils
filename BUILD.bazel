@@ -16,12 +16,27 @@ filegroup(
         "@ngrx",
         "rxjs",
         "typescript",
+        "jasmine",
         "@types",
+        "reflect-metadata",
+        "tsutils",
         "tsickle",
         "tslib",
+        "zone.js",
     ] for ext in [
         "*.js",
         "*.json",
         "*.d.ts",
     ]]),
+)
+
+filegroup(
+    name = "web_test_bootstrap_scripts",
+    # do not sort
+    srcs = [
+        "//:node_modules/reflect-metadata/Reflect.js",
+        "//:node_modules/zone.js/dist/zone.js",
+        "//:node_modules/zone.js/dist/zone-testing.js",
+        "//:node_modules/zone.js/dist/task-tracking.js",
+    ],
 )

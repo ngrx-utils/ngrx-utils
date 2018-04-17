@@ -18,14 +18,17 @@
     "types": []
   },
   "files": [
-    "public-api.ts"
+    "public_api.ts"
   ],
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
     "strictMetadataEmit": false,
-    "flatModuleOutFile": "index.js",
+    "flatModuleOutFile": "store.js",
     "flatModuleId": "@ngrx-utils/store",
     "skipTemplateCodegen": true,
     "fullTemplateTypeCheck": true
+  },
+  "bazelOptions": {
+    "suppressTsconfigOverrideWarnings": true
   }
 }
