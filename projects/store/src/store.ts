@@ -1,12 +1,18 @@
-export { Dispatch, Select, NgrxSelectModule, NgrxSelect as ɵNgrxSelect, Pluck } from './decorators';
+export {
+  Dispatch,
+  Select,
+  NgrxSelectModule,
+  NgrxSelect as ɵNgrxSelect,
+  Pluck
+} from './decorators/index';
 
 export {
   NgLetDirective,
   NgLetModule,
   RouterLinkActiveMatchModule,
   RouterLinkActiveMatch
-} from './directives';
+} from './directives/index';
 
-export { pluck, untilDestroy, destroy$ as ɵdestroy$ } from './operators';
+export { pluck, untilDestroy, destroy$ as ɵdestroy$ } from './operators/index';
 
-export { PushPipe, PushPipeModule } from './pipes';
+export { PushPipe, PushPipeModule } from './pipes/index';

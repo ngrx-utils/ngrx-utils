@@ -1,9 +1,11 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@build_bazel_rules_typescript//:defs.bzl", "ts_library")
-load("@angular//:index.bzl", "ng_package", "ng_module")
-load("//:packages.bzl", "VERSION_PLACEHOLDER_REPLACEMENTS")
 load("//tools:defaults.bzl", "ng_module", "ng_package")
+
+exports_files([
+    "tsconfig-build.json",
+    "tsconfig.spec.json",
+])
 
 ng_module(
     name = "store",
@@ -12,32 +14,16 @@ ng_module(
             "*.ts",
             "src/**/*.ts",
         ],
-        exclude = [
-            "test/**/*",
-            "test.ts",
-        ],
+        exclude = ["test.ts"]
     ),
     module_name = "@ngrx-utils/store",
-    tsconfig = "//projects/store:tsconfig-build.json",
-    deps = [
-        "@rxjs",
-    ],
 )
 
 # Creates the @angular/material package published to npm.
 ng_package(
     name = "npm_package",
-    srcs = [
-        "license-banner.txt",
-        "package.json",
-    ],
-    data = [
-        ":LICENSE",
-    ],
+    srcs = glob(["**/*.externs.js"] + ["package.json"]),
     entry_point = "projects/store/index.js",
-    license_banner = "license-banner.txt",
-    readme_md = "README.md",
-    replacements = VERSION_PLACEHOLDER_REPLACEMENTS,
-    tags = ["publish"],
     deps = [":store"],
+    tags = ["publish"]
 )

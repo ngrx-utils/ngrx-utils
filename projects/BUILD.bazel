@@ -1,0 +1,10 @@
+package(default_visibility = ["//visibility:public"])
+
+exports_files([
+    "tsconfig-build.json",
+])
+
+exports_files([
+    "license-banner.txt",
+    "README.md",
+])

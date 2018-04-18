@@ -7,6 +7,17 @@
       "root": "projects/store",
       "projectType": "library",
       "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "projects/store/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/store/ng-package.prod.json"
+            }
+          }
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -172,7 +183,8 @@
             "karmaConfig": "./karma.conf.js",
             "codeCoverage": true,
             "codeCoverageExclude": [
-              "test.ts", "**/test/**/*"
+              "test.ts",
+              "**/test/**/*"
             ],
             "progress": false
           }

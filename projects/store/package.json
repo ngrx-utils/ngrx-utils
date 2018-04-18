@@ -3,10 +3,13 @@
   "version": "0.0.0-PLACEHOLDER",
   "description": "Utils Library for Angular and Ngrx",
   "peerDependencies": {
-    "@angular/common": "0.0.0-NG",
-    "@angular/core": "0.0.0-NG",
-    "@ngrx/store": "^6.0.0-beta.0",
-    "rxjs": "^6.0.0-rc.0"
+    "@angular/common": "NG_VERSION",
+    "@angular/core": "NG_VERSION",
+    "@ngrx/store": "NGRX_VERSION",
+    "rxjs": "RXJS_VERSION"
+  },
+  "ng-update": {
+    "packageGroup": "NG_UPDATE_PACKAGE_GROUP"
   },
   "repository": {
     "type": "git",

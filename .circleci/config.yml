@@ -7,8 +7,26 @@ var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}
 var_2: &node_image
   docker:
       - image: circleci/node:latest-browsers
+var_3: &ngcontainer
+  docker:
+    - image: angular/ngcontainer:latest
 
 jobs:
+  bazel:
+    <<: *ngcontainer
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - run: bazel query --output=label //... | xargs bazel test
+
+      - save_cache:
+          key: *cache_key
+          paths:
+            - node_modules
+            - ~/.cache/yarn
+            - ~/.cache/bazel
+
   build:
     <<: *node_image
     steps:
@@ -58,6 +76,7 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
+      - bazel
       - build
       - lint:
           requires:

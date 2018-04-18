@@ -1,17 +1,25 @@
 package(default_visibility = ["//visibility:public"])
 
-# Needed so that tsconfig.json can be referenced from BUILD rules.
-exports_files(["tsconfig.json"])
+load("@build_bazel_rules_nodejs//:defs.bzl", "node_modules_filegroup")
+
+exports_files([
+    "tsconfig.json",
+    "tsconfig.spec.json",
+    "LICENSE",
+])
+
+# Developers should always run `bazel run :install`
+# This ensures that package.json in subdirectories get installed as well.
+alias(
+    name = "install",
+    actual = "@yarn//:yarn",
+)
+
 
 # NOTE: this may move to node_modules/BUILD in a later release
-filegroup(
+node_modules_filegroup(
     name = "node_modules",
-    srcs = glob(["/".join([
-        "node_modules",
-        pkg,
-        "**",
-        ext,
-    ]) for pkg in [
+    packages = [
         "@angular",
         "@ngrx",
         "rxjs",
@@ -23,20 +31,5 @@ filegroup(
         "tsickle",
         "tslib",
         "zone.js",
-    ] for ext in [
-        "*.js",
-        "*.json",
-        "*.d.ts",
-    ]]),
-)
-
-filegroup(
-    name = "web_test_bootstrap_scripts",
-    # do not sort
-    srcs = [
-        "//:node_modules/reflect-metadata/Reflect.js",
-        "//:node_modules/zone.js/dist/zone.js",
-        "//:node_modules/zone.js/dist/zone-testing.js",
-        "//:node_modules/zone.js/dist/task-tracking.js",
     ],
 )
