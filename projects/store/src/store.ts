@@ -1,10 +1,4 @@
-export {
-  Dispatch,
-  Select,
-  NgrxSelectModule,
-  NgrxSelect as ɵNgrxSelect,
-  Pluck
-} from './decorators/index';
+export { Dispatch, Select, NgrxSelect as ɵNgrxSelect, Pluck } from './decorators/index';
 
 export {
   NgLetDirective,

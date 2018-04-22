@@ -56,7 +56,7 @@ describe('Pluck', () => {
     });
   });
   it('should throw error when user not import NgrxSelectModule', () => {
-    NgrxSelect.store = undefined;
+    NgrxSelect.store = null;
     class MyStateSelector {
       @Pluck('bar$') bar$: Observable<any>; // using MemoizedSelector
     }

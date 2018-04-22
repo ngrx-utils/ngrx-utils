@@ -11,6 +11,10 @@ var_3: &ngcontainer
   docker:
     - image: angular/ngcontainer:latest
 
+var_4: &set_bazel_options
+  run:
+    command: sudo cp .circleci/bazel.rc /etc/bazel.bazelrc
+
 jobs:
   bazel:
     <<: *ngcontainer
@@ -18,6 +22,10 @@ jobs:
       - checkout
       - restore_cache:
           key: *cache_key
+          
+      - *set_bazel_options
+
+      - run: bazel run :install
       - run: bazel query --output=label //... | xargs bazel test
 
       - save_cache:
@@ -66,7 +74,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           key: *cache_key
-
+      - run: yarn gulpp ci:build
       - run: yarn gulp deploy
 
       - store_artifacts:

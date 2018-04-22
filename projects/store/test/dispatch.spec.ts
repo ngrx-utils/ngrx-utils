@@ -46,7 +46,7 @@ describe('Dispatch', () => {
   });
 
   it('should throw error when NgrxSelectModule is not imported', () => {
-    NgrxSelect.store = undefined;
+    NgrxSelect.store = null;
     class TestComponent {
       @Dispatch()
       onAction() {

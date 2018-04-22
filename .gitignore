@@ -39,4 +39,4 @@ testem.log
 Thumbs.db
 
 # Bazel
-bazel*
+bazel-*

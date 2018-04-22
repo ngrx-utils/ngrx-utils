@@ -26,8 +26,8 @@
   },
   "files": ["test.ts"],
   "include": [
-    "projects/**/*.spec.ts",
-    "projects/**/*.d.ts"
+    "projects/store/**/*.spec.ts",
+    "projects/store/**/*.d.ts"
   ],
   "bazelOptions": {
     "suppressTsconfigOverrideWarnings": true

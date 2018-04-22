@@ -1,7 +1,7 @@
 import { Selector } from '@ngrx/store';
 import { OperatorFunction } from 'rxjs';
 
-import { NgrxSelect } from './ngrx-select.module';
+import { NgrxSelect } from './ngrx-select';
 
 export function Select<A, B>(mapFn: Selector<A, B>): (target: any, name: string) => void;
 export function Select<A, B, C>(
@@ -101,7 +101,7 @@ export function Select<A, B>(
         get() {
           const store = NgrxSelect.store;
 
-          if (!store) {
+          if (store === null) {
             throw new Error('NgrxSelect not connected to store!');
           }
 

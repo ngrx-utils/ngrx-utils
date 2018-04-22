@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/platform",
-  "version": "0.11.0-beta.3",
+  "version": "0.11.0-beta.4",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,9 @@
     "e2e": "ng e2e",
     "cz": "git-cz",
     "format": "pretty-quick",
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "prebuildifier": "bazel build --noshow_progress :buildtools",
+    "buildifier": "find . -type f \\( -name BUILD -or -name BUILD.bazel \\) ! -path \"*/node_modules/*\" | xargs $(bazel info bazel-bin)/external/com_github_bazelbuild_buildtools/buildifier/*/buildifier"
   },
   "private": true,
   "dependencies": {

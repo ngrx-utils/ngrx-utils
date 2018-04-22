@@ -14,7 +14,7 @@ ng_module(
             "*.ts",
             "src/**/*.ts",
         ],
-        exclude = ["test.ts"]
+        exclude = ["test.ts"],
     ),
     module_name = "@ngrx-utils/store",
 )
@@ -24,6 +24,6 @@ ng_package(
     name = "npm_package",
     srcs = glob(["**/*.externs.js"] + ["package.json"]),
     entry_point = "projects/store/index.js",
+    tags = ["publish"],
     deps = [":store"],
-    tags = ["publish"]
 )

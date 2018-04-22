@@ -17,7 +17,7 @@ jasmineCore.boot = function() {
 import { TestBed } from '@angular/core/testing';
 import { ServerTestingModule, platformServerTesting } from '@angular/platform-server/testing';
 
-require('zone.js/dist/jasmine-patch.js');
+import 'zone.js/dist/jasmine-patch.js';
 
 const originalConfigureTestingModule = TestBed.configureTestingModule;
 

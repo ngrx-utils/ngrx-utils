@@ -5,7 +5,7 @@ load("@build_bazel_rules_nodejs//:defs.bzl",
      _jasmine_node_test="jasmine_node_test")
 
 DEFAULT_TSCONFIG = "//projects:tsconfig-build.json"
-NGRX_UTILS_VERSION = "0.11.0-beta.3"
+NGRX_UTILS_VERSION = "0.11.0-beta.4"
 NG_VERSION = "^6.0.0 || ^6.0.0-rc.0"
 NGRX_VERSION = "^6.0.0-beta.1"
 RXJS_VERSION = "^5.6.0-forward-compat.0 || ^6.0.0-beta.0"
