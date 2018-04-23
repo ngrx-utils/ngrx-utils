@@ -25,15 +25,9 @@ jobs:
           
       - *set_bazel_options
 
+      - run: bazel info release
       - run: bazel run :install
-      - run: bazel query --output=label //... | xargs bazel test
-
-      - save_cache:
-          key: *cache_key
-          paths:
-            - node_modules
-            - ~/.cache/yarn
-            - ~/.cache/bazel
+      - run: bazel build //...
 
   build:
     <<: *node_image
@@ -49,7 +43,6 @@ jobs:
           paths:
             - node_modules
             - ~/.cache/yarn
-            - ~/.cache/bazel
 
   lint:
     <<: *node_image

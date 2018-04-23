@@ -14,7 +14,7 @@ test:debug --test_arg=--node_options=--inspect-brk --test_output=streamed --test
 # Filesystem interactions     #
 ###############################
 
-build --symlink_prefix=/
+build --symlink_prefix=dist/
 
 # Performance: avoid stat'ing input files
 build --watchfs
