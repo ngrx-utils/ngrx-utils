@@ -26,7 +26,7 @@ jobs:
       - *set_bazel_options
 
       - run: bazel info release
-      - run: bazel run :install
+      - run: bazel run :install --noshow_progress
       - run: bazel query --output=label //... | xargs bazel test --noshow_progress
 
   build:
