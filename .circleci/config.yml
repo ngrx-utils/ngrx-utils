@@ -12,8 +12,8 @@ var_3: &ngcontainer
     - image: angular/ngcontainer:latest
 
 var_4: &set_bazel_options
-  run:
-    command: sudo cp .circleci/bazel.rc /etc/bazel.bazelrc
+  run: sudo cp .circleci/bazel.rc /etc/bazel.bazelrc
+  run: chmod +x tools/bazel_stamp_vars.sh
 
 jobs:
   bazel:
