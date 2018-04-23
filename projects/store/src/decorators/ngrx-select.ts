@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 @Injectable({
@@ -10,8 +10,11 @@ export class NgrxSelect {
   connect(store: Store<any>) {
     NgrxSelect.store = store;
   }
+}
 
-  constructor(store: Store<any>) {
-    this.connect(store);
+@NgModule()
+export class NgrxSelectModule {
+  constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
+    ngrxSelect.connect(store);
   }
 }
