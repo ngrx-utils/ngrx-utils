@@ -6,3 +6,9 @@ ts_test_library(
     name = "node",
     srcs = ["bootstrap_node_tests.ts"],
 )
+
+ts_test_library(
+    name = "angular_test_init",
+    # This file *must* end with "spec" in order for ts_web_test to load it.
+    srcs = ["angular-test-init-spec.ts"],
+)

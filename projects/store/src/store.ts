@@ -13,6 +13,6 @@ export {
   RouterLinkActiveMatch
 } from './directives/index';
 
-export { pluck, untilDestroy, destroy$ as ɵdestroy$ } from './operators/index';
+export { untilDestroy, destroy$ as ɵdestroy$ } from './operators/index';
 
 export { PushPipe, PushPipeModule } from './pipes/index';
