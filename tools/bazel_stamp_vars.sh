@@ -20,7 +20,7 @@ echo BUILD_SCM_HASH $(git rev-parse HEAD)
 if [[ "$(git tag)" == "" ]]; then
   echo "No git tags found, can't stamp the build."
   echo "Either fetch the tags:"
-  echo "       git fetch git@github.com:angular/angular.git --tags"
+  echo "       git fetch git@github.com:ngrx-utils/ngrx-utils.git --tags"
   echo "or build without stamping by giving an empty workspace_status_command:"
   echo "       bazel build --workspace_status_command= ..."
   echo ""
