@@ -3,6 +3,7 @@
 
 # Don't be spammy in the logs
 build --noshow_progress
+run --noshow_progress
 
 # Don't run manual tests
 test --test_tag_filters=-manual
