@@ -378,6 +378,10 @@
     mkdirp "^0.5.1"
     rimraf "^2.5.2"
 
+"@ngrx-utils/store@^0.11.0-beta.6":
+  version "0.11.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@ngrx-utils/store/-/store-0.11.0-beta.6.tgz#3d5ae53d7fe8dc11fa81f65e649ce75bcebddadc"
+
 "@ngrx/effects@^6.0.0-beta.1":
   version "6.0.0-beta.1"
   resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-6.0.0-beta.1.tgz#34e742e8c6a5730291f1e1f35798173ac0a93733"

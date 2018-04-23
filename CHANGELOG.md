@@ -12,7 +12,7 @@
 
 ### Features
 
-* **store:** add routerLinkActiveMatch directive ([0bc108f](https://github.com/sandangel/ngrx-utils/commit/0bc108f))
+* **store:** add routerLinkMatch directive ([0bc108f](https://github.com/sandangel/ngrx-utils/commit/0bc108f))
 * **store:** support dispatch multi actions in @Dispatch() ([c7d8195](https://github.com/sandangel/ngrx-utils/commit/c7d8195))
 * **store:** push pipe for ngZone: 'noop' ([771b195](https://github.com/sandangel/ngrx-utils/commit/771b195))
 

@@ -17,6 +17,12 @@ ng_module(
         exclude = ["test.ts"],
     ),
     module_name = "@ngrx-utils/store",
+    tsconfig = "//projects/store:tsconfig-build.json",
+    deps = [
+        "@rxjs",
+        "@rxjs//operators",
+        "@ngrx//modules/store",
+    ]
 )
 
 # Creates the @angular/material package published to npm.

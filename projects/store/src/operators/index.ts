@@ -1,1 +1,1 @@
-export * from './untilDestroy';
+export { untilDestroy, destroy$ as ɵdestroy$ } from './untilDestroy';

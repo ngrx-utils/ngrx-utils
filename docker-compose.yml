@@ -1,0 +1,9 @@
+version: "3"
+services:
+  angular:
+    image: angular/ngcontainer:latest
+    volumes:
+      - ${PWD}:/home/circleci/project
+    working_dir: /home/circleci/project
+    stdin_open: true
+    tty: true

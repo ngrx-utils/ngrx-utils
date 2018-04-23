@@ -5,6 +5,7 @@ ts_test_library(
     srcs = glob(["**/*.ts"]),
     deps = [
         "//projects/store",
+        "@ngrx//modules/store",
         "@rxjs",
         "@rxjs//operators",
     ],

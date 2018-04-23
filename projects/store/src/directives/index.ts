@@ -1,2 +1,2 @@
 export * from './ngLet';
-export * from './routerLinkActiveMatch';
+export * from './routerLinkMatch';
