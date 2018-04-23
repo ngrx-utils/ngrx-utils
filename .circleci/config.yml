@@ -90,6 +90,9 @@ workflows:
           requires:
             - test
             - lint
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - hold
