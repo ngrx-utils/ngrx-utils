@@ -1,2 +1,2 @@
 export * from './untilDestroy';
-export * from './pluck';
+export * from './pluck-operator';
