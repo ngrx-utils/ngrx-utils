@@ -15,6 +15,7 @@ load(
     _jasmine_node_test = "jasmine_node_test",
 )
 
+DEFAULT_NODE_MODULES = "//:node_modules"
 DEFAULT_TSCONFIG = "//projects:tsconfig-build.json"
 
 NG_VERSION = "^6.0.0 || ^6.0.0-rc.0"
@@ -32,9 +33,26 @@ NGRX_UTILS_SCOPED_PACKAGES = ["@ngrx-utils/%s" % p for p in [
     "schematics",
     "store",
     "store-devtools",
+]] + ["@ngrx-utils/store/%s" % p for p in [
+    "operators",
+    "directives",
+    "pipes",
+    "decorators",
 ]]
 
 NGRX_UTILS_GLOBALS = dict({
+    "@angular/animations": "ng.animations",
+    "@angular/core": "ng.core",
+    "@angular/common": "ng.common",
+    "@angular/common/http": "ng.common.http",
+    "@angular/compiler": "ng.compiler",
+    "@angular/http": "ng.http",
+    "@angular/platform-browser": "ng.platformBrowser",
+    "@angular/platform-server": "ng.platformServer",
+    "@angular/platform-browser-dynamic": "ng.platformBrowserDynamic",
+    'tslib': 'tslib',
+    "rxjs": "Rx",
+    "rxjs/operators": "Rx.operators",
 }, **{p: p for p in NGRX_UTILS_SCOPED_PACKAGES})
 
 PKG_GROUP_REPLACEMENTS = {
@@ -84,13 +102,22 @@ def ts_web_test(deps=[], **kwargs):
         **kwargs
     )
 
-def ng_module(name, tsconfig=None, entry_point=None, **kwargs):
+def ng_module(name, tsconfig=None, entry_point=None, node_modules=None, flat_module_out_file=None, **kwargs):
     if not tsconfig:
         tsconfig = DEFAULT_TSCONFIG
     if not entry_point:
         entry_point = "public_api.ts"
-    _ng_module(name=name, flat_module_out_file=name,
-               tsconfig=tsconfig, entry_point=entry_point, **kwargs)
+    if not flat_module_out_file:
+        flat_module_out_file = name
+    if not node_modules:
+        node_modules = DEFAULT_NODE_MODULES
+    _ng_module(
+        name=name,
+        node_modules=node_modules,
+        flat_module_out_file=flat_module_out_file,
+        tsconfig=tsconfig,
+        entry_point=entry_point,
+        **kwargs)
 
 def ng_package(name, readme_md=None, license_banner=None, globals={}, **kwargs):
     if not readme_md:

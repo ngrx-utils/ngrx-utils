@@ -1,0 +1,18 @@
+package(default_visibility = ["//visibility:public"])
+
+load("//tools:defaults.bzl", "ng_module")
+
+ng_module(
+    name = "pipes",
+    srcs = glob(
+        [
+            "*.ts",
+        ],
+    ),
+    module_name = "@ngrx-utils/store/pipes",
+    tsconfig = "//projects/store:tsconfig-build.json",
+    deps = [
+        "@rxjs",
+        "@rxjs//operators",
+    ],
+)

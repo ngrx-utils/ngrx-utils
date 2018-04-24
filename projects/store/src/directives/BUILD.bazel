@@ -1,0 +1,19 @@
+package(default_visibility = ["//visibility:public"])
+
+load("//tools:defaults.bzl", "ng_module")
+
+ng_module(
+    name = "directives",
+    srcs = glob(
+        [
+            "*.ts",
+        ],
+    ),
+    module_name = "@ngrx-utils/store/directives",
+    tsconfig = "//projects/store:tsconfig-build.json",
+    deps = [
+        "//projects/store/src/operators",
+        "@rxjs",
+        "@rxjs//operators",
+    ],
+)
