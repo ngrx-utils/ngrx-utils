@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, DebugElement, NgModule } from '@angular/core';
-import { ComponentFixture, inject, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgrxSelectModule, Pluck, ɵNgrxSelect as NgrxSelect } from '@ngrx-utils/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -100,18 +100,19 @@ describe('NgrxSelectModule', () => {
           let action = { type: 'TEST' };
           store.dispatch(action);
 
+          tick();
           fixture.detectChanges();
-
           fixture.whenStable().then(() => {
             expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test b');
+          });
 
-            action = { type: 'TEST 2' };
-            store.dispatch(action);
+          action = { type: 'TEST 2' };
+          store.dispatch(action);
 
-            fixture.detectChanges();
-            fixture.whenStable().then(() => {
-              expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
-            });
+          tick();
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
           });
         })
       )
