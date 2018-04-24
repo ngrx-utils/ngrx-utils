@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 @Component({
   selector: 'test',
   template: `
-    <div>Test {{ (root | async).test }}</div>
+    <div>Test {{ (root | async)?.test }}</div>
   `
 })
 export class TestComponent {
@@ -94,12 +94,20 @@ describe('NgrxSelectModule', () => {
       'should change template binding when action dispatched',
       fakeAsync(
         inject([Store], (store: Store<any>) => {
-          const action = { type: 'TEST' };
+          let action = { type: 'TEST' };
           store.dispatch(action);
 
           fixture.detectChanges();
 
           expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test b');
+
+          action = { type: 'TEST 2' };
+          store.dispatch(action);
+
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
+          });
         })
       )
     );
