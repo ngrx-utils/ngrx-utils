@@ -25,10 +25,16 @@ RXJS_VERSION = "^5.6.0-forward-compat.0 || ^6.0.0-beta.0"
 
 NGRX_UTILS_SCOPED_PACKAGES = ["@ngrx-utils/%s" % p for p in [
     "store",
+]] + ["@ngrx/%s" % p for p in [
+    "effects",
+    "entity",
+    "router-store",
+    "schematics",
+    "store",
+    "store-devtools",
 ]]
 
 NGRX_UTILS_GLOBALS = dict({
-    "tslib": "tslib",
 }, **{p: p for p in NGRX_UTILS_SCOPED_PACKAGES})
 
 PKG_GROUP_REPLACEMENTS = {

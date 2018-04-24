@@ -21,7 +21,6 @@ ng_module(
     deps = [
         "@rxjs",
         "@rxjs//operators",
-        "@ngrx//modules/store",
     ]
 )
 

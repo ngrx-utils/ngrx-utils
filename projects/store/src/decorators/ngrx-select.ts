@@ -1,7 +1,9 @@
 import { Injectable, NgModule } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NgrxSelect {
   static store: Store<any> | null = null;
 
@@ -10,9 +12,11 @@ export class NgrxSelect {
   }
 }
 
-@NgModule({ providers: [NgrxSelect] })
+@NgModule()
 export class NgrxSelectModule {
   constructor(ngrxSelect: NgrxSelect, store: Store<any>) {
-    ngrxSelect.connect(store);
+    if (NgrxSelect.store === null) {
+      ngrxSelect.connect(store);
+    }
   }
 }

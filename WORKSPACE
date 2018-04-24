@@ -44,14 +44,6 @@ http_archive(
     sha256 = "3708b2f74f32a5f3c6e28be0b82f6db8723d81c0beb7d1b038e5be8a688d23d3",
 )
 
-# Add Ngrx Platform
-http_archive(
-    name = "ngrx",
-    url = "https://github.com/ngrx/platform/archive/v6.0.0-beta.1.tar.gz",
-    strip_prefix = "platform-6.0.0-beta.1",
-    sha256 = "d74170ee2fc75ba3392ff9055e23f2d02de79ef428f53870c962a7ce5dd599d0",
-)
-
 # Setup TypeScript Bazel workspace
 load("@build_bazel_rules_typescript//:defs.bzl", "ts_setup_workspace")
 
