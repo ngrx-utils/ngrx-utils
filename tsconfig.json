@@ -21,9 +21,6 @@
     "paths": {
       "@ngrx-utils/store": [
         "projects/store"
-      ],
-      "@ngrx-utils/store/operators": [
-        "projects/store/src/operators"
       ]
     }
   }

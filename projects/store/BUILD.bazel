@@ -20,12 +20,7 @@ ng_module(
     deps = [
         "@rxjs",
         "@rxjs//operators",
-    ] + ["//projects/store/src/%s" % p for p in [
-        "operators",
-        "directives",
-        "decorators",
-        "pipes",
-    ]],
+    ],
 )
 
 # Creates the @angular/material package published to npm.
@@ -34,5 +29,9 @@ ng_package(
     srcs = glob(["**/*.externs.js"] + ["package.json"]),
     entry_point = "projects/store/index.js",
     tags = ["publish"],
-    deps = [":store"],
+    deps = [
+        ":store",
+        "@rxjs",
+        "@rxjs//operators",
+    ],
 )
