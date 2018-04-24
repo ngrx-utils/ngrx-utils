@@ -34,7 +34,7 @@ describe('PushPipe', () => {
           // setTimeout(() => {
           expect(pipe.transform(emitter)).toEqual(new WrappedValue(message));
           asyncTestCompleter.done();
-          // }, 0);
+          // }, 20);
         })
       );
 
@@ -48,7 +48,7 @@ describe('PushPipe', () => {
           pipe.transform(emitter);
           expect(pipe.transform(emitter)).toBe(message);
           asyncTestCompleter.done();
-          // }, 0);
+          // }, 20);
         })
       );
 
@@ -62,10 +62,10 @@ describe('PushPipe', () => {
           emitter.emit(message);
 
           // this should not affect the pipe
-          setTimeout(() => {
-            expect(pipe.transform(newEmitter)).toBe(null as any);
-            asyncTestCompleter.done();
-          }, 0);
+          // setTimeout(() => {
+          expect(pipe.transform(newEmitter)).toBe(null as any);
+          asyncTestCompleter.done();
+          // }, 20);
         })
       );
 
@@ -78,7 +78,7 @@ describe('PushPipe', () => {
           // setTimeout(() => {
           expect(ref.spy('detectChanges')).toHaveBeenCalled();
           asyncTestCompleter.done();
-          // }, 10);
+          // }, 20);
         })
       );
     });
@@ -95,14 +95,10 @@ describe('PushPipe', () => {
           pipe.ngOnDestroy();
           emitter.emit(message);
 
-          /**
-           * Work around for jasmine 3 not allowing non direct `expect` in `it` block
-           */
-          expect(true).toBe(true);
-          setTimeout(() => {
-            expect(pipe.transform(emitter)).toBe(null);
-            asyncTestCompleter.done();
-          }, 0);
+          // setTimeout(() => {
+          expect(pipe.transform(emitter)).toBe(null);
+          asyncTestCompleter.done();
+          // }, 20);
         })
       );
     });

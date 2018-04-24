@@ -42,14 +42,15 @@ describe('NgrxSelectModule', () => {
   afterEach(() => {
     NgrxSelect.store = null;
   });
-  describe('Create', () => {
-    const store = new Store(of({}), undefined as any, undefined as any);
+  describe('Unit', () => {
+    const store = new Store<any>(of({}), undefined as any, undefined as any);
 
     it('should create module', () => {
       const ngrxSelect = new NgrxSelect();
       spyOn(ngrxSelect, 'connect').and.callThrough();
       expect(ngrxSelect).toBeTruthy();
 
+      NgrxSelect.store = null as any;
       const ngrxSelectModule = new NgrxSelectModule(ngrxSelect, store);
       expect(ngrxSelectModule).toBeTruthy();
       expect(NgrxSelect.store).toEqual(store);
@@ -83,10 +84,12 @@ describe('NgrxSelectModule', () => {
     );
 
     it(
-      'should work on Component',
+      'should work fine when using in Component',
       fakeAsync(() => {
-        expect(debugEl.queryAll(By.css('div')).length).toEqual(1);
-        expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
+        fixture.whenStable().then(() => {
+          expect(debugEl.queryAll(By.css('div')).length).toEqual(1);
+          expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
+        });
       })
     );
 
@@ -99,14 +102,16 @@ describe('NgrxSelectModule', () => {
 
           fixture.detectChanges();
 
-          expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test b');
-
-          action = { type: 'TEST 2' };
-          store.dispatch(action);
-
-          fixture.detectChanges();
           fixture.whenStable().then(() => {
-            expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
+            expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test b');
+
+            action = { type: 'TEST 2' };
+            store.dispatch(action);
+
+            fixture.detectChanges();
+            fixture.whenStable().then(() => {
+              expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
+            });
           });
         })
       )
