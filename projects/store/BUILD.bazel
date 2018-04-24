@@ -13,7 +13,10 @@ ng_module(
         [
             "**/*.ts",
         ],
-        exclude = ["test.ts", "test/**/*.ts"],
+        exclude = [
+            "test.ts",
+            "test/**/*.ts",
+        ],
     ),
     module_name = "@ngrx-utils/store",
     tsconfig = "//projects/store:tsconfig-build.json",
@@ -26,12 +29,10 @@ ng_module(
 # Creates the @angular/material package published to npm.
 ng_package(
     name = "npm_package",
-    srcs = glob(["**/*.externs.js"] + ["package.json"]),
+    srcs = ["package.json"],
     entry_point = "projects/store/index.js",
     tags = ["publish"],
     deps = [
         ":store",
-        "@rxjs",
-        "@rxjs//operators",
     ],
 )

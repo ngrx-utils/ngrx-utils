@@ -379,8 +379,8 @@
     rimraf "^2.5.2"
 
 "@ngrx-utils/store@^0.11.0-beta.6":
-  version "0.11.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@ngrx-utils/store/-/store-0.11.0-beta.6.tgz#3d5ae53d7fe8dc11fa81f65e649ce75bcebddadc"
+  version "0.11.0-beta.9"
+  resolved "https://registry.yarnpkg.com/@ngrx-utils/store/-/store-0.11.0-beta.9.tgz#0e1a6aca26c57fe4d9424b0d2d053280a61a92a9"
 
 "@ngrx/effects@^6.0.0-beta.1":
   version "6.0.0-beta.1"

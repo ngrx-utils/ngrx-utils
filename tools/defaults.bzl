@@ -26,31 +26,12 @@ RXJS_VERSION = "^5.6.0-forward-compat.0 || ^6.0.0-beta.0"
 
 NGRX_UTILS_SCOPED_PACKAGES = ["@ngrx-utils/%s" % p for p in [
     "store",
-]] + ["@ngrx/%s" % p for p in [
-    "effects",
-    "entity",
-    "router-store",
-    "schematics",
-    "store",
-    "store-devtools",
-]] + ["@ngrx-utils/store/%s" % p for p in [
-    "operators",
-    "directives",
-    "pipes",
-    "decorators",
 ]]
 
 NGRX_UTILS_GLOBALS = dict({
-    "@angular/animations": "ng.animations",
     "@angular/core": "ng.core",
-    "@angular/common": "ng.common",
-    "@angular/common/http": "ng.common.http",
-    "@angular/compiler": "ng.compiler",
-    "@angular/http": "ng.http",
-    "@angular/platform-browser": "ng.platformBrowser",
-    "@angular/platform-server": "ng.platformServer",
-    "@angular/platform-browser-dynamic": "ng.platformBrowserDynamic",
-    'tslib': 'tslib',
+    "@angular/router": "ng.router",
+    "@ngrx/store": "ngrx.store",
     "rxjs": "Rx",
     "rxjs/operators": "Rx.operators",
 }, **{p: p for p in NGRX_UTILS_SCOPED_PACKAGES})
@@ -87,11 +68,8 @@ def jasmine_node_test(node_modules=None, bootstrap=None, deps=[], **kwargs):
 
 def ts_web_test(deps=[], **kwargs):
     bootstrap = ["//:web_test_bootstrap_scripts"]
-
-    # Do not sort
     _ts_web_test(
         bootstrap=bootstrap,
-
         # Do not sort
         deps=[
             "//:tslib_bundle",
@@ -102,13 +80,11 @@ def ts_web_test(deps=[], **kwargs):
         **kwargs
     )
 
-def ng_module(name, tsconfig=None, entry_point=None, node_modules=None, flat_module_out_file=None, **kwargs):
+def ng_module(name, tsconfig=None, entry_point=None, node_modules=None, **kwargs):
     if not tsconfig:
         tsconfig = DEFAULT_TSCONFIG
     if not entry_point:
         entry_point = "public_api.ts"
-    if not flat_module_out_file:
-        flat_module_out_file = name
     if not node_modules:
         node_modules = DEFAULT_NODE_MODULES
     _ng_module(
@@ -124,7 +100,6 @@ def ng_package(name, readme_md=None, license_banner=None, globals={}, **kwargs):
         readme_md = "//projects:README.md"
     if not license_banner:
         license_banner = "//projects:license-banner.txt"
-
     _ng_package(
         name=name,
         readme_md=readme_md,
