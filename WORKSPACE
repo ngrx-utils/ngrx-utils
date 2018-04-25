@@ -37,6 +37,17 @@ go_rules_dependencies()
 
 go_register_toolchains()
 
+# Fetch and install the Sass rules
+git_repository(
+    name = "io_bazel_rules_sass",
+    remote = "https://github.com/bazelbuild/rules_sass.git",
+    tag = "0.0.3",
+)
+
+load("@io_bazel_rules_sass//sass:sass.bzl", "sass_repositories")
+
+sass_repositories()
+
 # Add TypeScript rules
 http_archive(
     name = "build_bazel_rules_typescript",

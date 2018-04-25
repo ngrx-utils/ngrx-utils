@@ -27,7 +27,7 @@ jobs:
 
       - run: bazel info release
       - run: bazel run :install --noshow_progress
-      - run: bazel query --output=label //... | xargs bazel test --noshow_progress
+      - run: bazel query --output=label projects/... | xargs bazel test --noshow_progress
 
   build:
     <<: *node_image

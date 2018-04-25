@@ -38,6 +38,14 @@ node_modules_filegroup(
     ],
 )
 
+ANGULAR_TESTING = [
+    "node_modules/@angular/*/bundles/*-testing.umd.js",
+    # We use AOT, so the compiler and the dynamic platform-browser should be
+    # visible only in tests
+    "node_modules/@angular/compiler/bundles/*.umd.js",
+    "node_modules/@angular/platform-browser-dynamic/bundles/*.umd.js",
+]
+
 # Files necessary for unit tests that use zonejs
 filegroup(
     name = "web_test_bootstrap_scripts",
@@ -58,4 +66,31 @@ filegroup(
     name = "tslib_bundle",
     testonly = 1,
     srcs = glob(["node_modules/tslib/tslib.js"]),
+)
+
+filegroup(
+    name = "angular_bundles",
+    srcs = glob(
+        [
+            "node_modules/@angular/*/bundles/*.umd.js",
+
+            "node_modules/@ngrx/store/bundles/store.umd.js",
+            "node_modules/@ngrx/router-store/bundles/router-store.umd.js",
+            "node_modules/@ngrx/effects/bundles/effects.umd.js",
+
+            "node_modules/@ngrx-utils/store/bundles/store.umd.js",
+        ],
+        exclude = ANGULAR_TESTING + [
+            "node_modules/@angular/bazel/**/*",
+            "node_modules/@angular/cli/**/*",
+            "node_modules/@angular/compiler-cli/**/*",
+            "node_modules/@angular/language-service/**/*",
+        ],
+    ),
+)
+
+filegroup(
+    name = "angular_test_bundles",
+    testonly = 1,
+    srcs = glob(ANGULAR_TESTING),
 )

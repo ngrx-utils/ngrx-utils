@@ -72,8 +72,6 @@ def ts_web_test(deps=[], _conf_tmpl=None, **kwargs):
         "//:tslib_bundle",
         "//tools/testing:browser",
     ] + deps
-    if not _conf_tmpl:
-        _conf_tmpl=_CONF_TMPL
     _ts_web_test(
         bootstrap=bootstrap,
         deps=local_deps,
