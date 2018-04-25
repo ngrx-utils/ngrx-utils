@@ -8,7 +8,7 @@ ts_test_library(
 )
 
 ts_test_library(
-    name = "angular_test_init",
+    name = "browser",
     # This file *must* end with "spec" in order for ts_web_test to load it.
-    srcs = ["angular-test-init-spec.ts"],
+    srcs = ["bootstrap_browser_tests.ts"],
 )

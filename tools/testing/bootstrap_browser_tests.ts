@@ -3,11 +3,12 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-/* Common setup / initialization for all unit tests in Angular Material and CDK. */
+/* Common setup / initialization for all unit tests. */
 
 const testBed = TestBed.initTestEnvironment(
-  [BrowserDynamicTestingModule],
+  [BrowserDynamicTestingModule, NoopAnimationsModule],
   platformBrowserDynamicTesting()
 );
 patchTestBedToDestroyFixturesAfterEveryTest(testBed);

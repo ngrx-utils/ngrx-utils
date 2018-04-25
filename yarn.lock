@@ -543,8 +543,8 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.106.tgz#391bc3598ab5823563f7155847212152893edcd7"
 
 "@types/node@^8.10.8":
-  version "8.10.9"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.9.tgz#b507a74a7d3eddc74a17dc35fd40d8f45dde0d6c"
+  version "8.10.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.10.tgz#fec07bc2ad549d9e6d2f7aa0fb0be3491b83163a"
 
 "@types/q@^0.0.32":
   version "0.0.32"
@@ -718,6 +718,12 @@ amqplib@^0.5.2:
     buffer-more-ints "0.0.2"
     readable-stream "1.x >=1.1.9"
     safe-buffer "^5.0.1"
+
+angular-quokka-plugin@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/angular-quokka-plugin/-/angular-quokka-plugin-1.0.1.tgz#4f4736eaa72846906eebe02a51f343057953178e"
+  dependencies:
+    reflect-metadata "0.1.10"
 
 ansi-align@^2.0.0:
   version "2.0.0"
@@ -7564,6 +7570,10 @@ redis@^2.7.1:
     redis-commands "^1.2.0"
     redis-parser "^2.6.0"
 
+reflect-metadata@0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.10.tgz#b4f83704416acad89988c9b15635d47e03b9344a"
+
 reflect-metadata@^0.1.12, reflect-metadata@^0.1.2:
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.12.tgz#311bf0c6b63cd782f228a81abe146a2bfa9c56f2"
@@ -8014,9 +8024,9 @@ rx@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
 
-rxjs-compat@^6.0.0-uncanny-rc.7:
-  version "6.0.0-uncanny-rc.7"
-  resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.0.0-uncanny-rc.7.tgz#4d9d88c2296aefda6b6503a52c27d1bf7e6ff1f0"
+rxjs-compat@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.0.0.tgz#2496403f74042d07899faeeac0bd703e4bce6710"
 
 rxjs@^5.4.2, rxjs@^5.5.0:
   version "5.5.10"
@@ -8024,7 +8034,13 @@ rxjs@^5.4.2, rxjs@^5.5.0:
   dependencies:
     symbol-observable "1.0.1"
 
-rxjs@^6.0.0-beta.3, rxjs@^6.0.0-turbo-rc.4, rxjs@^6.0.0-uncanny-rc.7:
+rxjs@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.0.0.tgz#d647e029b5854617f994c82fe57a4c6747b352da"
+  dependencies:
+    tslib "^1.9.0"
+
+rxjs@^6.0.0-beta.3, rxjs@^6.0.0-turbo-rc.4:
   version "6.0.0-uncanny-rc.7"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.0.0-uncanny-rc.7.tgz#e5d6ebe2c538c583bf4b3600b60112d64a7a6991"
   dependencies:

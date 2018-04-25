@@ -66,17 +66,17 @@ def jasmine_node_test(node_modules=None, bootstrap=None, deps=[], **kwargs):
         **kwargs
     )
 
-def ts_web_test(deps=[], **kwargs):
+def ts_web_test(deps=[], _conf_tmpl=None, **kwargs):
     bootstrap = ["//:web_test_bootstrap_scripts"]
+    local_deps = [
+        "//:tslib_bundle",
+        "//tools/testing:browser",
+    ] + deps
+    if not _conf_tmpl:
+        _conf_tmpl=_CONF_TMPL
     _ts_web_test(
         bootstrap=bootstrap,
-        # Do not sort
-        deps=[
-            "//:tslib_bundle",
-            "//:angular_bundles",
-            "//:angular_test_bundles",
-            "//tools/testing:angular_test_init",
-        ] + deps,
+        deps=local_deps,
         **kwargs
     )
 
@@ -90,7 +90,7 @@ def ng_module(name, tsconfig=None, entry_point=None, node_modules=None, **kwargs
     _ng_module(
         name=name,
         node_modules=node_modules,
-        flat_module_out_file=flat_module_out_file,
+        flat_module_out_file=name,
         tsconfig=tsconfig,
         entry_point=entry_point,
         **kwargs)
