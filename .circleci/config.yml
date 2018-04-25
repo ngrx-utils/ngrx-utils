@@ -45,12 +45,17 @@ jobs:
             - ~/.cache/yarn
 
   lint:
-    <<: *node_image
+    <<: *ngcontainer
     steps:
       - checkout
+      - *set_bazel_options
       - restore_cache:
           key: *cache_key
-      - run: yarn gulp ci:lint
+      - run:
+          command: yarn gulp ci:lint
+          background: true
+      - run: 'buildifier -mode=check $(find . -type f \( -name BUILD.bazel -or -name BUILD \)) ||
+              (echo "BUILD files not formatted. Please run ''yarn buildifier''" ; exit 1)'
 
   test:
     <<: *node_image
