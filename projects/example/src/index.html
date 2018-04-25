@@ -1,14 +1,41 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Example</title>
   <base href="/">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <link rel="icon"
+        type="image/x-icon"
+        href="favicon.ico">
 </head>
+
 <body>
   <app-root></app-root>
+  <!--
+      We load zone.js outside the bundle. That's because it's a "polyfills"
+      which speculates that such features might be available in a browser.
+      Also it's tricky to configure dead code elimination to understand that
+      zone.js is used, given that we don't have any import statement that
+      imports from it.
+    -->
+  <script src="/zone.min.js"></script>
+
+  <!--
+      For development mode, this script will be bundled on-the-fly by
+      the devserver, based on the latest JS files built by Bazel.
+      For production, you should be able to use the same index.html file, but
+      this JS resource would be served from a static file.
+
+      To allow the same index.html file to be used for dev and prod mode, we
+      name the script "bundle.min.js". This is misleading since it's not
+      actually minified in dev mode. A possible resolution to this would be for
+      a server-side templating engine to write a dynamic index.html file.
+    -->
+  <script src="/bundle.min.js"></script>
 </body>
+
 </html>

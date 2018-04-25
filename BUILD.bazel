@@ -20,22 +20,32 @@ alias(
     actual = "@com_github_bazelbuild_buildtools//buildifier",
 )
 
-# NOTE: this may move to node_modules/BUILD in a later release
-node_modules_filegroup(
+filegroup(
     name = "node_modules",
-    packages = [
-        "jasmine",
-        "reflect-metadata",
-        "rxjs",
-        "tsickle",
-        "tslib",
-        "tsutils",
-        "typescript",
-        "zone.js",
+    # NB: rxjs is not in this list, because we build it from sources using the
+    # label @rxjs//:rxjs
+    srcs = glob(["/".join([
+        "node_modules",
+        pkg,
+        "**",
+        ext,
+    ]) for pkg in [
         "@angular",
         "@ngrx",
         "@types",
-    ],
+        "tsickle",
+        "tsutils",
+        "tslib",
+        "jasmine",
+        "typescript",
+        "zone.js",
+    ] for ext in [
+        "*.js",
+        "*.json",
+        "*.d.ts",
+    ]] + [
+        "node_modules/http-server/**",
+    ]),
 )
 
 ANGULAR_TESTING = [
@@ -76,7 +86,6 @@ filegroup(
             "node_modules/@ngrx/store/bundles/store.umd.js",
             "node_modules/@ngrx/router-store/bundles/router-store.umd.js",
             "node_modules/@ngrx/effects/bundles/effects.umd.js",
-            "node_modules/@ngrx-utils/store/bundles/store.umd.js",
         ],
         exclude = ANGULAR_TESTING + [
             "node_modules/@angular/bazel/**/*",

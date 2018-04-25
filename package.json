@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "serve:example": "ibazel run //projects/example/src:devserver",
+    "serve": "ibazel run //projects/example/src:devserver",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
