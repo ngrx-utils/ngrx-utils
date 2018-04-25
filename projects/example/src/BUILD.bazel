@@ -5,7 +5,10 @@ package(default_visibility = ["//visibility:public"])
 
 ng_module(
     name = "src",
-    srcs = glob(["main.ts", "environments/*.ts"]),
+    srcs = glob([
+        "main.ts",
+        "environments/*.ts",
+    ]),
     tsconfig = "//projects/example:tsconfig.app.json",
     deps = [
         "//projects/example/src/app",

@@ -73,11 +73,9 @@ filegroup(
     srcs = glob(
         [
             "node_modules/@angular/*/bundles/*.umd.js",
-
             "node_modules/@ngrx/store/bundles/store.umd.js",
             "node_modules/@ngrx/router-store/bundles/router-store.umd.js",
             "node_modules/@ngrx/effects/bundles/effects.umd.js",
-
             "node_modules/@ngrx-utils/store/bundles/store.umd.js",
         ],
         exclude = ANGULAR_TESTING + [

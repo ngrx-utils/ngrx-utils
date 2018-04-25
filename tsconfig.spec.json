@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": ["jasmine", "node"],
-    "baseUrl": "./",
+    "types": [
+      "jasmine",
+      "node"
+    ],
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -15,16 +17,19 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es2017", 
+      "es2017",
       "dom"
     ],
+    "baseUrl": "./",
     "paths": {
       "@ngrx-utils/store": [
         "projects/store"
       ]
     }
   },
-  "files": ["test.ts"],
+  "files": [
+    "test.ts"
+  ],
   "include": [
     "projects/**/*.spec.ts",
     "projects/**/*.d.ts"

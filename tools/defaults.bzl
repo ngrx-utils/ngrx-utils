@@ -78,13 +78,12 @@ def ts_web_test(deps=[], _conf_tmpl=None, **kwargs):
         **kwargs
     )
 
-def ng_module(name, tsconfig=None, entry_point=None, node_modules=None, **kwargs):
+def ng_module(name, tsconfig=None, entry_point=None, **kwargs):
     if not tsconfig:
         tsconfig = DEFAULT_TSCONFIG
     if not entry_point:
         entry_point = "public_api.ts"
-    if not node_modules:
-        node_modules = DEFAULT_NODE_MODULES
+    node_modules = DEFAULT_NODE_MODULES
     _ng_module(
         name=name,
         node_modules=node_modules,
