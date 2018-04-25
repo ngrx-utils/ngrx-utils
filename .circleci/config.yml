@@ -54,8 +54,7 @@ jobs:
       - run:
           command: yarn gulp ci:lint
           background: true
-      - run: 'buildifier -mode=check $(find . -type f \( -name BUILD.bazel -or -name BUILD \)) ||
-              (echo "BUILD files not formatted. Please run ''yarn buildifier''" ; exit 1)'
+      - run: 'buildifier -mode=check $(find . -type f \( -name BUILD.bazel -or -name BUILD \) ! -path "*/node_modules/*") || (echo "BUILD files not formatted. Please run ''yarn buildifier''" ; exit 1)'
 
   test:
     <<: *node_image
