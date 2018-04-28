@@ -16,7 +16,7 @@ var_4: &set_bazel_options
   run: chmod +x tools/bazel_stamp_vars.sh
 
 var_5: &upgrade_npm
-  run: npm i -g npm --silent
+  run: sudo npm i -g npm --silent
 
 jobs:
   bazel:
