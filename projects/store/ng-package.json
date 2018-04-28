@@ -5,9 +5,8 @@
   "lib": {
     "entryFile": "public_api.ts",
     "umdModuleIds": {
-      "@ngrx/store": "ngrx.store",
-      "@ngrx-utils/store": "ngrxUtils.store",
-      "rxjs": "rxjs"
+      "rxjs": "rxjs",
+      "@ngrx/store": "ngrx.store"
     }
   }
 }

@@ -1,9 +1,33 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/app",
     "module": "es2015",
-    "types": []
+    "types": [],
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ]
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "exclude": [
+    "src/test.ts",
+    "**/*.spec.ts"
+  ],
+  "bazelOptions": {
+    "suppressTsconfigOverrideWarnings": true
+  },
+  "angularCompilerOptions": {
+    "annotateForClosureCompiler": true,
+    "fullTemplateTypeCheck": true
+  }
 }

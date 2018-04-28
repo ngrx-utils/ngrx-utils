@@ -3,14 +3,14 @@ import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/cor
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RouterLinkActiveMatch, RouterLinkActiveMatchModule } from '@ngrx-utils/store';
+import { RouterLinkMatch, RouterLinkMatchModule } from '@ngrx-utils/store';
 
-describe('RouterLinkActiveMatch', () => {
+describe('RouterLinkMatch', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [Test2Component, Test1Component, Test3Component, Test4Component, RootComponent],
       imports: [
-        RouterLinkActiveMatchModule,
+        RouterLinkMatchModule,
         RouterTestingModule.withRoutes([
           { path: 'test1', component: Test1Component },
           { path: 'test2', component: Test2Component }
@@ -103,7 +103,7 @@ describe('RouterLinkActiveMatch', () => {
   );
 
   it(
-    'should not call update class when there are no change in routerLinkActiveMatch input',
+    'should not call update class when there are no change in routerLinkMatch input',
     fakeAsync(
       inject([Router], (router: Router) => {
         const fixture = createRoot(router, RootComponent);
@@ -124,7 +124,7 @@ describe('RouterLinkActiveMatch', () => {
 
 @Component({
   template: `
-      <a [routerLinkActiveMatch]="{
+      <a [routerLinkMatch]="{
           'test1-class': 'test1'
         }">Test1</a>
   `,
@@ -134,7 +134,7 @@ class Test1Component {}
 
 @Component({
   template: `
-      <a [routerLinkActiveMatch]="{
+      <a [routerLinkMatch]="{
         'test2-class': 'test2'
       }" class="origin-class">Test2</a>
   `,
@@ -143,7 +143,7 @@ class Test1Component {}
 class Test2Component {}
 
 @Component({
-  template: `<a [routerLinkActiveMatch]="{
+  template: `<a [routerLinkMatch]="{
     'test2-class': 'test2',
     'test1-class': 'test1'
   }" class="origin-class">Test3</a>`,
@@ -153,7 +153,7 @@ class Test3Component {}
 
 @Component({
   template: `
-    <a [routerLinkActiveMatch]="test4" class="origin-class">Test4</a>
+    <a [routerLinkMatch]="test4" class="origin-class">Test4</a>
   `,
   selector: 'test-4'
 })
@@ -162,7 +162,7 @@ class Test4Component {
     'test4-class': 'test1'
   };
 
-  @ViewChild(RouterLinkActiveMatch) active: RouterLinkActiveMatch;
+  @ViewChild(RouterLinkMatch) active: RouterLinkMatch;
 
   other: any;
 }

@@ -3,52 +3,100 @@ version: 2
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-var_1: &cache_key npm-cache-{{ checksum "package-lock.json" }}
-var_2: &node_image
+var_1: &cache_npm npm-cache-v2
+var_2: &node_image_browser
   docker:
-      - image: circleci/node:latest-browsers
+    - image: circleci/node:8.11-browsers
+var_3: &ngcontainer
+  docker:
+    - image: angular/ngcontainer:latest
+
+var_4: &set_bazel_options
+  run: sudo cp .circleci/bazel.rc /etc/bazel.bazelrc
+  run: chmod +x tools/bazel_stamp_vars.sh
+
+var_5: &upgrade_npm
+  run: sudo npm i -g npm --silent
+
+var_6: &cache_node_modules node_modules-cache-v1-{{ checksum "package-lock.json" }}
 
 jobs:
-  build:
-    <<: *node_image
+  bazel:
+    <<: *ngcontainer
     steps:
       - checkout
       - restore_cache:
-          key: *cache_key
-      - run: sudo npm up -g npm && npm ci
+          key: *cache_npm
+          
+      - *set_bazel_options
+
+      - run: bazel info release
+      - run: bazel run @nodejs//:npm install --noshow_progress
+      - run: bazel query --output=label projects/... | xargs bazel test --noshow_progress
+
+  build:
+    <<: *node_image_browser
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_npm
+
+      - *upgrade_npm
+
+      - run: npm -v
+      - run: npm ci
       - run: npm run gulp ci:build
 
       - save_cache:
-          key: *cache_key
+          key: *cache_npm
+          paths:
+            - ~/.npm
+      
+      - save_cache:
+          key: *cache_node_modules
           paths:
             - node_modules
-            - ~/.npm
 
   lint:
-    <<: *node_image
+    <<: *ngcontainer
     steps:
       - checkout
+      - *set_bazel_options
+
       - restore_cache:
-          key: *cache_key
+          key: *cache_npm
+      - restore_cache:
+          key: *cache_node_modules
+
+      - run: npm install
       - run: npm run gulp ci:lint
+      - run: 'buildifier -mode=check $(find . -type f \( -name BUILD.bazel -or -name BUILD \) ! -path "*/node_modules/*") || (echo "BUILD files not formatted. Please run ''yarn buildifier''" ; exit 1)'
 
   test:
-    <<: *node_image
+    <<: *node_image_browser
     steps:
       - checkout
       - restore_cache:
-          key: *cache_key
+          key: *cache_npm
+
+      - *upgrade_npm
+
+      - run: npm ci
       - run: npm run gulp ci:test
 
   deploy:
-    <<: *node_image
+    <<: *node_image_browser
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
-          key: *cache_key
+          key: *cache_npm
 
-      - run: sudo npm up -g npm && npm ci
+      - *upgrade_npm
+
+      - run: npm -v
+      - run: npm ci
+      - run: npm run gulpp ci:build
       - run: npm run gulp deploy
 
       - store_artifacts:
@@ -56,8 +104,9 @@ jobs:
 
 workflows:
   version: 2
-  build-test-deploy:
+  build-and-deploy:
     jobs:
+      - bazel
       - build
       - lint:
           requires:
@@ -65,9 +114,17 @@ workflows:
       - test:
           requires:
             - build
-      - deploy:
+      - hold:
+          type: approval
           requires:
             - test
+            - lint
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - hold
           filters:
             branches:
               only: master

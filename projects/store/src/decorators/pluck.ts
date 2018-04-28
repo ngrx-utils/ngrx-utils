@@ -1,6 +1,6 @@
 import { pluck as pluckOperator } from 'rxjs/operators';
 
-import { NgrxSelect } from './ngrx-select.module';
+import { NgrxSelect } from './ngrx-select';
 
 /**
  * @whatItDoes Provide an utility for select a piece of state from Root State.
@@ -39,7 +39,7 @@ export function Pluck(path?: string, ...paths: string[]) {
         get() {
           const source$ = NgrxSelect.store;
 
-          if (source$ === undefined) {
+          if (source$ === null) {
             throw new Error('NgrxSelect not connected to store!');
           }
 

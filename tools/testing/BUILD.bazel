@@ -1,0 +1,14 @@
+package(default_visibility = ["//visibility:public"])
+
+load("//tools:defaults.bzl", "ts_test_library")
+
+ts_test_library(
+    name = "node",
+    srcs = ["bootstrap_node_tests.ts"],
+)
+
+ts_test_library(
+    name = "browser",
+    # This file *must* end with "spec" in order for ts_web_test to load it.
+    srcs = ["bootstrap_browser_tests.ts"],
+)

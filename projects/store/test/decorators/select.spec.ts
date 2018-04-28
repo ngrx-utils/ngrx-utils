@@ -68,7 +68,7 @@ describe('Select', () => {
   });
 
   it('should throw error when user not import NgrxSelectModule', () => {
-    NgrxSelect.store = undefined;
+    NgrxSelect.store = null;
     class MyStateSelector {
       @Select(msBar) bar$: Observable<any>; // using MemoizedSelector
     }

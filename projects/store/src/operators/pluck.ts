@@ -1,5 +1,5 @@
 import { OperatorFunction } from 'rxjs';
-import { pluck as pluckOperator } from 'rxjs/operators';
+import { pluck as plucker } from 'rxjs/operators';
 
 /**
  * Strong typed pluck function to replace
@@ -43,5 +43,5 @@ export function pluck<
 >(s1: B, s2: C, s3: D, s4: E, s5: F, s6: G): OperatorFunction<A, A[B][C][D][E][F][G]>;
 export function pluck<T, V>(...props: string[]): OperatorFunction<T, V>;
 export function pluck<T, V>(...props: string[]): OperatorFunction<T, V> {
-  return pluckOperator<T, V>(...props);
+  return plucker<T, V>(...props);
 }

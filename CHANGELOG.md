@@ -1,12 +1,10 @@
 <a name="0.11.0-beta.1"></a>
-# [0.11.0-beta.1](https://github.com/sandangel/ngrx-utils/compare/0.11.0-beta.0...0.11.0-beta.1) (2018-04-12)
 
+# [0.11.0-beta.1](https://github.com/sandangel/ngrx-utils/compare/0.11.0-beta.0...0.11.0-beta.1) (2018-04-12)
 
 ### Bug Fixes
 
 * switch back to angular 5 for compatible with ng-packagr ([51830b0](https://github.com/sandangel/ngrx-utils/commit/51830b0))
-
-
 
 <a name="0.11.0-beta.0"></a>
 
@@ -14,7 +12,7 @@
 
 ### Features
 
-* **store:** add routerLinkActiveMatch directive ([0bc108f](https://github.com/sandangel/ngrx-utils/commit/0bc108f))
+* **store:** add routerLinkMatch directive ([0bc108f](https://github.com/sandangel/ngrx-utils/commit/0bc108f))
 * **store:** support dispatch multi actions in @Dispatch() ([c7d8195](https://github.com/sandangel/ngrx-utils/commit/c7d8195))
 * **store:** push pipe for ngZone: 'noop' ([771b195](https://github.com/sandangel/ngrx-utils/commit/771b195))
 

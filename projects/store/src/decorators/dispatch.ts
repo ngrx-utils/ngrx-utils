@@ -1,6 +1,6 @@
 import { Action, Store } from '@ngrx/store';
 
-import { NgrxSelect } from './ngrx-select.module';
+import { NgrxSelect } from './ngrx-select';
 
 /**
  * @whatItDoes Dispatch method returned action.
@@ -20,7 +20,7 @@ export function Dispatch() {
     // editing the descriptor/value parameter
     descriptor.value = function(...args: any[]) {
       const source$ = NgrxSelect.store;
-      if (!source$) {
+      if (source$ === null) {
         throw new Error('NgrxSelect not connected to store!');
       }
       // note usage of originalMethod here

@@ -1,4 +1,4 @@
-import { NgModule, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { NgModule, Directive, Input, TemplateRef, ViewContainerRef, OnInit } from '@angular/core';
 
 export class NgLetContext {
   $implicit: any = null;
@@ -8,7 +8,7 @@ export class NgLetContext {
 @Directive({
   selector: '[ngLet]'
 })
-export class NgLetDirective {
+export class NgLetDirective implements OnInit {
   private _context = new NgLetContext();
 
   @Input()
@@ -16,8 +16,10 @@ export class NgLetDirective {
     this._context.$implicit = this._context.ngLet = value;
   }
 
-  constructor(_vcr: ViewContainerRef, _templateRef: TemplateRef<NgLetContext>) {
-    _vcr.createEmbeddedView(_templateRef, this._context);
+  constructor(private _vcr: ViewContainerRef, private _templateRef: TemplateRef<NgLetContext>) {}
+
+  ngOnInit() {
+    this._vcr.createEmbeddedView(this._templateRef, this._context);
   }
 }
 

@@ -19,21 +19,21 @@ export interface MatchExp {
 }
 
 @Directive({
-  selector: '[routerLinkActiveMatch]'
+  selector: '[routerLinkMatch]'
 })
-export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
+export class RouterLinkMatch implements OnDestroy, OnChanges {
   private _curRoute: string;
   private _matchExp: MatchExp;
   private _onChangesHook = new Subject<MatchExp>();
 
-  @Input('routerLinkActiveMatch')
-  set routerLinkActiveMatch(v: MatchExp) {
+  @Input('routerLinkMatch')
+  set routerLinkMatch(v: MatchExp) {
     if (v && typeof v === 'object') {
       this._matchExp = v;
     } else {
       throw new TypeError(
         `Unexpected type '${typeof v}' of value for ` +
-          `input of routerLinkActiveMatch directive, expected 'object'`
+          `input of routerLinkMatch directive, expected 'object'`
       );
     }
   }
@@ -49,8 +49,8 @@ export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['routerLinkActiveMatch']) {
-      this._onChangesHook.next(changes['routerLinkActiveMatch'].currentValue);
+    if (changes['routerLinkMatch']) {
+      this._onChangesHook.next(changes['routerLinkMatch'].currentValue);
     }
   }
 
@@ -67,7 +67,7 @@ export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
         throw new TypeError(
           `Could not convert match value to Regular Expression. ` +
             `Unexpected type '${typeof v[cls]}' for value of key '${cls}' ` +
-            `in routerLinkActiveMatch directive match expression, expected 'non-empty string'`
+            `in routerLinkMatch directive match expression, expected 'non-empty string'`
         );
       }
     });
@@ -89,7 +89,7 @@ export class RouterLinkActiveMatch implements OnDestroy, OnChanges {
 }
 
 @NgModule({
-  declarations: [RouterLinkActiveMatch],
-  exports: [RouterLinkActiveMatch]
+  declarations: [RouterLinkMatch],
+  exports: [RouterLinkMatch]
 })
-export class RouterLinkActiveMatchModule {}
+export class RouterLinkMatchModule {}

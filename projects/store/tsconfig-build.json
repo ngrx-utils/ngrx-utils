@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "stripInternal": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "module": "es2015",
+    "target": "es2015",
+    "lib": ["es2015", "dom"],
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "importHelpers": true,
+    "outDir": "../../dist/packages/store",
+    "rootDir": ".",
+    "rootDirs": [
+      ".",
+      "../../dist/packages/store"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@ngrx-utils/store": [
+        "./index"
+      ]
+    }
+  },
+  "bazelOptions": {
+    "suppressTsconfigOverrideWarnings": true
+  },
+  "angularCompilerOptions": {
+    "annotateForClosureCompiler": true,
+    "strictMetadataEmit": false,
+    "flatModuleOutFile": "index.js",
+    "flatModuleId": "@ngrx-utils/store",
+    "skipTemplateCodegen": true,
+    "fullTemplateTypeCheck": true
+  }
+}
