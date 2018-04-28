@@ -43,6 +43,9 @@ jobs:
       - restore_cache:
           key: *cache_key
 
+      - *upgrade_npm
+
+      - run: npm -v
       - run: npm ci
       - run: npm run gulp ci:build
 
@@ -62,6 +65,7 @@ jobs:
 
       - *upgrade_npm
 
+      - run: npm -v
       - run: npm ci
       - run: npm run gulp ci:lint
       - run: 'buildifier -mode=check $(find . -type f \( -name BUILD.bazel -or -name BUILD \) ! -path "*/node_modules/*") || (echo "BUILD files not formatted. Please run ''yarn buildifier''" ; exit 1)'
@@ -86,6 +90,9 @@ jobs:
       - restore_cache:
           key: *cache_key
 
+      - *upgrade_npm
+      
+      - run: npm -v
       - run: npm ci
       - run: npm run gulpp ci:build
       - run: npm run gulp deploy
