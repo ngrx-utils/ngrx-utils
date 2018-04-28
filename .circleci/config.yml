@@ -3,7 +3,7 @@ version: 2
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-var_1: &cache_key npm-cache-v1
+var_1: &cache_key npm-cache-v2
 var_2: &node_image_browser
   docker:
     - image: circleci/node:8.11-browsers
@@ -16,7 +16,7 @@ var_4: &set_bazel_options
   run: chmod +x tools/bazel_stamp_vars.sh
 
 var_5: &upgrade_npm
-  run: sudo npm up -g npm --silent
+  run: npm i -g npm --silent
 
 jobs:
   bazel:
@@ -87,7 +87,7 @@ jobs:
           key: *cache_key
 
       - *upgrade_npm
-      
+
       - run: npm -v
       - run: npm ci
       - run: npm run gulpp ci:build
