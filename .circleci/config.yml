@@ -18,7 +18,7 @@ var_4: &set_bazel_options
 var_5: &upgrade_npm
   run: sudo npm i -g npm --silent
 
-var_6: &cache_node_modules npm-cache-v1-{{ checksum "package-lock.json" }}
+var_6: &cache_node_modules node_modules-cache-v1-{{ checksum "package-lock.json" }}
 
 jobs:
   bazel:
@@ -64,9 +64,9 @@ jobs:
       - *set_bazel_options
 
       - restore_cache:
-          keys:
-            - *cache_npm
-            - *cache_node_modules
+          key: *cache_npm
+      - restore_cache:
+          key: *cache_node_modules
 
       - run: npm install
       - run: npm run gulp ci:lint
