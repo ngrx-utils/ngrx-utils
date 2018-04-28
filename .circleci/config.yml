@@ -18,10 +18,6 @@ var_4: &set_bazel_options
 var_5: &upgrade_npm
   run: sudo npm up -g npm --silent
 
-var_6: &node_image_latest
-  docker:
-    - image: circleci/node:10.0-stretch
-
 jobs:
   bazel:
     <<: *ngcontainer
@@ -37,11 +33,13 @@ jobs:
       - run: bazel query --output=label projects/... | xargs bazel test --noshow_progress
 
   build:
-    <<: *node_image_latest
+    <<: *node_image_browser
     steps:
       - checkout
       - restore_cache:
           key: *cache_key
+
+      - *upgrade_npm
 
       - run: npm -v
       - run: npm ci
@@ -81,12 +79,14 @@ jobs:
       - run: npm run gulp ci:test
 
   deploy:
-    <<: *node_image_latest
+    <<: *node_image_browser
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           key: *cache_key
+
+      - *upgrade_npm
       
       - run: npm -v
       - run: npm ci
