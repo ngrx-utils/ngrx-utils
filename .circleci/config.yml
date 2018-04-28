@@ -16,8 +16,7 @@ var_4: &set_bazel_options
   run: chmod +x tools/bazel_stamp_vars.sh
 
 var_5: &upgrade_npm
-  run: npm i -g npm --silent
-
+  run: sudo npm up -g npm --silent
 
 jobs:
   bazel:
@@ -39,8 +38,6 @@ jobs:
       - checkout
       - restore_cache:
           key: *cache_key
-
-      - *upgrade_npm
 
       - run: npm -v
       - run: npm ci
@@ -74,8 +71,6 @@ jobs:
       - restore_cache:
           key: *cache_key
 
-      - *upgrade_npm
-
       - run: npm ci
       - run: npm run gulp ci:test
 
@@ -86,8 +81,6 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           key: *cache_key
-
-      - *upgrade_npm
       
       - run: npm -v
       - run: npm ci
