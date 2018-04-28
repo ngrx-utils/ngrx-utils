@@ -13,7 +13,6 @@
     ],
     "exclude": [
         "node_modules/@angular/bazel/**",
-        "node_modules/@angular/router/**",
         "node_modules/@angular/cli/**",
         "node_modules/@angular/core/testing/**",
         "node_modules/@angular/platform-browser/testing/**",

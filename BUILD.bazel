@@ -1,7 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@build_bazel_rules_nodejs//:defs.bzl", "node_modules_filegroup")
-
 exports_files([
     "tsconfig.json",
     "tsconfig.spec.json",
@@ -52,8 +50,8 @@ ANGULAR_TESTING = [
     "node_modules/@angular/*/bundles/*-testing.umd.js",
     # We use AOT, so the compiler and the dynamic platform-browser should be
     # visible only in tests
-    "node_modules/@angular/compiler/bundles/*.umd.js",
-    "node_modules/@angular/platform-browser-dynamic/bundles/*.umd.js",
+    # "node_modules/@angular/compiler/bundles/*.umd.js",
+    # "node_modules/@angular/platform-browser-dynamic/bundles/*.umd.js",
 ]
 
 # Files necessary for unit tests that use zonejs
@@ -83,15 +81,14 @@ filegroup(
     srcs = glob(
         [
             "node_modules/@angular/*/bundles/*.umd.js",
-            "node_modules/@ngrx/store/bundles/store.umd.js",
-            "node_modules/@ngrx/router-store/bundles/router-store.umd.js",
-            "node_modules/@ngrx/effects/bundles/effects.umd.js",
+            # "node_modules/@ngrx/*/bundles/*.umd.js",
         ],
         exclude = ANGULAR_TESTING + [
             "node_modules/@angular/bazel/**/*",
             "node_modules/@angular/cli/**/*",
             "node_modules/@angular/compiler-cli/**/*",
             "node_modules/@angular/language-service/**/*",
+            "node_modules/@ngrx/schematics/**/*",
         ],
     ),
 )

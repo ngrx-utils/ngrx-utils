@@ -3,8 +3,8 @@ version: 2
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}
-var_2: &node_image
+var_1: &cache_key npm-cache
+var_2: &node_image_browser
   docker:
       - image: circleci/node:latest-browsers
 var_3: &ngcontainer
@@ -14,6 +14,13 @@ var_3: &ngcontainer
 var_4: &set_bazel_options
   run: sudo cp .circleci/bazel.rc /etc/bazel.bazelrc
   run: chmod +x tools/bazel_stamp_vars.sh
+
+var_5: &upgrade_npm
+  run: npm i -g npm --silent
+
+var_6: &node_image_latest
+  docker:
+      - image: node:10.0-stretch
 
 jobs:
   bazel:
@@ -26,53 +33,62 @@ jobs:
       - *set_bazel_options
 
       - run: bazel info release
-      - run: bazel run :install --noshow_progress
+      - run: bazel run @nodejs//:npm install --noshow_progress
       - run: bazel query --output=label projects/... | xargs bazel test --noshow_progress
 
   build:
-    <<: *node_image
+    <<: *node_image_latest
     steps:
       - checkout
       - restore_cache:
           key: *cache_key
-      - run: yarn install --silent
-      - run: yarn gulp ci:build
+
+      - run: npm ci
+      - run: npm run gulp ci:build
 
       - save_cache:
           key: *cache_key
           paths:
-            - node_modules
-            - ~/.cache/yarn
+            - ~/.npm
 
   lint:
     <<: *ngcontainer
     steps:
       - checkout
       - *set_bazel_options
+
       - restore_cache:
           key: *cache_key
-      - run:
-          command: yarn gulp ci:lint
-          background: true
+
+      - *upgrade_npm
+
+      - run: npm ci
+      - run: npm run gulp ci:lint
       - run: 'buildifier -mode=check $(find . -type f \( -name BUILD.bazel -or -name BUILD \) ! -path "*/node_modules/*") || (echo "BUILD files not formatted. Please run ''yarn buildifier''" ; exit 1)'
 
   test:
-    <<: *node_image
+    <<: *node_image_browser
     steps:
       - checkout
       - restore_cache:
           key: *cache_key
-      - run: yarn gulp ci:test
+
+      - *upgrade_npm
+
+      - run: npm ci
+      - run: npm run gulp ci:test
 
   deploy:
-    <<: *node_image
+    <<: *node_image_latest
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           key: *cache_key
-      - run: yarn gulpp ci:build
-      - run: yarn gulp deploy
+
+      - run: npm ci
+      - run: npm run gulpp ci:build
+      - run: npm run gulp deploy
 
       - store_artifacts:
           path: dist/releases
