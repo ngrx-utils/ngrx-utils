@@ -6,7 +6,7 @@ version: 2
 var_1: &cache_key npm-cache-v1
 var_2: &node_image_browser
   docker:
-      - image: circleci/node:latest-browsers
+      - image: circleci/node:10.0-browsers
 var_3: &ngcontainer
   docker:
     - image: angular/ngcontainer:latest
