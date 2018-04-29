@@ -27,7 +27,7 @@ jobs:
       - checkout
       - restore_cache:
           key: *cache_npm
-          
+
       - *set_bazel_options
 
       - run: bazel info release
@@ -45,13 +45,13 @@ jobs:
 
       - run: npm -v
       - run: npm ci
-      - run: npm run gulp ci:build
+      - run: npx ng build --prod
 
       - save_cache:
           key: *cache_npm
           paths:
             - ~/.npm
-      
+
       - save_cache:
           key: *cache_node_modules
           paths:
@@ -69,7 +69,7 @@ jobs:
           key: *cache_node_modules
 
       - run: npm install
-      - run: npm run gulp ci:lint
+      - run: npx ng lint
       - run: 'buildifier -mode=check $(find . -type f \( -name BUILD.bazel -or -name BUILD \) ! -path "*/node_modules/*") || (echo "BUILD files not formatted. Please run ''yarn buildifier''" ; exit 1)'
 
   test:
@@ -82,7 +82,7 @@ jobs:
       - *upgrade_npm
 
       - run: npm ci
-      - run: npm run gulp ci:test
+      - run: npx ng test
 
   deploy:
     <<: *node_image_browser
@@ -96,7 +96,7 @@ jobs:
 
       - run: npm -v
       - run: npm ci
-      - run: npm run gulp ci:build
+      - run: npx ng build --prod
       - run: npm run gulp deploy
 
       - store_artifacts:
