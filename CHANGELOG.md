@@ -1,24 +1,17 @@
-<a name="0.11.0-beta.1"></a>
+# Change Log
 
-# [0.11.0-beta.1](https://github.com/sandangel/ngrx-utils/compare/0.11.0-beta.0...0.11.0-beta.1) (2018-04-12)
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### Bug Fixes
+<a name="0.11.0"></a>
 
-* switch back to angular 5 for compatible with ng-packagr ([51830b0](https://github.com/sandangel/ngrx-utils/commit/51830b0))
-
-<a name="0.11.0-beta.0"></a>
-
-# [0.11.0-beta.0](https://github.com/sandangel/ngrx-utils/compare/v0.10.0...v0.11.0-beta.0) (2018-04-11)
+# [0.11.0](https://github.com/sandangel/ngrx-utils/compare/v0.10.0...v0.11.0) (2018-04-29)
 
 ### Features
 
-* **store:** add routerLinkMatch directive ([0bc108f](https://github.com/sandangel/ngrx-utils/commit/0bc108f))
-* **store:** support dispatch multi actions in @Dispatch() ([c7d8195](https://github.com/sandangel/ngrx-utils/commit/c7d8195))
-* **store:** push pipe for ngZone: 'noop' ([771b195](https://github.com/sandangel/ngrx-utils/commit/771b195))
-
-### Code Refactoring
-
-* **store:** upgrade to Angular 6, rxjs 6 and Ngrx 6
+* **store:** push pipe support for ngZone: 'noop' ([7ffeb6b](https://github.com/sandangel/ngrx-utils/commit/7ffeb6b))
+* **store:** router link active match regexp ([4293b37](https://github.com/sandangel/ngrx-utils/commit/4293b37))
+* **store:** support dispatch multi actions in @Dispatch() ([c61a3ef](https://github.com/sandangel/ngrx-utils/commit/c61a3ef))
+* build with bazel ([1dd5eb4](https://github.com/sandangel/ngrx-utils/commit/1dd5eb4))
 
 <a name="0.10.0"></a>
 

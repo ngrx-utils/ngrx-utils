@@ -86,10 +86,10 @@ describe('NgrxSelectModule', () => {
     it(
       'should work fine when using in Component',
       fakeAsync(() => {
-        fixture.whenStable().then(() => {
-          expect(debugEl.queryAll(By.css('div')).length).toEqual(1);
-          expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
-        });
+        tick();
+        fixture.detectChanges();
+        expect(debugEl.queryAll(By.css('div')).length).toEqual(1);
+        expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
       })
     );
 
@@ -102,18 +102,14 @@ describe('NgrxSelectModule', () => {
 
           tick();
           fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test b');
-          });
+          expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test b');
 
           action = { type: 'TEST 2' };
           store.dispatch(action);
 
           tick();
           fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
-          });
+          expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
         })
       )
     );
