@@ -27,12 +27,12 @@ jobs:
       - checkout
       - restore_cache:
           key: *cache_npm
-          
+
       - *set_bazel_options
 
       - run: bazel info release
       - run: bazel run @nodejs//:npm install --noshow_progress
-      - run: bazel query --output=label projects/... | xargs bazel test --noshow_progress
+      - run: npm run test:bazel
 
   build:
     <<: *node_image_browser
@@ -51,7 +51,7 @@ jobs:
           key: *cache_npm
           paths:
             - ~/.npm
-      
+
       - save_cache:
           key: *cache_node_modules
           paths:
@@ -96,7 +96,7 @@ jobs:
 
       - run: npm -v
       - run: npm ci
-      - run: npm run gulpp ci:build
+      - run: npm run gulp ci:build
       - run: npm run gulp deploy
 
       - store_artifacts:

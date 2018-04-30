@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, DebugElement, NgModule } from '@angular/core';
-import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgrxSelectModule, Pluck, ɵNgrxSelect as NgrxSelect } from '@ngrx-utils/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -83,39 +83,30 @@ describe('NgrxSelectModule', () => {
       })
     );
 
-    it(
-      'should work fine when using in Component',
-      fakeAsync(() => {
-        fixture.whenStable().then(() => {
-          expect(debugEl.queryAll(By.css('div')).length).toEqual(1);
-          expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
-        });
+    it('should work fine when using in Component', async(async () => {
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(debugEl.queryAll(By.css('div')).length).toEqual(1);
+      expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
+    }));
+
+    it('should change template binding when action dispatched', async(
+      inject([Store], async (store: Store<any>) => {
+        const action1 = { type: 'TEST' };
+        store.dispatch(action1);
+
+        await fixture.whenStable();
+        fixture.detectChanges();
+        expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test b');
+
+        const action2 = { type: 'TEST 2' };
+        store.dispatch(action2);
+
+        await fixture.whenStable();
+        fixture.detectChanges();
+        expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
       })
-    );
-
-    it(
-      'should change template binding when action dispatched',
-      fakeAsync(
-        inject([Store], (store: Store<any>) => {
-          let action = { type: 'TEST' };
-          store.dispatch(action);
-
-          tick();
-          fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test b');
-          });
-
-          action = { type: 'TEST 2' };
-          store.dispatch(action);
-
-          tick();
-          fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
-          });
-        })
-      )
-    );
+    ));
   });
 });
