@@ -2,10 +2,10 @@
   "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "defaultProject": "store",
+  "defaultProject": "ngrx-utils",
   "projects": {
     "store": {
-      "root": "projects/store",
+      "root": "projects/store/",
       "projectType": "library",
       "architect": {
         "build": {
@@ -173,7 +173,7 @@
       }
     },
     "ngrx-utils": {
-      "root": "",
+      "root": "./",
       "projectType": "library",
       "architect": {
         "test": {

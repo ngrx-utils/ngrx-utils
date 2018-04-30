@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file. See [standa
 * **store:** push pipe support for ngZone: 'noop' ([7ffeb6b](https://github.com/sandangel/ngrx-utils/commit/7ffeb6b))
 * **store:** router link active match regexp ([4293b37](https://github.com/sandangel/ngrx-utils/commit/4293b37))
 * **store:** support dispatch multi actions in @Dispatch() ([c61a3ef](https://github.com/sandangel/ngrx-utils/commit/c61a3ef))
-* build with bazel ([1dd5eb4](https://github.com/sandangel/ngrx-utils/commit/1dd5eb4))
+* This library now is built with @angular/bazel ([1dd5eb4](https://github.com/sandangel/ngrx-utils/commit/1dd5eb4))
 
 <a name="0.10.0"></a>
 

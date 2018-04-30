@@ -83,25 +83,25 @@ describe('NgrxSelectModule', () => {
       })
     );
 
-    it('should work fine when using in Component', async(() => {
+    it('should work fine when using in Component', async(async () => {
+      await fixture.whenStable();
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(debugEl.queryAll(By.css('div')).length).toEqual(1);
-        expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
-      });
+
+      expect(debugEl.queryAll(By.css('div')).length).toEqual(1);
+      expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test a');
     }));
 
     it('should change template binding when action dispatched', async(
       inject([Store], async (store: Store<any>) => {
-        let action = { type: 'TEST' };
-        store.dispatch(action);
+        const action1 = { type: 'TEST' };
+        store.dispatch(action1);
 
         await fixture.whenStable();
         fixture.detectChanges();
         expect(debugEl.query(By.css('div')).nativeElement.textContent).toBe('Test b');
 
-        action = { type: 'TEST 2' };
-        store.dispatch(action);
+        const action2 = { type: 'TEST 2' };
+        store.dispatch(action2);
 
         await fixture.whenStable();
         fixture.detectChanges();
