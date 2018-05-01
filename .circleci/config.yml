@@ -83,6 +83,7 @@ jobs:
 
       - run: npm ci
       - run: npm run gulp ci:test
+      - run: npm run gulp ci:coverage
 
   deploy:
     <<: *node_image_browser

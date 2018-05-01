@@ -22,7 +22,6 @@ interface SubscriptionStrategy {
     updateLatestValue: any
   ): SubscriptionLike | Promise<any>;
   dispose(subscription: SubscriptionLike | Promise<any>): void;
-  onDestroy(subscription: SubscriptionLike | Promise<any>): void;
 }
 
 class ObservableStrategy implements SubscriptionStrategy {
@@ -38,10 +37,6 @@ class ObservableStrategy implements SubscriptionStrategy {
   dispose(subscription: SubscriptionLike): void {
     subscription.unsubscribe();
   }
-
-  onDestroy(subscription: SubscriptionLike): void {
-    subscription.unsubscribe();
-  }
 }
 
 class PromiseStrategy implements SubscriptionStrategy {
@@ -52,8 +47,6 @@ class PromiseStrategy implements SubscriptionStrategy {
   }
 
   dispose(subscription: Promise<any>): void {}
-
-  onDestroy(subscription: Promise<any>): void {}
 }
 
 const _promiseStrategy = new PromiseStrategy();
