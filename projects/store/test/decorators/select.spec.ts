@@ -6,28 +6,11 @@ import { map } from 'rxjs/operators';
 describe('Select', () => {
   interface FooState {
     foo: boolean | null;
-    bar?: {
-      a?: {
-        b?: any;
-      };
-    };
+    bar?: { a?: { b?: any } };
   }
 
-  const globalState: {
-    myFeature: FooState;
-  } = {
-    myFeature: {
-      foo: true,
-      bar: {
-        a: {
-          b: {
-            c: {
-              d: 'world'
-            }
-          }
-        }
-      }
-    }
+  const globalState: { myFeature: FooState } = {
+    myFeature: { foo: true, bar: { a: { b: { c: { d: 'world' } } } } }
   };
 
   const msFeature = createFeatureSelector<FooState>('myFeature');

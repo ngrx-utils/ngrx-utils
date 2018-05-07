@@ -5,10 +5,7 @@ import { By } from '@angular/platform-browser';
 import { NgLetDirective, NgLetModule } from '@ngrx-utils/store';
 import { Observable, of } from 'rxjs';
 
-@Component({
-  template: '',
-  selector: 'sand-test'
-})
+@Component({ template: '', selector: 'sand-test' })
 class TestComponent {
   @ViewChild(NgLetDirective) ngLetDirective: NgLetDirective;
   test$: Observable<number>;
@@ -31,9 +28,7 @@ describe('ngLet directive', () => {
   }
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [TestModule]
-    });
+    TestBed.configureTestingModule({ imports: [TestModule] });
   });
 
   afterEach(() => {

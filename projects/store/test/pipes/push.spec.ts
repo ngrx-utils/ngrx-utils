@@ -1,13 +1,13 @@
-import { By } from '@angular/platform-browser';
 import {
+  ChangeDetectionStrategy,
   Component,
   DebugElement,
   EventEmitter,
   NgModule,
-  WrappedValue,
-  ChangeDetectionStrategy
+  WrappedValue
 } from '@angular/core';
-import { ComponentFixture, TestBed, ComponentFixtureNoNgZone } from '@angular/core/testing';
+import { ComponentFixture, ComponentFixtureNoNgZone, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { PushPipe, PushPipeModule } from '@ngrx-utils/store';
 import { of } from 'rxjs';
 
@@ -24,10 +24,7 @@ class TestComponent {
   test$ = of(2);
 }
 
-@NgModule({
-  declarations: [TestComponent],
-  imports: [PushPipeModule]
-})
+@NgModule({ declarations: [TestComponent], imports: [PushPipeModule] })
 class TestModule {}
 
 describe('PushPipe', () => {

@@ -13,16 +13,17 @@ load(
 load(
     "@build_bazel_rules_nodejs//:defs.bzl",
     _jasmine_node_test = "jasmine_node_test",
+    _npm_package = "npm_package",
 )
 
 DEFAULT_NODE_MODULES = "//:node_modules"
 DEFAULT_TSCONFIG = "//projects:tsconfig-build.json"
 
-NG_VERSION = "^6.0.0 || ^6.0.0-rc.0"
+NG_VERSION = "^6.0.0"
 
 NGRX_VERSION = "^6.0.0-beta.1"
 
-RXJS_VERSION = "^5.6.0-forward-compat.0 || ^6.0.0-beta.0"
+RXJS_VERSION = "^6.1.0"
 
 NGRX_UTILS_SCOPED_PACKAGES = ["@ngrx-utils/%s" % p for p in [
     "store",
@@ -90,7 +91,8 @@ def ng_module(name, tsconfig=None, entry_point=None, **kwargs):
         flat_module_out_file=name,
         tsconfig=tsconfig,
         entry_point=entry_point,
-        **kwargs)
+        **kwargs
+    )
 
 def ng_package(name, readme_md=None, license_banner=None, globals={}, **kwargs):
     if not readme_md:
@@ -103,4 +105,12 @@ def ng_package(name, readme_md=None, license_banner=None, globals={}, **kwargs):
         license_banner=license_banner,
         globals=dict(globals, **NGRX_UTILS_GLOBALS),
         replacements=PKG_GROUP_REPLACEMENTS,
-        **kwargs)
+        **kwargs
+    )
+
+def npm_package(name, **kwargs):
+    _npm_package(
+        name=name,
+        replacements=PKG_GROUP_REPLACEMENTS,
+        **kwargs
+    )

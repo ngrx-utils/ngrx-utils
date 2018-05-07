@@ -29,6 +29,7 @@ filegroup(
         ext,
     ]) for pkg in [
         "@angular",
+        "@angular-devkit",
         "@ngrx",
         "@types",
         "tsickle",

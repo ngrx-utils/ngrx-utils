@@ -3,10 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgLetModule, untilDestroy, ɵdestroy$ as destroy$ } from '@ngrx-utils/store';
 import { Subject, Subscription } from 'rxjs';
 
-@Component({
-  template: '',
-  selector: 'sand-test'
-})
+@Component({ template: '', selector: 'sand-test' })
 class TestComponent implements OnDestroy {
   test$ = new Subject<number>();
   test = 10;
@@ -19,10 +16,7 @@ class TestComponent implements OnDestroy {
   ngOnDestroy() {}
 }
 
-@NgModule({
-  declarations: [TestComponent],
-  imports: [NgLetModule]
-})
+@NgModule({ declarations: [TestComponent], imports: [NgLetModule] })
 class TestModule {}
 
 describe('untilDestroy', () => {
@@ -30,9 +24,7 @@ describe('untilDestroy', () => {
   let instance: TestComponent;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [TestComponent]
-    });
+    TestBed.configureTestingModule({ declarations: [TestComponent] });
   });
 
   it('should unsubscribe when component is destroyed', () => {

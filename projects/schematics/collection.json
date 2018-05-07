@@ -1,0 +1,11 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "action-helper": {
+      "description": "A schematic to generate NgRx Action Helper",
+      "factory": "./action-helper",
+      "schema": "./action-helper/schema.json",
+      "aliases": ["ah"]
+    }
+  }
+}

@@ -1,13 +1,11 @@
-import { NgModule, Directive, Input, TemplateRef, ViewContainerRef, OnInit } from '@angular/core';
+import { Directive, Input, NgModule, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 
 export class NgLetContext {
   $implicit: any = null;
   ngLet: any = null;
 }
 
-@Directive({
-  selector: '[ngLet]'
-})
+@Directive({ selector: '[ngLet]' })
 export class NgLetDirective implements OnInit {
   private _context = new NgLetContext();
 
@@ -23,8 +21,5 @@ export class NgLetDirective implements OnInit {
   }
 }
 
-@NgModule({
-  declarations: [NgLetDirective],
-  exports: [NgLetDirective]
-})
+@NgModule({ declarations: [NgLetDirective], exports: [NgLetDirective] })
 export class NgLetModule {}

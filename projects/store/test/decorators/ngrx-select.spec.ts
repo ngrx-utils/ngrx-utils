@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, DebugElement, NgModule } from '@angular/core';
-import { ComponentFixture, inject, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgrxSelectModule, Pluck, ɵNgrxSelect as NgrxSelect } from '@ngrx-utils/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -26,13 +26,7 @@ export function reducer(state: any, action: any) {
 }
 
 @NgModule({
-  imports: [
-    StoreModule.forRoot({
-      root: reducer
-    }),
-    NgrxSelectModule,
-    CommonModule
-  ],
+  imports: [StoreModule.forRoot({ root: reducer }), NgrxSelectModule, CommonModule],
   declarations: [TestComponent],
   exports: [TestComponent]
 })
@@ -64,9 +58,7 @@ describe('NgrxSelectModule', () => {
     let debugEl: DebugElement;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [TestModule]
-      });
+      TestBed.configureTestingModule({ imports: [TestModule] });
 
       fixture = TestBed.createComponent(TestComponent);
       instance = fixture.componentInstance;

@@ -2,7 +2,7 @@
   "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "defaultProject": "ngrx-utils",
+  "defaultProject": "example",
   "projects": {
     "store": {
       "root": "projects/store/",
@@ -17,26 +17,6 @@
             "production": {
               "project": "projects/store/ng-package.prod.json"
             }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/store/test.ts",
-            "tsConfig": "projects/store/tsconfig.spec.json",
-            "karmaConfig": "projects/store/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/store/tsconfig.lint.json",
-              "projects/store/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
@@ -95,7 +75,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "example:build"
+            "browserTarget": "example:build",
+            "aot": true
           },
           "configurations": {
             "production": {
@@ -135,18 +116,6 @@
               }
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/example/tsconfig.app.json",
-              "projects/example/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -159,15 +128,6 @@
           "options": {
             "protractorConfig": "projects/example-e2e/protractor.conf.js",
             "devServerTarget": "example:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "projects/example-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
@@ -185,7 +145,8 @@
             "codeCoverage": true,
             "codeCoverageExclude": [
               "test.ts",
-              "**/test/**/*"
+              "**/test/**/*",
+              "projects/example/**/*"
             ],
             "progress": false
           }
@@ -204,8 +165,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "packageManager": "yarn"
   }
 }

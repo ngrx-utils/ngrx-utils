@@ -158,9 +158,7 @@ class Test3Component {}
   selector: 'test-4'
 })
 class Test4Component {
-  test4: any = {
-    'test4-class': 'test1'
-  };
+  test4: any = { 'test4-class': 'test1' };
 
   @ViewChild(RouterLinkMatch) active: RouterLinkMatch;
 

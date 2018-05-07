@@ -16,4 +16,7 @@ getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDyn
 // Then we find all the tests.
 const context = require.context('./projects', true, /\.spec\.ts$/);
 // And load the modules.
-context.keys().map(context);
+context
+  .keys()
+  .filter((t: string) => !t.includes('example'))
+  .map(context);

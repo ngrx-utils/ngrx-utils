@@ -1,0 +1,35 @@
+{
+  "name": "@ngrx-utils/schematics",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "@ngrx-utils specific schematics",
+  "keywords": [
+    "schematics",
+    "@angular-devkit",
+    "@ngrx/store",
+    "NgRx",
+    "Angular",
+    "Store",
+    "Redux",
+    "@ngrx-utils/store",
+    "@ngrx-utils/schematics"
+  ],
+  "author": "San Nguyen",
+  "license": "MIT",
+  "schematics": "./collection.json",
+  "peerDependencies": {
+    "@angular-devkit/core": "^0.6.0",
+    "@angular-devkit/schematics": "^0.6.0",
+    "typescript": ">=2.6.2 <2.8"
+  },
+  "ng-update": {
+    "packageGroup": "NG_UPDATE_PACKAGE_GROUP"
+  },
+  "bugs": {
+    "url": "https://github.com/ngrx-utils/ngrx-utils/issues"
+  },
+  "homepage": "https://github.com/ngrx-utils/ngrx-utils#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
+}

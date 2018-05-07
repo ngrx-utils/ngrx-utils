@@ -1,0 +1,44 @@
+package(default_visibility = ["//visibility:public"])
+
+load("//tools:defaults.bzl", "ts_library", "npm_package")
+
+exports_files([
+    "tsconfig-build.json",
+])
+
+ts_library(
+    name = "schematics",
+    srcs = glob(
+        [
+            "**/*.ts",
+        ],
+        exclude = [
+            "**/test/**/*.ts",
+            "**/*_spec.ts",
+        ],
+    ),
+    module_name = "@ngrx-utils/schematics",
+    tsconfig = "//projects/schematics:tsconfig-build.json",
+)
+
+filegroup(
+    name = "schematics_templates",
+    srcs = glob([
+        "*/files/**/*.ts",
+        "*/schema.json",
+    ]),
+)
+
+npm_package(
+    name = "npm_package",
+    srcs = [
+        ":schematics_templates",
+        "collection.json",
+        "package.json",
+        "//projects:README.md",
+    ],
+    tags = ["publish"],
+    deps = [
+        ":schematics",
+    ],
+)

@@ -5,14 +5,16 @@ import { NgrxSelect } from './ngrx-select';
 /**
  * @whatItDoes Provide an utility for select a piece of state from Root State.
  * @howToUse `@Pluck('state') state: Observable<any>`
- * @description Support shorthand syntax with 'dot' split property name and leave it empty
- * will use the component property name.
+ * @description Support shorthand syntax with 'dot' split property name and
+ * leave it empty will use the component property name.
  * @example
+ * ```typescript
  * export class MyComponent {
  *   @Pluck() prop1: Observable<any>
  *   @Pluck('feature.prop2') prop2: Observable<any>
  *   @Pluck('feature', 'prop3') prop3: Observable<any>
  * }
+ * ```
  */
 export function Pluck(path?: string, ...paths: string[]) {
   return function(target: any, propertyKey: string) {

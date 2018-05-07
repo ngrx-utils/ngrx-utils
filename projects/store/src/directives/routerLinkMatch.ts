@@ -18,9 +18,7 @@ export interface MatchExp {
   [classes: string]: string;
 }
 
-@Directive({
-  selector: '[routerLinkMatch]'
-})
+@Directive({ selector: '[routerLinkMatch]' })
 export class RouterLinkMatch implements OnDestroy, OnChanges {
   private _curRoute: string;
   private _matchExp: MatchExp;
@@ -88,8 +86,5 @@ export class RouterLinkMatch implements OnDestroy, OnChanges {
   ngOnDestroy() {}
 }
 
-@NgModule({
-  declarations: [RouterLinkMatch],
-  exports: [RouterLinkMatch]
-})
+@NgModule({ declarations: [RouterLinkMatch], exports: [RouterLinkMatch] })
 export class RouterLinkMatchModule {}

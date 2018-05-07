@@ -43,21 +43,21 @@ platformBrowserDynamic()
 // app.module.ts
 import { PushPipeModule } from '@ngrx-utils/store';
 @NgModule({
+  declarations: [SomeComponent],
   imports: [PushPipeModule]
 })
 export class AppModule {}
 // heavy-compute.component.ts
 import { Component, OnInit, NgZone } from '@angular/core';
+
 @Component({
   template: `<h2>Test: {{ test$ | push }}</h2>`
 })
-export class HeavyComputeComponent implements OnInit {
-  compute() {
-    //...heavy computing
-  }
-
+export class SomeComponent implements OnInit {
+  test$: Observable<any>;
+  constructor(private http: HttpClient) {}
   ngOnInit() {
-    this.compute();
+    this.test$ = this.http.get(/* get data */);
   }
 }
 ```

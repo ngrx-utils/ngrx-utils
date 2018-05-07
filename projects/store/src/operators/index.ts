@@ -1,2 +1,3 @@
-export { untilDestroy, destroy$ as ɵdestroy$ } from './untilDestroy';
+export { destroy$ as ɵdestroy$, untilDestroy } from './untilDestroy';
+
 export * from './pluck';

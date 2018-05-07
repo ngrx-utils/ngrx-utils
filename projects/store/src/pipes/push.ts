@@ -6,11 +6,10 @@ import {
   Pipe,
   PipeTransform,
   WrappedValue,
-  ɵisObservable as isObservable,
   ɵisPromise as isPromise
 } from '@angular/core';
-import { Observable, SubscriptionLike } from 'rxjs';
 import { Type, ɵstringify as stringify } from '@angular/core';
+import { Observable, SubscriptionLike, isObservable } from 'rxjs';
 
 export function invalidPipeArgumentError(type: Type<any>, value: Object) {
   return Error(`InvalidPipeArgument: '${value}' for pipe '${stringify(type)}'`);
@@ -65,10 +64,11 @@ const _observableStrategy = new ObservableStrategy();
  *
  * Unwraps a value from an asynchronous primitive.
  *
- * The `push` pipe subscribes to an `Observable` or `Promise` and returns the latest value it has
- * emitted. When a new value is emitted, the `push` pipe will run change detection and it works
- * even when `zone` has been disabled. When the component gets destroyed,
- * the `push` pipe unsubscribes automatically to avoid potential memory leaks.
+ * The `push` pipe subscribes to an `Observable` or `Promise` and returns the
+ * latest value it has emitted. When a new value is emitted, the `push` pipe
+ * will run change detection and it works even when `zone` has been disabled.
+ * When the component gets destroyed, the `push` pipe unsubscribes automatically
+ * to avoid potential memory leaks.
  *
  */
 @Pipe({ name: 'push', pure: false })
@@ -149,8 +149,5 @@ export class PushPipe implements PipeTransform, OnDestroy {
   }
 }
 
-@NgModule({
-  exports: [PushPipe],
-  declarations: [PushPipe]
-})
+@NgModule({ exports: [PushPipe], declarations: [PushPipe] })
 export class PushPipeModule {}
