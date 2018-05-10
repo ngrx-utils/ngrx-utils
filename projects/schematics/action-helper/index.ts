@@ -1,5 +1,7 @@
 import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
 import * as ts from 'typescript';
+import * as prettier from 'prettier';
+import { InsertChange } from '../utility/change';
 
 export type ActionHelperOptions = {
   /**
@@ -42,18 +44,12 @@ export default function(options: ActionHelperOptions): Rule {
       return false;
     });
 
-    /**
-     * Remove all declared Enum, Type Alias and use the new output
-     * for shake of simplicity.
-     */
-    // TODO: Lookup output Enum and Type Alias to see whether these should be removed
-    const actionTypeEnum = statements.filter(ts.isEnumDeclaration);
-    const actionTypeAlias = statements.filter(ts.isTypeAliasDeclaration);
-
     // TODO: Move outside for multi action declaration files
     const actionHashTable: { [action: string]: string } = {};
 
-    const featureMap: { [feature: string]: ActionMetadata[] } = {};
+    const featureMap: {
+      [feature: string]: ActionMetadata[];
+    } = {};
 
     actionClasses.forEach(cls => {
       if (cls.name == null) {
@@ -88,8 +84,8 @@ export default function(options: ActionHelperOptions): Rule {
         );
       }
 
-      const actionTypeRegex = new RegExp(/\[(.+)\.(.+)\](.+)/);
-      const actionTypeNoSourceRegex = new RegExp(/\[(.+)(.*)\](.+)/);
+      const actionTypeRegex = /\[(.+)\.(.+)\](.+)/;
+      const actionTypeNoSourceRegex = /\[(.+)(.*)\](.+)/;
       const result =
         actionTypeRegex.exec(actionFullText) || actionTypeNoSourceRegex.exec(actionFullText);
 
@@ -103,12 +99,13 @@ export default function(options: ActionHelperOptions): Rule {
       actionHashTable[actionFullText] = className;
 
       const featureName = result[1].replace(/\s/g, '');
+      let feature = featureMap[featureName];
 
-      if (featureMap[featureName] === undefined) {
-        featureMap[featureName] = [];
+      if (feature === undefined) {
+        feature = featureMap[featureName] = [];
       }
 
-      featureMap[featureName].push({
+      feature.push({
         className,
         featureName,
         actionFullText,
@@ -117,37 +114,48 @@ export default function(options: ActionHelperOptions): Rule {
       });
     });
 
-    const outputs = Object.keys(featureMap).map(featureName => {
-      const typeAliasDeclaration = ts.createTypeAliasDeclaration(
-        undefined,
-        [ts.createToken(ts.SyntaxKind.ExportKeyword)],
-        `${featureName}ActionUnion`,
-        undefined,
-        ts.createUnionTypeNode(
-          featureMap[featureName].map(m => ts.createTypeReferenceNode(m.className, undefined))
-        )
-      );
+    const outputs: ts.NodeArray<ts.Statement> = Object.keys(featureMap)
+      .map(featureName => {
+        const feature = featureMap[featureName];
+        const typeAliasDeclaration = ts.createTypeAliasDeclaration(
+          undefined,
+          [ts.createToken(ts.SyntaxKind.ExportKeyword)],
+          `${featureName}ActionUnion`,
+          undefined,
+          ts.createUnionTypeNode(
+            feature.map(m => ts.createTypeReferenceNode(m.className, undefined))
+          )
+        );
 
-      const enumDeclaration = ts.createEnumDeclaration(
-        undefined,
-        [ts.createToken(ts.SyntaxKind.ExportKeyword)],
-        `${featureName}ActionType`,
-        featureMap[featureName].map(m =>
-          ts.createEnumMember(`${m.eventSource}${m.actionType}`, ts.createLiteral(m.actionFullText))
-        )
-      );
+        const enumDeclaration = ts.createEnumDeclaration(
+          undefined,
+          [ts.createToken(ts.SyntaxKind.ExportKeyword)],
+          `${featureName}ActionType`,
+          feature.map(m =>
+            ts.createEnumMember(
+              `${m.eventSource}${m.actionType}`,
+              ts.createLiteral(m.actionFullText)
+            )
+          )
+        );
 
-      const actionGroup = actionClasses.filter(cls =>
-        featureMap[featureName].some(f => f.className === cls.name!.getText())
-      );
+        const generated: ts.NodeArray<ts.Statement> = [];
 
-      return {
-        actionEnum: enumDeclaration,
-        actionTypeAlias: typeAliasDeclaration,
-        actionGroup
-      };
-    });
+        return [enumDeclaration, typeAliasDeclaration] as ts.NodeArray<ts.Statement>;
+      })
+      .reduce((acc, cur) => [...acc, ...cur]);
 
-    return host;
+    const result = [
+      ...statements.filter(st => !ts.isEnumDeclaration(st) && !ts.isTypeAliasDeclaration(st)),
+      ...outputs
+    ].map(st => new InsertChange(st));
+
+    // TODO: Prettier read config from file and provide option as fallback
+    const recorder = host.beginUpdate(path);
+
+    return host.overwrite(
+      path,
+      prettier.format(result, { parser: 'typescript', singleQuote: true })
+    );
   };
 }

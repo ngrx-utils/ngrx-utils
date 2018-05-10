@@ -19,7 +19,8 @@
   "peerDependencies": {
     "@angular-devkit/core": "^0.6.0",
     "@angular-devkit/schematics": "^0.6.0",
-    "typescript": ">=2.6.2 <2.8"
+    "typescript": ">=2.6.2 <2.8",
+    "prettier": "^1.12.1"
   },
   "ng-update": {
     "packageGroup": "NG_UPDATE_PACKAGE_GROUP"
