@@ -89,7 +89,7 @@ export function insertImport(
   const separator = insertAtBeginning ? '' : ';\n';
   const toInsert =
     `${separator}import ${open}${symbolName}${close}` +
-    ` from '${fileName}'${insertAtBeginning ? ';\n' : ''}`;
+    ` from '${fileName}'${insertAtBeginning ? ';\n\n' : ''}`;
 
   return insertAfterLastOccurrence(
     allImports,

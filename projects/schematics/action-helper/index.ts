@@ -1,161 +1,167 @@
-import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
+import {
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  Tree,
+  chain
+} from '@angular-devkit/schematics';
+import * as fg from 'fast-glob';
 import * as ts from 'typescript';
 import * as prettier from 'prettier';
-import { InsertChange } from '../utility/change';
 
-export type ActionHelperOptions = {
-  /**
-   * The path to create the pipe.
-   */
-  path: string;
-};
+import { insertImport } from '../utility/route-utils';
+import { Schema as ActionHelperOptions } from './schema';
+import { InsertChange, RemoveChange } from '../utility/change';
+import { findNodes } from '../utility/ast-utils';
 
 type ActionMetadata = {
-  featureName: string;
-  eventSource: string;
+  actionName: string;
   actionType: string;
-  className: string;
-  actionFullText: string;
+  featureName: string;
 };
 
-export default function(options: ActionHelperOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
-    // TODO: Handle path glob
-    const path = options.path;
-
-    const text = host.read(path);
-    if (text === null) {
+function generateHelper(path: string, actionMap: { [action: string]: ActionMetadata }): Rule {
+  return (host: Tree) => {
+    const buffer = host.read(path);
+    if (buffer === null) {
       throw new SchematicsException(`File ${path} does not exist.`);
     }
 
-    const sourceText = text.toString('utf-8');
+    const sourceText = buffer.toString('utf-8');
     const source = ts.createSourceFile(path, sourceText, ts.ScriptTarget.Latest, true);
-    const statements: ts.NodeArray<ts.Statement> = source.statements;
-    const actionClasses = statements.filter((st): st is ts.ClassDeclaration => {
-      if (ts.isClassDeclaration(st)) {
-        const heritageClauses = st.heritageClauses;
-        if (heritageClauses) {
-          return heritageClauses.some(clause =>
-            clause.types.some(t => t.expression.getText() === 'Action')
+
+    const actionTypesEnums = findNodes(source, ts.SyntaxKind.EnumDeclaration).filter(
+      (st): st is ts.EnumDeclaration => st.getText().includes('ActionTypes')
+    );
+
+    const actionMetadata: { [feature: string]: ActionMetadata[] } = {};
+
+    const declaredActions = findNodes<ts.ClassDeclaration>(source, ts.SyntaxKind.ClassDeclaration)
+      .filter(
+        cls =>
+          cls.heritageClauses
+            ? cls.heritageClauses.some(cl => cl.getText().includes('Action'))
+            : false
+      )
+      .map(cls => (cls.name ? cls.name.getText() : 'default'));
+
+    actionTypesEnums.forEach(e =>
+      e.members.forEach(m => {
+        const featureName = e.name.getText().replace('ActionTypes', '');
+        const actionName = m.name.getText();
+        if (m.initializer === undefined) {
+          throw new SchematicsException(
+            `You need to initialize the ${actionName} at Enum ${m.parent!.name.getText()}!`
           );
         }
-      }
 
-      return false;
-    });
+        const actionType = m.initializer.getText().replace(/'/g, '');
 
-    // TODO: Move outside for multi action declaration files
-    const actionHashTable: { [action: string]: string } = {};
+        let action = actionMap[actionType];
 
-    const featureMap: {
-      [feature: string]: ActionMetadata[];
-    } = {};
-
-    actionClasses.forEach(cls => {
-      if (cls.name == null) {
-        throw new SchematicsException(
-          `You MUST specify the name of action class: \n` + `${cls.getText()}`
-        );
-      }
-
-      const actionTypeProp = cls.members.filter((m): m is ts.PropertyDeclaration => {
-        if (ts.isPropertyDeclaration(m)) {
-          return m.name.getText() === 'type';
+        if (action !== undefined) {
+          throw new SchematicsException(
+            `Duplicated '${actionType}' in Enum: '${featureName}ActionTypes', Action: '${actionName}' ` +
+              `and Enum: '${action.featureName}ActionTypes', Action: ${action.actionName}`
+          );
         }
 
-        return false;
-      })[0];
+        action = { actionName, actionType, featureName };
 
-      const className = cls.name.text;
+        actionMap[actionType] = action;
 
-      if (actionTypeProp.initializer == null) {
-        throw new SchematicsException(
-          `You MUST initialize the action type of class '${className}'!`
-        );
-      }
+        if (actionMetadata[featureName] === undefined) {
+          actionMetadata[featureName] = [];
+        }
 
-      const actionFullText = actionTypeProp.initializer.getText().replace(/'/g, '');
-
-      if (actionHashTable[actionFullText] !== undefined) {
-        throw new SchematicsException(
-          `Duplicated '${actionFullText}' in '${className}' and '${
-            actionHashTable[actionFullText]
-          }'`
-        );
-      }
-
-      const actionTypeRegex = /\[(.+)\.(.+)\](.+)/;
-      const actionTypeNoSourceRegex = /\[(.+)(.*)\](.+)/;
-      const result =
-        actionTypeRegex.exec(actionFullText) || actionTypeNoSourceRegex.exec(actionFullText);
-
-      if (result == null) {
-        throw new SchematicsException(
-          `Could not parse action type '${actionFullText}' \n` +
-            `You should follow action type convention: '[Feature.EventSource] Interaction Event'`
-        );
-      }
-
-      actionHashTable[actionFullText] = className;
-
-      const featureName = result[1].replace(/\s/g, '');
-      let feature = featureMap[featureName];
-
-      if (feature === undefined) {
-        feature = featureMap[featureName] = [];
-      }
-
-      feature.push({
-        className,
-        featureName,
-        actionFullText,
-        eventSource: result[2].replace(/\s/g, ''),
-        actionType: result[3].replace(/\s/g, '')
-      });
-    });
-
-    const outputs: ts.NodeArray<ts.Statement> = Object.keys(featureMap)
-      .map(featureName => {
-        const feature = featureMap[featureName];
-        const typeAliasDeclaration = ts.createTypeAliasDeclaration(
-          undefined,
-          [ts.createToken(ts.SyntaxKind.ExportKeyword)],
-          `${featureName}ActionUnion`,
-          undefined,
-          ts.createUnionTypeNode(
-            feature.map(m => ts.createTypeReferenceNode(m.className, undefined))
-          )
-        );
-
-        const enumDeclaration = ts.createEnumDeclaration(
-          undefined,
-          [ts.createToken(ts.SyntaxKind.ExportKeyword)],
-          `${featureName}ActionType`,
-          feature.map(m =>
-            ts.createEnumMember(
-              `${m.eventSource}${m.actionType}`,
-              ts.createLiteral(m.actionFullText)
-            )
-          )
-        );
-
-        const generated: ts.NodeArray<ts.Statement> = [];
-
-        return [enumDeclaration, typeAliasDeclaration] as ts.NodeArray<ts.Statement>;
+        if (!declaredActions.includes(action.actionName)) {
+          actionMetadata[featureName].push(action);
+        }
       })
-      .reduce((acc, cur) => [...acc, ...cur]);
+    );
 
-    const result = [
-      ...statements.filter(st => !ts.isEnumDeclaration(st) && !ts.isTypeAliasDeclaration(st)),
-      ...outputs
-    ].map(st => new InsertChange(st));
+    const importAction = insertImport(source, path, 'Action', '@ngrx/store');
 
-    // TODO: Prettier read config from file and provide option as fallback
-    const recorder = host.beginUpdate(path);
+    const toRemove: RemoveChange[] = [];
 
-    return host.overwrite(
+    const actionHelpers = Object.keys(actionMetadata)
+      .map(featureName => {
+        const actionMetaList = actionMetadata[featureName];
+        if (actionMetaList.length === 0) {
+          return '';
+        }
+
+        const declaredTypeAlias = findNodes(source, ts.SyntaxKind.TypeAliasDeclaration)
+          .filter(n => n.getText().includes(`${featureName}Actions`))
+          .pop();
+
+        let typeAliasDeclaration: string;
+        if (declaredTypeAlias !== undefined) {
+          typeAliasDeclaration =
+            declaredTypeAlias.getText().replace(';', '') +
+            ` | ${actionMetaList.map(f => f.actionName).join(' | ')};`;
+
+          toRemove.push(
+            new RemoveChange(path, declaredTypeAlias.getStart(), declaredTypeAlias.getText())
+          );
+        } else {
+          typeAliasDeclaration = `
+            export type ${featureName}Actions = ${actionMetaList
+            .map(f => f.actionName)
+            .join(' | ')};
+          `;
+        }
+
+        const actionClassDeclarations = actionMetaList
+          .map(action => {
+            const { actionName } = action;
+            return `
+              export class ${actionName} implements Action {
+                readonly type = ${featureName}ActionTypes.${actionName};
+              }
+            `;
+          })
+          .join('');
+
+        return `${actionClassDeclarations}${typeAliasDeclaration}`;
+      })
+      .join('\n');
+
+    const insertHelper = new InsertChange(
       path,
-      prettier.format(result, { parser: 'typescript', singleQuote: true })
+      source.getEnd(),
+      prettier.format(actionHelpers, { singleQuote: true, parser: 'typescript' })
+    );
+
+    const recorder = host.beginUpdate(path);
+    for (const change of [importAction, insertHelper, ...toRemove]) {
+      if (change instanceof InsertChange) {
+        recorder.insertLeft(change.pos, change.toAdd);
+      }
+
+      if (change instanceof RemoveChange) {
+        recorder.remove(change.pos - 1, change.toRemove.length + 1);
+      }
+    }
+
+    host.commitUpdate(recorder);
+
+    return host;
+  };
+}
+
+export default function(options: ActionHelperOptions): Rule {
+  return (host: Tree, context: SchematicContext) => {
+    const pattern = options.pattern;
+    const glob = pattern.replace(/\s/g, '').split(',');
+
+    const entries = fg.sync([...glob]);
+
+    const actionHashTable: { [action: string]: ActionMetadata } = {};
+
+    return chain([...entries.map(e => generateHelper(e as string, actionHashTable))])(
+      host,
+      context
     );
   };
 }

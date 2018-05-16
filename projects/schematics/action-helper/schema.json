@@ -4,10 +4,9 @@
   "title": "NgRx Utils Action Helper Options Schema",
   "type": "object",
   "properties": {
-    "path": {
+    "pattern": {
       "type": "string",
-      "format": "path",
-      "description": "The path to the action declaration files, using glob pattern.",
+      "description": "The path pattern to the action declaration files, using fast-glob and separated by ','",
       "$default": {
         "$source": "argv",
         "index": 0

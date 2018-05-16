@@ -8,6 +8,7 @@
 import * as ts from 'typescript';
 import { Change, InsertChange } from './change';
 import { insertImport } from './route-utils';
+import { SchematicsException } from '@angular-devkit/schematics';
 
 /**
  * Find all nodes from the AST in the subtree of node of SyntaxKind kind.
@@ -115,16 +116,16 @@ export function insertAfterLastOccurrence(
   syntaxKind?: ts.SyntaxKind
 ): Change {
   let lastItem = nodes.sort(nodesByPosition).pop();
-  if (!lastItem) {
-    throw new Error();
-  }
-  if (syntaxKind) {
+
+  if (lastItem && syntaxKind) {
     lastItem = findNodes(lastItem, syntaxKind)
       .sort(nodesByPosition)
       .pop();
   }
   if (!lastItem && fallbackPos == undefined) {
-    throw new Error(`tried to insert ${toInsert} as first occurrence with no fallback position`);
+    throw new SchematicsException(
+      `Tried to insert ${toInsert} as first occurrence with no fallback position`
+    );
   }
   const lastItemPosition: number = lastItem ? lastItem.getEnd() : fallbackPos;
 
