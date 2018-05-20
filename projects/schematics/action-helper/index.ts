@@ -123,7 +123,7 @@ function generateHelper(path: string, actionMap: { [action: string]: ActionMetad
           })
           .join('');
 
-        return `${actionClassDeclarations}${typeAliasDeclaration}`;
+        return `\n${actionClassDeclarations}\n${typeAliasDeclaration}`;
       })
       .join('\n');
 
