@@ -15,4 +15,3 @@ export enum Other2FeatureActionTypes {
   DoMyAction7 = '[Other 2 Feature] Do My Action 7',
   DoMyAction8 = '[Other 2 Feature] Do My Action 8'
 }
-

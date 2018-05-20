@@ -21,22 +21,16 @@ ts_library(
     tsconfig = "//projects/schematics:tsconfig-build.json",
 )
 
-filegroup(
-    name = "schematics_templates",
-    srcs = glob([
-        "*/files/**/*.ts",
-        "*/schema.json",
-    ]),
-)
-
 npm_package(
     name = "npm_package",
     srcs = [
-        ":schematics_templates",
-        "collection.json",
-        "package.json",
+        ":collection.json",
+        ":package.json",
         "//projects:README.md",
-    ],
+    ] + glob([
+        "*/files/**/*.ts",
+        "*/schema.json",
+    ]),
     tags = ["publish"],
     deps = [
         ":schematics",

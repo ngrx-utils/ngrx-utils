@@ -3,9 +3,16 @@ workspace(name = "ngrx_utils")
 # Add nodejs rules
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "a672bbb4eb8c49363942fe9a491f35214b5d7a0000c86e0152ea8cd3261b1c12",
-    strip_prefix = "rules_nodejs-0.8.0",
-    url = "https://github.com/bazelbuild/rules_nodejs/archive/0.8.0.tar.gz",
+    sha256 = "b61adcfd9803687bc9963835d5426f636040776d3bef194760685c57e13dcaca",
+    strip_prefix = "rules_nodejs-0.9.1",
+    url = "https://github.com/bazelbuild/rules_nodejs/archive/0.9.1.tar.gz",
+)
+
+http_archive(
+    name = "io_bazel_rules_webtesting",
+    sha256 = "636c7a9ac2ca13a04d982c2f9c874876ecc90a7b9ccfe4188156122b26ada7b3",
+    strip_prefix = "rules_webtesting-cfcaaf98553fee8e7063b5f5c11fd1b77e43d683",
+    url = "https://github.com/bazelbuild/rules_webtesting/archive/cfcaaf98553fee8e7063b5f5c11fd1b77e43d683.zip",
 )
 
 # This commit matches the version of buildifier in angular/ngcontainer
@@ -41,6 +48,15 @@ go_rules_dependencies()
 
 go_register_toolchains()
 
+load("@io_bazel_rules_webtesting//web:repositories.bzl", "browser_repositories", "web_test_repositories")
+
+web_test_repositories()
+
+browser_repositories(
+    chromium = True,
+    firefox = True,
+)
+
 # Fetch and install the Sass rules
 http_archive(
     name = "io_bazel_rules_sass",
@@ -56,9 +72,9 @@ sass_repositories()
 # Add TypeScript rules
 http_archive(
     name = "build_bazel_rules_typescript",
-    sha256 = "d1530d89304e914be56ec827a1c3e2e9e316445ae3b9962743be7c2f8264650d",
-    strip_prefix = "rules_typescript-0.13.0",
-    url = "https://github.com/bazelbuild/rules_typescript/archive/0.13.0.tar.gz",
+    sha256 = "90bc07d3721bd64097f97ca37c345d64efa455c2de99af0b90b16bc8ac28b31c",
+    strip_prefix = "rules_typescript-0.14.0",
+    url = "https://github.com/bazelbuild/rules_typescript/archive/0.14.0.tar.gz",
 )
 
 # Setup TypeScript Bazel workspace

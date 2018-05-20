@@ -38,6 +38,7 @@ filegroup(
         "jasmine",
         "typescript",
         "zone.js",
+        "fast-glob",
     ] for ext in [
         "*.js",
         "*.json",
