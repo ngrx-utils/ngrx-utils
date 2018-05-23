@@ -4,7 +4,5 @@ export enum Other3FeatureActionTypes {
   DoMyAction7 = '[Other 3 Feature] Do My Action 7',
   DoMyAction8 = '[Other 3 Feature] Do My Action 8',
   DoMyAction9 = '[Other 3 Feature] Do My Action 9',
-  DoMyAction10 = '[Other 3 Feature] Do My Action 10',
-  DoMyAction11 = '[Other 3 Feature] Do My Action 11',
-  DoMyAction12 = '[Other 3 Feature] Do My Action 12'
+  DoMyAction10 = '[Other 3 Feature] Do My Action 9'
 }
