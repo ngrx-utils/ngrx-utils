@@ -67,13 +67,10 @@ describe('NgrxSelectModule', () => {
       fixture.detectChanges();
     });
 
-    it(
-      'should create NgrxSelect service',
-      inject([NgrxSelect], (ngrxSelect: NgrxSelect) => {
-        expect(ngrxSelect).toBeTruthy();
-        expect(NgrxSelect.store).toBeTruthy();
-      })
-    );
+    it('should create NgrxSelect service', inject([NgrxSelect], (ngrxSelect: NgrxSelect) => {
+      expect(ngrxSelect).toBeTruthy();
+      expect(NgrxSelect.store).toBeTruthy();
+    }));
 
     it('should work fine when using in Component', async(async () => {
       await fixture.whenStable();

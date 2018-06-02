@@ -111,7 +111,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "npm run format --staged",
+      "npm run format -- --staged",
       "git add"
     ]
   },

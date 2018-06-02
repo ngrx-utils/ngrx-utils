@@ -38,7 +38,11 @@ export class RouterLinkMatch implements OnDestroy, OnChanges {
 
   constructor(router: Router, private _renderer: Renderer2, private _ngEl: ElementRef) {
     combineLatest(router.events, this._onChangesHook)
-      .pipe(map(([e]) => e), filter(e => e instanceof NavigationEnd), untilDestroy(this))
+      .pipe(
+        map(([e]) => e),
+        filter(e => e instanceof NavigationEnd),
+        untilDestroy(this)
+      )
       .subscribe(e => {
         this._curRoute = (e as NavigationEnd).urlAfterRedirects;
 

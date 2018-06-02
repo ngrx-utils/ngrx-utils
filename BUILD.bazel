@@ -8,10 +8,10 @@ exports_files([
 
 # Developers should always run `bazel run :install`
 # This ensures that package.json in subdirectories get installed as well.
-alias(
-    name = "install",
-    actual = "@yarn//:yarn",
-)
+# alias(
+#     name = "install",
+#     actual = "@yarn//:yarn",
+# )
 
 alias(
     name = "buildtools",

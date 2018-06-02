@@ -1,4 +1,5 @@
 ### Bitwise operations
+
 Using bitwise operations is blazing fast for the VM.
 Here is how you can encode and use information:
 First you have to determine the number of operations that you need to encode to know how many bits
@@ -10,15 +11,16 @@ Then you can encode the operations in an enum. Each operation will have a differ
 need to shift each operation by 32 bits - n (for 5 operations and 3 bits, we will shift by 32-3=29).
 
 The last thing that you need is the mask, which will be used to decode the operations.
+
 ```typescript
 const enum OPERATIONS {
-  WRITE  = 1 << 29,
-  READ   = 2 << 29,
+  WRITE = 1 << 29,
+  READ = 2 << 29,
   CREATE = 3 << 29,
   REMOVE = 4 << 29,
   INSERT = 5 << 29,
   UNMASK = (1 << 29) - 1,
-  MASK   = ~((1 << 29) - 1),
+  MASK = ~((1 << 29) - 1)
 }
 ```
 

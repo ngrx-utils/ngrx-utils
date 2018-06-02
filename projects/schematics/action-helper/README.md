@@ -109,9 +109,9 @@ Collect all action types to analyze and provide feedback when user declare not u
 
 2/ When user update the `enum` like add new actions or change the name of action type:
 
-* add new action class reflect the enum.
-* update union type.
-* if `-r` option is specify, create or update the reducer file.
+- add new action class reflect the enum.
+- update union type.
+- if `-r` option is specify, create or update the reducer file.
 
 3/ Support multi action enums in 1 file - Generate separate type union for each one. With `-r` option, add multi reducer for each enum as well.
 
@@ -132,21 +132,21 @@ Add actionType in to a global map and throw exception if that actionType already
 
 2/ Search through the file to find action class that need to be created
 
-* always recreate action union type.
-* add the class that does not present in enum to list to create.
-* if `-r` option is specified, add that enum field to list of cases in reducer.
+- always recreate action union type.
+- add the class that does not present in enum to list to create.
+- if `-r` option is specified, add that enum field to list of cases in reducer.
 
 3/ Create class that present in list, create union type with name `AuthActionsUnion`.
 
 4/ Search import statements to see if it needs to add `import { Action } from '@ngrx/store'`:
 
-* add Action to list import if there is no import statement or no import from '@ngrx/store'.
-* do nothing when it already has Action in import list.
+- add Action to list import if there is no import statement or no import from '@ngrx/store'.
+- do nothing when it already has Action in import list.
 
 5/ Insert import to left and Actions to the right of source text.
 
-6/ With `-r`: 
-- Search path to the reducer to see if it exists. 
+6/ With `-r`:
+
+- Search path to the reducer to see if it exists.
 - Create: Insert import for each type alias and enum. add reducer for each enum and create switch case for each enum field.
 - Update: Add new action type into switch case.
-

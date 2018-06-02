@@ -29,11 +29,11 @@ http_archive(
 
 # NOTE: this rule installs nodejs, npm, and yarn, but does NOT install
 # your npm dependencies. You must still run the package manager.
-load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories")
+load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
 
 check_bazel_version("0.13.0")
 
-node_repositories(package_json = ["//:package.json"])
+node_repositories(package_json = ["//tools:package.json"])
 
 # NOTE: this rule is needed only when using dev server.
 http_archive(
@@ -92,4 +92,13 @@ local_repository(
 local_repository(
     name = "rxjs",
     path = "node_modules/rxjs/src",
+)
+
+####################################
+# Bazel will fetch its own dependencies from npm.
+# This makes it easier for ngrx users who use Bazel.
+yarn_install(
+    name = "ngrx_utils_compiletime_deps",
+    package_json = "//tools:package.json",
+    yarn_lock = "//tools:yarn.lock",
 )

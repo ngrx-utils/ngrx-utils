@@ -151,11 +151,11 @@ someObservable
 
 Shorter store.select and store.dispatch and you don't have to inject store in to your component anymore.
 
-* `@Select` accepts first parameter as a selector type `(state: any) => any` to select prop from your store (like selectors created with `createSelector` from `@ngrx/store`) and follows up to 8 pipeable operators. You can use operators like `take(1)` to automatically unsubscribe, or transform that value by using `map` and reduce selectors for nested properties in store...
+- `@Select` accepts first parameter as a selector type `(state: any) => any` to select prop from your store (like selectors created with `createSelector` from `@ngrx/store`) and follows up to 8 pipeable operators. You can use operators like `take(1)` to automatically unsubscribe, or transform that value by using `map` and reduce selectors for nested properties in store...
 
-* `@Pluck` accepts a list of state property name start from root state. It also supports a 'dot' separated shorthand syntax or use component property name when no argument is specified. Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl.
+- `@Pluck` accepts a list of state property name start from root state. It also supports a 'dot' separated shorthand syntax or use component property name when no argument is specified. Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl.
 
-* `@Dispatch` mark your method return result as an action to dispatch from store. You can also return an array of actions if you want to dispatch multi actions in 1 method.
+- `@Dispatch` mark your method return result as an action to dispatch from store. You can also return an array of actions if you want to dispatch multi actions in 1 method.
 
 ```typescript
 // app.module.ts
@@ -207,24 +207,24 @@ You can using `Select, Pluck, Dispatch` decorator in any component. It also work
 
 ## How to contribute
 
-* Fork this repo
-* Add your awesome feature and include it in the top level export
-* Run `git add . && yarn cz` to automatic generate _Angular style_ commit
-* Send a PR here and describe some use cases.
+- Fork this repo
+- Add your awesome feature and include it in the top level export
+- Run `git add . && yarn cz` to automatic generate _Angular style_ commit
+- Send a PR here and describe some use cases.
 
 ## ROADMAP to v1
 
 @ngrx-utils/store
 
-* [x] Introduce Pluck decorator for string select
-* [x] Select decorator support pipeable operator
-* [x] Strong typed pluck operator
-* [x] untilDestroy operator
-* [x] ngLet directive
-* [x] routerLinkMatch directive
+- [x] Introduce Pluck decorator for string select
+- [x] Select decorator support pipeable operator
+- [x] Strong typed pluck operator
+- [x] untilDestroy operator
+- [x] ngLet directive
+- [x] routerLinkMatch directive
 
 @ngrx-utils/schematics
 
-* [ ] ngrx-utils schematics for union Action type and Enum.
+- [ ] ngrx-utils schematics for union Action type and Enum.
 
 @ngrx-utils/effects, @ngrx-utils/cli - No longer been developed.
