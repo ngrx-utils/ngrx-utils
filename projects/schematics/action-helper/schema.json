@@ -11,6 +11,12 @@
         "$source": "argv",
         "index": 0
       }
+    },
+    "reducer": {
+      "type": "boolean",
+      "description": "Optionally generate a reducer in <name>.reducer.ts next to the action declaration file.",
+      "default": false,
+      "aliases": ["r"]
     }
   },
   "required": []
