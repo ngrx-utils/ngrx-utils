@@ -106,14 +106,9 @@
     "singleQuote": true,
     "printWidth": 100
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "lint-staged": {
     "*.ts": [
-      "npm run format --staged",
+      "npm run format -- --staged",
       "git add"
     ]
   },
@@ -124,8 +119,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -e $GIT_PARAMS"
+      "pre-commit": "lint-staged"
     }
   },
   "quokka": {
