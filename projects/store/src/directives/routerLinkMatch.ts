@@ -29,6 +29,7 @@ export class RouterLinkMatch implements OnDestroy, OnChanges, AfterContentInit {
 
   @ContentChildren(RouterLink, { descendants: true })
   links: QueryList<RouterLink>;
+
   @ContentChildren(RouterLinkWithHref, { descendants: true })
   linksWithHrefs: QueryList<RouterLinkWithHref>;
 
@@ -69,24 +70,24 @@ export class RouterLinkMatch implements OnDestroy, OnChanges, AfterContentInit {
     }
 
     /**
-     * This will push update to the last of event queue to avoid
-     * active class won't apply when list of link has changed.
+     * This a way of causing something to happen in the next micro-task / during a new round
+     * of change detection.
      */
     Promise.resolve().then(() => {
       const matchExp = this._matchExp;
 
-      Object.keys(matchExp).forEach(cls => {
-        if (matchExp[cls] && typeof matchExp[cls] === 'string') {
-          const regexp = new RegExp(matchExp[cls]);
+      Object.keys(matchExp).forEach(classes => {
+        if (matchExp[classes] && typeof matchExp[classes] === 'string') {
+          const regexp = new RegExp(matchExp[classes]);
           if (this._curRoute.match(regexp)) {
-            this._toggleClass(cls, true);
+            this._toggleClass(classes, true);
           } else {
-            this._toggleClass(cls, false);
+            this._toggleClass(classes, false);
           }
         } else {
           throw new TypeError(
             `Could not convert match value to Regular Expression. ` +
-              `Unexpected type '${typeof matchExp[cls]}' for value of key '${cls}' ` +
+              `Unexpected type '${typeof matchExp[classes]}' for value of key '${classes}' ` +
               `in routerLinkMatch directive match expression, expected 'non-empty string'`
           );
         }
@@ -95,12 +96,9 @@ export class RouterLinkMatch implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   private _toggleClass(classes: string, enabled: boolean): void {
-    /**
-     * FIXME: Refine active class to apply (store in private variable).
-     */
     classes
-      .trim()
       .split(/\s+/g)
+      .filter(cls => !!cls)
       .forEach(cls => {
         if (enabled) {
           this._renderer.addClass(this._ngEl.nativeElement, cls);
