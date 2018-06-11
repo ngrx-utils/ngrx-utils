@@ -89,6 +89,7 @@ filegroup(
             "node_modules/@angular/compiler-cli/**/*",
             "node_modules/@angular/language-service/**/*",
             "node_modules/@ngrx/schematics/**/*",
+            "node_modules/@ngrx/**/files/**/*",
         ],
     ),
 )

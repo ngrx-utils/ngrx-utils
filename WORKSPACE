@@ -1,35 +1,76 @@
 workspace(name = "ngrx_utils")
 
-# Add nodejs rules
+#
+# Download Bazel toolchain dependencies as needed by build actions
+#
+
 http_archive(
     name = "build_bazel_rules_nodejs",
-    url = "https://github.com/bazelbuild/rules_nodejs/archive/0.7.0.tar.gz",
-    sha256 = "e9e1f2e8e348d9355a28a4ef3cddceb353dcce04b5bf5032715a1f0ec1046f84",
-    strip_prefix = "rules_nodejs-0.7.0",
+    sha256 = "6139762b62b37c1fd171d7f22aa39566cb7dc2916f0f801d505a9aaf118c117f",
+    strip_prefix = "rules_nodejs-0.9.1",
+    url = "https://github.com/bazelbuild/rules_nodejs/archive/0.9.1.zip",
 )
 
-# Add bazel build tools
+http_archive(
+    name = "io_bazel_rules_webtesting",
+    sha256 = "cecc12f07e95740750a40d38e8b14b76fefa1551bef9332cb432d564d693723c",
+    strip_prefix = "rules_webtesting-0.2.0",
+    url = "https://github.com/bazelbuild/rules_webtesting/archive/v0.2.0.zip",
+)
+
+http_archive(
+    name = "build_bazel_rules_typescript",
+    sha256 = "1aa75917330b820cb239b3c10a936a10f0a46fe215063d4492dd76dc6e1616f4",
+    strip_prefix = "rules_typescript-0.15.0",
+    url = "https://github.com/bazelbuild/rules_typescript/archive/0.15.0.zip",
+)
+
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "feba3278c13cde8d67e341a837f69a029f698d7a27ddbb2a202be7a10b22142a",
+    url = "https://github.com/bazelbuild/rules_go/releases/download/0.10.3/rules_go-0.10.3.tar.gz",
+)
+
+# This commit matches the version of buildifier in angular/ngcontainer
+# If you change this, also check if it matches the version in the angular/ngcontainer
+# version in /.circleci/config.yml
+BAZEL_BUILDTOOLS_VERSION = "82b21607e00913b16fe1c51bec80232d9d6de31c"
+
 http_archive(
     name = "com_github_bazelbuild_buildtools",
-    url = "https://github.com/bazelbuild/buildtools/archive/0.11.1.tar.gz",
-    sha256 = "ad73e283e023380e6f126e6a56c8b9c0a3f720198a8b300cef9ebed6f21fe6ce",
-    strip_prefix = "buildtools-0.11.1",
+    sha256 = "edb24c2f9c55b10a820ec74db0564415c0cf553fa55e9fc709a6332fb6685eff",
+    strip_prefix = "buildtools-%s" % BAZEL_BUILDTOOLS_VERSION,
+    url = "https://github.com/bazelbuild/buildtools/archive/%s.zip" % BAZEL_BUILDTOOLS_VERSION,
+)
+
+# Fetching the Bazel source code allows us to compile the Skylark linter
+http_archive(
+    name = "io_bazel",
+    sha256 = "e373d2ae24955c1254c495c9c421c009d88966565c35e4e8444c082cb1f0f48f",
+    strip_prefix = "bazel-968f87900dce45a7af749a965b72dbac51b176b3",
+    url = "https://github.com/bazelbuild/bazel/archive/968f87900dce45a7af749a965b72dbac51b176b3.zip",
+)
+
+# We have a source dependency on the Devkit repository, because it's built with
+# Bazel.
+# This allows us to edit sources and have the effect appear immediately without
+# re-packaging or "npm link"ing.
+# Even better, things like aspects will visit the entire graph including
+# ts_library rules in the devkit repository.
+http_archive(
+    name = "angular_devkit",
+    sha256 = "31d4b597fe9336650acf13df053c1c84dcbe9c29c6a833bcac3819cd3fd8cad3",
+    strip_prefix = "devkit-0.3.1",
+    url = "https://github.com/angular/devkit/archive/v0.3.1.zip",
 )
 
 # NOTE: this rule installs nodejs, npm, and yarn, but does NOT install
 # your npm dependencies. You must still run the package manager.
 load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories")
 
-check_bazel_version("0.11.1")
+check_bazel_version("0.14.0")
 
 node_repositories(package_json = ["//:package.json"])
-
-# NOTE: this rule is needed only when using dev server.
-http_archive(
-    name = "io_bazel_rules_go",
-    sha256 = "f70c35a8c779bb92f7521ecb5a1c6604e9c3edd431e50b6376d7497abc8ad3c1",
-    url = "https://github.com/bazelbuild/rules_go/releases/download/0.11.0/rules_go-0.11.0.tar.gz",
-)
 
 load("@io_bazel_rules_go//go:def.bzl", "go_rules_dependencies", "go_register_toolchains")
 
@@ -37,23 +78,13 @@ go_rules_dependencies()
 
 go_register_toolchains()
 
-# Fetch and install the Sass rules
-git_repository(
-    name = "io_bazel_rules_sass",
-    remote = "https://github.com/bazelbuild/rules_sass.git",
-    tag = "0.0.3",
-)
+load("@io_bazel_rules_webtesting//web:repositories.bzl", "browser_repositories", "web_test_repositories")
 
-load("@io_bazel_rules_sass//sass:sass.bzl", "sass_repositories")
+web_test_repositories()
 
-sass_repositories()
-
-# Add TypeScript rules
-http_archive(
-    name = "build_bazel_rules_typescript",
-    url = "https://github.com/bazelbuild/rules_typescript/archive/0.12.2.tar.gz",
-    strip_prefix = "rules_typescript-0.12.2",
-    sha256 = "3708b2f74f32a5f3c6e28be0b82f6db8723d81c0beb7d1b038e5be8a688d23d3",
+browser_repositories(
+    chromium = True,
+    firefox = True,
 )
 
 # Setup TypeScript Bazel workspace
