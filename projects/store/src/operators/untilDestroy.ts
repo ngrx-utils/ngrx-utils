@@ -20,9 +20,6 @@ export const untilDestroy = <T>(component: any): MonoTypeOperatorFunction<T> => 
   return takeUntil<T>(component[destroy$]);
 };
 
-/**
- * @internal
- */
 export function addDestroyObservableToComponent(component: any) {
   component[destroy$] = new Observable<void>(observer => {
     // keep track of the original destroy function,

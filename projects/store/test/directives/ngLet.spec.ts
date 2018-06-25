@@ -19,8 +19,8 @@ class TestComponent {
 
 @NgModule({
   declarations: [TestComponent],
-  imports: [NgLetModule, CommonModule],
-  exports: [NgLetModule, TestComponent]
+  imports: [CommonModule, NgLetModule],
+  exports: [TestComponent]
 })
 class TestModule {}
 
