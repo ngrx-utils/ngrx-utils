@@ -27,15 +27,14 @@ ts_test_library(
     ],
 )
 
-# ts_web_test(
-#     name = "test",
-#     bootstrap = ["//:web_test_bootstrap_scripts"],
-#     deps = [
-#         ":test_lib",
-#         "//:angular_bundles",
-#         "//:angular_test_bundles",
-#     ],
-# )
+ts_web_test(
+    name = "test",
+    deps = [
+        ":test_lib",
+        "//:angular_bundles",
+        "//:angular_test_bundles",
+    ],
+)
 
 # jasmine_node_test(
 #     name = "test",
