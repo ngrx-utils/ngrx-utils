@@ -3,38 +3,38 @@ package(default_visibility = ["//visibility:public"])
 load("@angular//:index.bzl", "ng_module")
 load("//tools:defaults.bzl", "jasmine_node_test", "ts_test_library", "ts_web_test")
 
-ng_module(
-    name = "app",
-    srcs = glob(
-        ["*.ts"],
-        exclude = ["*.spec.ts"],
-    ),
-    assets = [
-        "app.component.css",
-        "app.component.html",
-    ],
-    tsconfig = "//projects/example:tsconfig.app.json",
-    deps = [
-        "@rxjs",
-    ],
-)
+# ng_module(
+#     name = "app",
+#     srcs = glob(
+#         ["*.ts"],
+#         exclude = ["*.spec.ts"],
+#     ),
+#     assets = [
+#         "app.component.css",
+#         "app.component.html",
+#     ],
+#     tsconfig = "//projects/example:tsconfig.app.json",
+#     deps = [
+#         "@rxjs",
+#     ],
+# )
 
-ts_test_library(
-    name = "test_lib",
-    srcs = glob(["*.spec.ts"]),
-    deps = [
-        ":app",
-    ],
-)
+# ts_test_library(
+#     name = "test_lib",
+#     srcs = glob(["*.spec.ts"]),
+#     deps = [
+#         ":app",
+#     ],
+# )
 
-ts_web_test(
-    name = "test",
-    deps = [
-        ":test_lib",
-        "//:angular_bundles",
-        "//:angular_test_bundles",
-    ],
-)
+# ts_web_test(
+#     name = "test",
+#     deps = [
+#         ":test_lib",
+#         "//:angular_bundles",
+#         "//:angular_test_bundles",
+#     ],
+# )
 
 # jasmine_node_test(
 #     name = "test",
