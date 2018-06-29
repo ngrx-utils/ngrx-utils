@@ -21,7 +21,8 @@ jobs:
           key: *cache_npm
 
       - *set_bazel_options
-
+      
+      - run: npm ci
       - run: bazel info release
       - run: bazel run :install --noshow_progress
       - run: npm run test:bazel
