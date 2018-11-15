@@ -1,8 +1,0 @@
-package.json
-package-lock.json
-**/coverage
-tslint.json
-*.yml
-**/tsconfig*.json
-ngc.tsconfig.json
-angular.json
