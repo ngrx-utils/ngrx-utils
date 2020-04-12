@@ -1,83 +1,41 @@
 {
-  "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
-  "defaultProject": "ngrx-utils",
+  "newProjectRoot": "",
   "projects": {
-    "store": {
-      "root": "projects/store/",
-      "projectType": "library",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "project": "projects/store/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/store/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/store/test.ts",
-            "tsConfig": "projects/store/tsconfig.spec.json",
-            "karmaConfig": "projects/store/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/store/tsconfig.lint.json",
-              "projects/store/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "example": {
-      "root": "projects/example/",
+    "ngrx-utils": {
       "projectType": "application",
+      "schematics": {
+        "@nrwl/workspace:component": {
+          "style": "styl"
+        }
+      },
+      "root": "apps/ngrx-utils",
+      "sourceRoot": "apps/ngrx-utils/src",
+      "prefix": "ngrx-utils",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/example",
-            "index": "projects/example/src/index.html",
-            "main": "projects/example/src/main.ts",
-            "polyfills": "projects/example/src/polyfills.ts",
-            "tsConfig": "projects/example/tsconfig.app.json",
+            "aot": true,
+            "outputPath": "dist/apps/ngrx-utils",
+            "index": "apps/ngrx-utils/src/index.html",
+            "main": "apps/ngrx-utils/src/main.ts",
+            "polyfills": "apps/ngrx-utils/src/polyfills.ts",
+            "tsConfig": "apps/ngrx-utils/tsconfig.app.json",
             "assets": [
-              {
-                "glob": "favicon.ico",
-                "input": "projects/example/src",
-                "output": "/"
-              },
-              {
-                "glob": "**/*",
-                "input": "projects/example/src/assets",
-                "output": "/assets"
-              }
+              "apps/ngrx-utils/src/favicon.ico",
+              "apps/ngrx-utils/src/assets"
             ],
-            "styles": [
-              {
-                "input": "projects/example/src/styles.css"
-              }
-            ],
+            "styles": ["apps/ngrx-utils/src/styles.styl"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "src": "projects/example/src/environments/environment.ts",
-                  "replaceWith": "projects/example/src/environments/environment.prod.ts"
+                  "replace": "apps/ngrx-utils/src/environments/environment.ts",
+                  "with": "apps/ngrx-utils/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -88,124 +46,147 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "example:build"
+            "browserTarget": "ngrx-utils:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "example:build:production"
+              "browserTarget": "ngrx-utils:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "example:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/example/src/test.ts",
-            "polyfills": "projects/example/src/polyfills.ts",
-            "tsConfig": "projects/example/tsconfig.spec.json",
-            "karmaConfig": "projects/example/karma.conf.js",
-            "styles": [
-              {
-                "input": "projects/example/styles.css"
-              }
-            ],
-            "scripts": [],
-            "assets": [
-              {
-                "glob": "favicon.ico",
-                "input": "projects/example/src/",
-                "output": "/"
-              },
-              {
-                "glob": "**/*",
-                "input": "projects/example/src/assets",
-                "output": "/assets"
-              }
-            ]
+            "browserTarget": "ngrx-utils:build"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/example/tsconfig.app.json",
-              "projects/example/tsconfig.spec.json"
+              "apps/ngrx-utils/tsconfig.app.json",
+              "apps/ngrx-utils/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/ngrx-utils/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/ngrx-utils/jest.config.js",
+            "tsConfig": "apps/ngrx-utils/tsconfig.spec.json",
+            "setupFile": "apps/ngrx-utils/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }
     },
-    "example-e2e": {
-      "root": "projects/example-e2e/",
+    "ngrx-utils-e2e": {
+      "root": "apps/ngrx-utils-e2e",
+      "sourceRoot": "apps/ngrx-utils-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+          "builder": "@nrwl/cypress:cypress",
           "options": {
-            "protractorConfig": "projects/example-e2e/protractor.conf.js",
-            "devServerTarget": "example:serve"
+            "cypressConfig": "apps/ngrx-utils-e2e/cypress.json",
+            "tsConfig": "apps/ngrx-utils-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ngrx-utils:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngrx-utils:serve:production"
+            }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "projects/example-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": "apps/ngrx-utils-e2e/tsconfig.e2e.json",
+            "exclude": ["!apps/ngrx-utils-e2e/**"]
           }
         }
       }
     },
-    "ngrx-utils": {
-      "root": "./",
+    "store": {
       "projectType": "library",
+      "root": "libs/store",
+      "sourceRoot": "libs/store/src",
+      "prefix": "ngrx-utils",
       "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+        "build": {
+          "builder": "@nrwl/angular:package",
           "options": {
-            "main": "./test.ts",
-            "tsConfig": "./tsconfig.spec.json",
-            "karmaConfig": "./karma.conf.js",
-            "codeCoverage": true,
-            "codeCoverageExclude": [
-              "test.ts",
-              "**/test/**/*"
-            ],
-            "progress": false
+            "tsConfig": "libs/store/tsconfig.lib.json",
+            "project": "libs/store/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/store/tsconfig.lib.prod.json"
+            }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "./tsconfig.lint.json",
-              "./tsconfig.spec.json"
+              "libs/store/tsconfig.lib.json",
+              "libs/store/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**", "!libs/store/**"]
           }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/store/jest.config.js",
+            "tsConfig": "libs/store/tsconfig.spec.json",
+            "setupFile": "libs/store/src/test-setup.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "styl"
         }
       }
     }
   },
   "cli": {
-    "packageManager": "yarn"
-  }
+    "packageManager": "yarn",
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "ngrx-utils"
 }

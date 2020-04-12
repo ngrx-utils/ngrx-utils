@@ -27,7 +27,7 @@
 # misc
 /.sass-cache
 /connect.lock
-**/coverage
+/coverage
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
@@ -37,6 +37,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-# Bazel
-bazel-*
+**/Session.vim
