@@ -9,13 +9,22 @@
   },
   "projects": {
     "ngrx-utils-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["ngrx-utils"]
     },
     "ngrx-utils": {
       "tags": []
     },
     "store": {
       "tags": ["store"]
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
     }
   }
 }

@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/ngrx-utils",
             "index": "apps/ngrx-utils/src/index.html",
             "main": "apps/ngrx-utils/src/main.ts",
@@ -51,6 +52,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -80,7 +85,7 @@
               "apps/ngrx-utils/tsconfig.app.json",
               "apps/ngrx-utils/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/ngrx-utils/**"]
           }
         },
         "test": {
@@ -88,7 +93,8 @@
           "options": {
             "jestConfig": "apps/ngrx-utils/jest.config.js",
             "tsConfig": "apps/ngrx-utils/tsconfig.spec.json",
-            "setupFile": "apps/ngrx-utils/src/test-setup.ts"
+            "setupFile": "apps/ngrx-utils/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }
@@ -114,7 +120,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "apps/ngrx-utils-e2e/tsconfig.e2e.json"
+            "tsConfig": "apps/ngrx-utils-e2e/tsconfig.e2e.json",
+            "exclude": ["!apps/ngrx-utils-e2e/**"]
           }
         }
       }
@@ -126,10 +133,15 @@
       "prefix": "ngrx-utils",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/store/tsconfig.lib.json",
             "project": "libs/store/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/store/tsconfig.lib.prod.json"
+            }
           }
         },
         "lint": {
@@ -139,7 +151,7 @@
               "libs/store/tsconfig.lib.json",
               "libs/store/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!libs/store/**"]
           }
         },
         "test": {
@@ -147,7 +159,8 @@
           "options": {
             "jestConfig": "libs/store/jest.config.js",
             "tsConfig": "libs/store/tsconfig.spec.json",
-            "setupFile": "libs/store/src/test-setup.ts"
+            "setupFile": "libs/store/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },

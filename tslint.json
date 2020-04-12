@@ -59,7 +59,8 @@
             "sourceTag": "*",
             "onlyDependOnLibsWithTags": ["*"]
           }
-        ]
+        ],
+        "enforceBuildableLibDependency": true
       }
     ],
     "directive-selector": [true, "attribute", "app", "camelCase"],

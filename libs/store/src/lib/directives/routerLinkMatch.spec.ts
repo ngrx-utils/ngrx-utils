@@ -3,14 +3,14 @@ import {
   ViewChild,
   Predicate,
   DebugElement,
-  NgZone
+  NgZone,
 } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
   inject,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -25,15 +25,15 @@ describe('RouterLinkMatch', () => {
         Test1Component,
         Test3Component,
         Test4Component,
-        RootComponent
+        RootComponent,
       ],
       imports: [
         RouterLinkMatchModule,
         RouterTestingModule.withRoutes([
           { path: 'test1', component: Test1Component },
-          { path: 'test2', component: Test2Component }
-        ])
-      ]
+          { path: 'test2', component: Test2Component },
+        ]),
+      ],
     });
   });
 
@@ -139,7 +139,7 @@ describe('RouterLinkMatch', () => {
       >Test1</a
     >
   `,
-  selector: 'test-1'
+  selector: 'test-1',
 })
 class Test1Component {}
 
@@ -153,7 +153,7 @@ class Test1Component {}
       >Test2</a
     >
   `,
-  selector: 'test-2'
+  selector: 'test-2',
 })
 class Test2Component {}
 
@@ -168,22 +168,20 @@ class Test2Component {}
       >Test3</a
     >
   `,
-  selector: 'test-3'
+  selector: 'test-3',
 })
 class Test3Component {}
 
 @Component({
-  template: `
-    <a [routerLinkMatch]="test4" class="origin-class">Test4</a>
-  `,
-  selector: 'test-4'
+  template: ` <a [routerLinkMatch]="test4" class="origin-class">Test4</a> `,
+  selector: 'test-4',
 })
 class Test4Component {
   test4: any = {
-    'test4-class': 'test1'
+    'test4-class': 'test1',
   };
 
-  @ViewChild(RouterLinkMatch, { static: false }) active: RouterLinkMatch;
+  @ViewChild(RouterLinkMatch) active: RouterLinkMatch;
 
   other: any;
 }
@@ -192,7 +190,7 @@ class Test4Component {
   selector: 'root-cmp',
   template: `
     <router-outlet></router-outlet><test-3></test-3><test-4></test-4>
-  `
+  `,
 })
 class RootComponent {}
 

@@ -7,10 +7,10 @@ import { Observable, of } from 'rxjs';
 
 @Component({
   template: '',
-  selector: 'sand-test'
+  selector: 'sand-test',
 })
 class TestComponent {
-  @ViewChild(NgLetDirective, { static: false }) ngLetDirective: NgLetDirective;
+  @ViewChild(NgLetDirective) ngLetDirective: NgLetDirective;
   test$: Observable<number>;
   test = 10;
   nestedTest = 20;
@@ -20,7 +20,7 @@ class TestComponent {
 @NgModule({
   declarations: [TestComponent],
   imports: [NgLetModule, CommonModule],
-  exports: [NgLetModule, TestComponent]
+  exports: [NgLetModule, TestComponent],
 })
 class TestModule {}
 
@@ -32,7 +32,7 @@ describe('ngLet directive', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TestModule]
+      imports: [TestModule],
     });
   });
 
@@ -119,6 +119,6 @@ function createTestComponent(
   template: string
 ): ComponentFixture<TestComponent> {
   return TestBed.overrideComponent(TestComponent, {
-    set: { template }
+    set: { template },
   }).createComponent(TestComponent);
 }

@@ -1,20 +1,17 @@
-import {
+import { ContentChildren, Directive, Input, NgModule } from '@angular/core';
+import type {
+  QueryList,
   AfterContentInit,
-  ContentChildren,
-  Directive,
   ElementRef,
-  Input,
-  NgModule,
   OnChanges,
   OnDestroy,
-  QueryList,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 import {
   NavigationEnd,
   Router,
   RouterLink,
-  RouterLinkWithHref
+  RouterLinkWithHref,
 } from '@angular/router';
 import { untilDestroy } from '../operators';
 
@@ -40,7 +37,7 @@ export interface MatchExp {
  * ```
  */
 @Directive({
-  selector: '[routerLinkMatch]'
+  selector: '[routerLinkMatch]',
 })
 export class RouterLinkMatch implements OnDestroy, OnChanges, AfterContentInit {
   private _curRoute: string;
@@ -69,7 +66,7 @@ export class RouterLinkMatch implements OnDestroy, OnChanges, AfterContentInit {
     private _renderer: Renderer2,
     private _ngEl: ElementRef
   ) {
-    router.events.pipe(untilDestroy(this)).subscribe(e => {
+    router.events.pipe(untilDestroy(this)).subscribe((e) => {
       if (e instanceof NavigationEnd) {
         this._curRoute = (e as NavigationEnd).urlAfterRedirects;
         this._update();
@@ -117,8 +114,8 @@ export class RouterLinkMatch implements OnDestroy, OnChanges, AfterContentInit {
   private _toggleClass(classes: string, enabled: boolean): void {
     classes
       .split(/\s+/g)
-      .filter(cls => !!cls)
-      .forEach(cls => {
+      .filter((cls) => !!cls)
+      .forEach((cls) => {
         if (enabled) {
           this._renderer.addClass(this._ngEl.nativeElement, cls);
         } else {
@@ -132,6 +129,6 @@ export class RouterLinkMatch implements OnDestroy, OnChanges, AfterContentInit {
 
 @NgModule({
   declarations: [RouterLinkMatch],
-  exports: [RouterLinkMatch]
+  exports: [RouterLinkMatch],
 })
 export class RouterLinkMatchModule {}
