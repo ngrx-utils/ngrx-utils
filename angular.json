@@ -172,6 +172,7 @@
     }
   },
   "cli": {
+    "packageManager": "yarn",
     "warnings": {
       "typescriptMismatch": false,
       "versionMismatch": false
