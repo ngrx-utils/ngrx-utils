@@ -38,18 +38,18 @@ This is a modified version of async pipe in @angular/common package. All the cod
 // main.ts
 platformBrowserDynamic()
   .bootstrapModule(AppModule, { ngZone: 'noop' })
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // app.module.ts
 import { PushPipeModule } from '@ngrx-utils/store';
 @NgModule({
-  imports: [PushPipeModule]
+  imports: [PushPipeModule],
 })
 export class AppModule {}
 // heavy-compute.component.ts
 import { Component, OnInit, NgZone } from '@angular/core';
 @Component({
-  template: `<h2>Test: {{ test$ | push }}</h2>`
+  template: `<h2>Test: {{ test$ | push }}</h2>`,
 })
 export class HeavyComputeComponent implements OnInit {
   compute() {
@@ -72,7 +72,7 @@ We often use `*ngIf="stream$ | async as stream"` to subscribe to an observable p
 import { NgLetModule } from '@ngrx-utils/store';
 
 @NgModule({
-  imports: [NgLetModule]
+  imports: [NgLetModule],
 })
 export class FeatureModule {}
 ```
@@ -80,11 +80,13 @@ export class FeatureModule {}
 Replace `*ngIf` with `*ngLet`:
 
 ```html
-    <ng-container *ngLet="(filterDate$ | async) as filterDate">
-      <pick-date [registeredAt]="(device$ | async)?.registeredAt"
-                    [firstDate]="filterDate?.from"
-                    [secondDate]="filterDate?.to"></pick-date>
-    </ng-container>
+<ng-container *ngLet="(filterDate$ | async) as filterDate">
+  <pick-date
+    [registeredAt]="(device$ | async)?.registeredAt"
+    [firstDate]="filterDate?.from"
+    [secondDate]="filterDate?.to"
+  ></pick-date>
+</ng-container>
 ```
 
 `*ngLet` just hold a reference to the result of `async` pipe in a template variable and don't have any special logic like structure directives such as `*ngIf` or `*ngFor` so it run faster and very handy.
@@ -92,14 +94,18 @@ Replace `*ngIf` with `*ngLet`:
 You can also subscribe to multiple observable separately with `*ngLet` like this:
 
 ```html
-    <ng-container *ngLet="{
+<ng-container
+  *ngLet="{
         device: device$ | async,
         date: filterDate$ | async
-      } as options">
-      <pick-date [registeredAt]="options.device?.registeredAt"
-                    [firstDate]="options.date?.from"
-                    [secondDate]="options.date?.to"></pick-date>
-    </ng-container>
+      } as options"
+>
+  <pick-date
+    [registeredAt]="options.device?.registeredAt"
+    [firstDate]="options.date?.from"
+    [secondDate]="options.date?.to"
+  ></pick-date>
+</ng-container>
 ```
 
 > Actually this is an feature request in angular for quite long time as described in [here](https://github.com/angular/angular/issues/15280) but not yet been accepted.
@@ -121,7 +127,7 @@ export class MyComponent implements OnDestroy {
       .getUsers()
       /** Automatically unsubscribe on destroy */
       .pipe(untilDestroy(this))
-      .subscribe(user => (this.user = user));
+      .subscribe((user) => (this.user = user));
   }
 
   /** Must have */
@@ -151,11 +157,11 @@ someObservable
 
 Shorter store.select and store.dispatch and you don't have to inject store in to your component anymore.
 
-* `@Select` accepts first parameter as a selector type `(state: any) => any` to select prop from your store (like selectors created with `createSelector` from `@ngrx/store`) and follows up to 8 pipeable operators. You can use operators like `take(1)` to automatically unsubscribe, or transform that value by using `map` and reduce selectors for nested properties in store...
+- `@Select` accepts first parameter as a selector type `(state: any) => any` to select prop from your store (like selectors created with `createSelector` from `@ngrx/store`) and follows up to 8 pipeable operators. You can use operators like `take(1)` to automatically unsubscribe, or transform that value by using `map` and reduce selectors for nested properties in store...
 
-* `@Pluck` accepts a list of state property name start from root state. It also supports a 'dot' separated shorthand syntax or use component property name when no argument is specified. Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl.
+- `@Pluck` accepts a list of state property name start from root state. It also supports a 'dot' separated shorthand syntax or use component property name when no argument is specified. Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl.
 
-* `@Dispatch` mark your method return result as an action to dispatch from store. You can also return an array of actions if you want to dispatch multi actions in 1 method.
+- `@Dispatch` mark your method return result as an action to dispatch from store. You can also return an array of actions if you want to dispatch multi actions in 1 method.
 
 ```typescript
 // app.module.ts
@@ -163,7 +169,7 @@ import { NgrxSelectModule } from '@ngrx-utils/store';
 
 @NgModule({
   // Include `NgrxSelectModule` to your app.module.ts (Only add this to your AppModule):
-  imports: [, /* ... */ NgrxSelectModule]
+  imports: [, /* ... */ NgrxSelectModule],
 })
 export class AppModule {}
 
@@ -172,10 +178,10 @@ import { take, map } from 'rxjs/operators';
 import { Select, Pluck, Dispatch } from '@ngrx-utils/store';
 
 @Component({
-  template: ``
+  template: ``,
 })
 export class MyComponent {
-  @Select(fromRoot.getRouterState, map(state => state.url), take(1))
+  @Select(fromRoot.getRouterState, map((state) => state.url), take(1))
   url$: Observable<string>;
 
   @Pluck('featureState', 'prop1')
@@ -207,24 +213,24 @@ You can using `Select, Pluck, Dispatch` decorator in any component. It also work
 
 ## How to contribute
 
-* Fork this repo
-* Add your awesome feature and include it in the top level export
-* Run `git add . && yarn cz` to automatic generate _Angular style_ commit
-* Send a PR here and describe some use cases.
+- Fork this repo
+- Add your awesome feature and include it in the top level export
+- Run `git add . && yarn cz` to automatic generate _Angular style_ commit
+- Send a PR here and describe some use cases.
 
 ## ROADMAP to v1
 
 @ngrx-utils/store
 
-* [x] Introduce Pluck decorator for string select
-* [x] Select decorator support pipeable operator
-* [x] Strong typed pluck operator
-* [x] untilDestroy operator
-* [x] ngLet directive
-* [x] routerLinkMatch directive
+- [x] Introduce Pluck decorator for string select
+- [x] Select decorator support pipeable operator
+- [x] Strong typed pluck operator
+- [x] untilDestroy operator
+- [x] ngLet directive
+- [x] routerLinkMatch directive
 
 @ngrx-utils/schematics
 
-* [ ] ngrx-utils schematics for union Action type and Enum.
+- [ ] ngrx-utils schematics for union Action type and Enum.
 
 @ngrx-utils/effects, @ngrx-utils/cli - No longer been developed.

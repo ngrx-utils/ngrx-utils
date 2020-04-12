@@ -3,13 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   NgLetModule,
   untilDestroy,
-  ɵdestroy$ as destroy$
+  ɵdestroy$ as destroy$,
 } from '@ngrx-utils/store';
 import { Subject, Subscription } from 'rxjs';
 
 @Component({
   template: '',
-  selector: 'sand-test'
+  selector: 'sand-test',
 })
 class TestComponent implements OnDestroy {
   test$ = new Subject<number>();
@@ -19,7 +19,7 @@ class TestComponent implements OnDestroy {
   constructor() {
     this.sub = this.test$
       .pipe(untilDestroy(this))
-      .subscribe(a => (this.test = a));
+      .subscribe((a) => (this.test = a));
   }
 
   ngOnDestroy() {}
@@ -27,7 +27,7 @@ class TestComponent implements OnDestroy {
 
 @Component({
   template: '',
-  selector: 'error-comp'
+  selector: 'error-comp',
 })
 class ErrorComponent {
   test$ = new Subject<number>();
@@ -37,13 +37,13 @@ class ErrorComponent {
   constructor() {
     this.sub = this.test$
       .pipe(untilDestroy(this))
-      .subscribe(a => (this.test = a));
+      .subscribe((a) => (this.test = a));
   }
 }
 
 @NgModule({
   declarations: [TestComponent, ErrorComponent],
-  imports: [NgLetModule]
+  imports: [NgLetModule],
 })
 class TestModule {}
 
@@ -53,7 +53,7 @@ describe('untilDestroy', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent, ErrorComponent]
+      declarations: [TestComponent, ErrorComponent],
     });
   });
 

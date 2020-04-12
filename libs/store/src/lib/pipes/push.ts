@@ -7,7 +7,7 @@ import {
   PipeTransform,
   WrappedValue,
   ɵisObservable as isObservable,
-  ɵisPromise as isPromise
+  ɵisPromise as isPromise,
 } from '@angular/core';
 import { Observable, SubscriptionLike } from 'rxjs';
 import { Type, ɵstringify as stringify } from '@angular/core';
@@ -25,12 +25,15 @@ interface SubscriptionStrategy {
 }
 
 class ObservableStrategy implements SubscriptionStrategy {
-  createSubscription(async: Observable<any>, updateLatestValue: any): SubscriptionLike {
+  createSubscription(
+    async: Observable<any>,
+    updateLatestValue: any
+  ): SubscriptionLike {
     return async.subscribe({
       next: updateLatestValue,
       error: (e: any) => {
         throw e;
-      }
+      },
     });
   }
 
@@ -40,8 +43,11 @@ class ObservableStrategy implements SubscriptionStrategy {
 }
 
 class PromiseStrategy implements SubscriptionStrategy {
-  createSubscription(async: Promise<any>, updateLatestValue: (v: any) => any): Promise<any> {
-    return async.then(updateLatestValue, e => {
+  createSubscription(
+    async: Promise<any>,
+    updateLatestValue: (v: any) => any
+  ): Promise<any> {
+    return async.then(updateLatestValue, (e) => {
       throw e;
     });
   }
@@ -70,7 +76,11 @@ export class PushPipe implements PipeTransform, OnDestroy {
   private _latestReturnedValue: any = null;
 
   private _subscription: SubscriptionLike | Promise<any> | null = null;
-  private _obj: Observable<any> | Promise<any> | EventEmitter<any> | null = null;
+  private _obj:
+    | Observable<any>
+    | Promise<any>
+    | EventEmitter<any>
+    | null = null;
   private _strategy: SubscriptionStrategy = null!;
 
   constructor(private _ref: ChangeDetectorRef) {}
@@ -106,11 +116,14 @@ export class PushPipe implements PipeTransform, OnDestroy {
     }
   }
 
-  private _subscribe(obj: Observable<any> | Promise<any> | EventEmitter<any>): void {
+  private _subscribe(
+    obj: Observable<any> | Promise<any> | EventEmitter<any>
+  ): void {
     this._obj = obj;
     this._strategy = this._selectStrategy(obj);
-    this._subscription = this._strategy.createSubscription(obj, (value: Object) =>
-      this._updateLatestValue(obj, value)
+    this._subscription = this._strategy.createSubscription(
+      obj,
+      (value: Object) => this._updateLatestValue(obj, value)
     );
   }
 
@@ -122,7 +135,9 @@ export class PushPipe implements PipeTransform, OnDestroy {
     this._obj = null;
   }
 
-  private _selectStrategy(obj: Observable<any> | Promise<any> | EventEmitter<any>): any {
+  private _selectStrategy(
+    obj: Observable<any> | Promise<any> | EventEmitter<any>
+  ): any {
     if (isPromise(obj)) {
       return _promiseStrategy;
     }
@@ -144,6 +159,6 @@ export class PushPipe implements PipeTransform, OnDestroy {
 
 @NgModule({
   exports: [PushPipe],
-  declarations: [PushPipe]
+  declarations: [PushPipe],
 })
 export class PushPipeModule {}

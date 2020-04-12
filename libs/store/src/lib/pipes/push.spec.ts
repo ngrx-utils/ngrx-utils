@@ -5,12 +5,12 @@ import {
   EventEmitter,
   NgModule,
   WrappedValue,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  ComponentFixtureNoNgZone
+  ComponentFixtureNoNgZone,
 } from '@angular/core/testing';
 import { PushPipe, PushPipeModule } from '@ngrx-utils/store';
 import { of } from 'rxjs';
@@ -20,11 +20,9 @@ class SpyChangeDetectorRef {
 }
 
 @Component({
-  template: `
-    <p>Test {{ test$ | push }}</p>
-  `,
+  template: ` <p>Test {{ test$ | push }}</p> `,
   selector: 'sand-test',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestComponent {
   test$ = of(2);
@@ -32,7 +30,7 @@ class TestComponent {
 
 @NgModule({
   declarations: [TestComponent],
-  imports: [PushPipeModule]
+  imports: [PushPipeModule],
 })
 class TestModule {}
 
@@ -223,7 +221,7 @@ describe('PushPipe', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [TestModule],
-        providers: [{ provide: ComponentFixtureNoNgZone, useValue: true }]
+        providers: [{ provide: ComponentFixtureNoNgZone, useValue: true }],
       });
 
       fixture = TestBed.createComponent(TestComponent);
