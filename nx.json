@@ -1,0 +1,21 @@
+{
+  "npmScope": "ngrx-utils",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "ngrx-utils-e2e": {
+      "tags": []
+    },
+    "ngrx-utils": {
+      "tags": []
+    },
+    "store": {
+      "tags": ["store"]
+    }
+  }
+}
