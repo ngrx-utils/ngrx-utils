@@ -1,6 +1,16 @@
 # Change Log
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+<a name="0.11.0"></a>
+
+# [0.13.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.12.1...v0.13.0) (2020-04-12)
+
+### Notes:
+
+- **store:** upgraded to angular 9
+- **store:** remove dependencies on @ngrx/store
+- **store:** fix router link active match regexp
+- **store:** removed deprecated Select, Dispatch, Pluck decorators
 
 <a name="0.11.0"></a>
 
