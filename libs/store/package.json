@@ -1,6 +1,6 @@
 {
   "name": "@ngrx-utils/store",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Utils Library for Angular and Ngrx",
   "peerDependencies": {
     "@angular/common": ">6.0.0 <13.0.0",
