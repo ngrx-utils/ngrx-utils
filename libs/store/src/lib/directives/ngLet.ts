@@ -16,7 +16,7 @@ export class NgLetContext<T> {
   selector: '[ngLet]',
 })
 export class NgLetDirective<T> implements OnInit {
-  private _context: NgLetContext<T> = new NgLetContext();
+  private _context: NgLetContext<T> = new NgLetContext<T>();
 
   @Input()
   set ngLet(value: T) {
