@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-export class NgLetContext<T> {
+export class NgLetContext<T = any> {
   $implicit: T = null;
   ngLet: T = null;
 }
@@ -15,7 +15,7 @@ export class NgLetContext<T> {
 @Directive({
   selector: '[ngLet]',
 })
-export class NgLetDirective<T> implements OnInit {
+export class NgLetDirective<T = any> implements OnInit {
   private _context: NgLetContext<T> = new NgLetContext<T>();
 
   @Input()
