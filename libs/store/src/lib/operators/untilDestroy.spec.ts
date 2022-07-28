@@ -81,6 +81,7 @@ describe('untilDestroy', () => {
   });
 
   it('should ensure symbol $destroy on component', () => {
+    // TODO: Add Angular decorator.
     class Test2Component implements OnDestroy {
       test$ = new Subject<number>();
       constructor() {

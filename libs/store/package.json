@@ -24,5 +24,8 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "sideEffects": false
 }
