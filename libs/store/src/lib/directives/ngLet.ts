@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 
 export class NgLetContext<T = any> {
-  $implicit: T = null;
-  ngLet: T = null;
+  $implicit: T | null = null;
+  ngLet: T | null = null;
 }
 
 @Directive({
@@ -19,7 +19,7 @@ export class NgLetDirective<T = any> implements OnInit {
   private _context: NgLetContext<T> = new NgLetContext<T>();
 
   @Input()
-  set ngLet(value: T) {
+  set ngLet(value: T | null) {
     this._context.$implicit = this._context.ngLet = value;
   }
 

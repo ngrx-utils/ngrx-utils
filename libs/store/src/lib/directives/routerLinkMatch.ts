@@ -1,11 +1,16 @@
-import { ContentChildren, Directive, Input, NgModule } from '@angular/core';
+import {
+  ContentChildren,
+  Directive,
+  Input,
+  ElementRef,
+  Renderer2,
+  NgModule,
+} from '@angular/core';
 import type {
   QueryList,
   AfterContentInit,
-  ElementRef,
   OnChanges,
   OnDestroy,
-  Renderer2,
 } from '@angular/core';
 import {
   NavigationEnd,
@@ -14,6 +19,7 @@ import {
   RouterLinkWithHref,
 } from '@angular/router';
 import { untilDestroy } from '../operators';
+import { CommonModule } from '@angular/common';
 
 export interface MatchExp {
   [classes: string]: string;
@@ -128,6 +134,7 @@ export class RouterLinkMatch implements OnDestroy, OnChanges, AfterContentInit {
 }
 
 @NgModule({
+  imports: [CommonModule],
   declarations: [RouterLinkMatch],
   exports: [RouterLinkMatch],
 })
