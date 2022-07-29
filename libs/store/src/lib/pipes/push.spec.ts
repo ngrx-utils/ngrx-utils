@@ -1,10 +1,12 @@
+/** @jest-environment jsdom */
+
 import { By } from '@angular/platform-browser';
 import {
   Component,
   DebugElement,
   EventEmitter,
   NgModule,
-  WrappedValue,
+  // WrappedValue,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
@@ -57,7 +59,7 @@ describe('PushPipe', () => {
         emitter.emit(message);
 
         setTimeout(() => {
-          expect(pipe.transform(emitter)).toEqual(new WrappedValue(message));
+          expect(pipe.transform(emitter)).toEqual(message);
         }, 0);
       });
 
@@ -141,7 +143,7 @@ describe('PushPipe', () => {
         resolve(message);
 
         setTimeout(() => {
-          expect(pipe.transform(promise)).toEqual(new WrappedValue(message));
+          expect(pipe.transform(promise)).toEqual(message);
         }, timer);
       });
 
@@ -190,7 +192,7 @@ describe('PushPipe', () => {
           resolve(message);
 
           setTimeout(() => {
-            expect(pipe.transform(promise)).toEqual(new WrappedValue(message));
+            expect(pipe.transform(promise)).toEqual(message);
             pipe.ngOnDestroy();
             expect(pipe.transform(promise)).toBe(null);
           }, timer);

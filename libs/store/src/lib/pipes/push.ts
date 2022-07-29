@@ -5,7 +5,7 @@ import {
   OnDestroy,
   Pipe,
   PipeTransform,
-  WrappedValue,
+  // WrappedValue,
   ɵisObservable as isObservable,
   ɵisPromise as isPromise,
 } from '@angular/core';
@@ -76,11 +76,8 @@ export class PushPipe implements PipeTransform, OnDestroy {
   private _latestReturnedValue: any = null;
 
   private _subscription: SubscriptionLike | Promise<any> | null = null;
-  private _obj:
-    | Observable<any>
-    | Promise<any>
-    | EventEmitter<any>
-    | null = null;
+  private _obj: Observable<any> | Promise<any> | EventEmitter<any> | null =
+    null;
   private _strategy: SubscriptionStrategy = null!;
 
   constructor(private _ref: ChangeDetectorRef) {}
@@ -88,26 +85,26 @@ export class PushPipe implements PipeTransform, OnDestroy {
   transform<T>(obj: null): null;
   transform<T>(obj: undefined): undefined;
   transform<T>(obj: Observable<T> | Promise<T> | null | undefined): T | null;
+
+  /*   
+  # Removed WrappedValue
+  # https://github.com/angular/angular/pull/36633
+  # https://github.com/angular/angular/issues/29927 
+  */
   transform(obj: Observable<any> | Promise<any> | null | undefined): any {
-    if (this._obj === null) {
-      if (obj != null) {
+    if (!this._obj) {
+      if (obj) {
         this._subscribe(obj);
       }
-      this._latestReturnedValue = this._latestValue;
       return this._latestValue;
     }
 
     if (obj !== this._obj) {
       this._dispose();
-      return this.transform(obj as any);
+      return this.transform(obj);
     }
 
-    if (this._latestValue === this._latestReturnedValue) {
-      return this._latestReturnedValue;
-    }
-
-    this._latestReturnedValue = this._latestValue;
-    return WrappedValue.wrap(this._latestValue);
+    return this._latestValue;
   }
 
   ngOnDestroy() {
