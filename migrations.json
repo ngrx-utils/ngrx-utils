@@ -296,6 +296,14 @@
       "name": "update-router-initial-navigation"
     },
     {
+      "cli": "nx",
+      "version": "14.5.0-beta.0",
+      "description": "Update any references of MFE to MF.",
+      "factory": "./src/migrations/update-14-5-0/migrate-mfe-to-mf",
+      "package": "@nrwl/angular",
+      "name": "migrate-mfe-to-mf"
+    },
+    {
       "description": "The road to v13 beta",
       "version": "13-beta",
       "factory": "./13_0_0-beta/index",
@@ -521,6 +529,22 @@
       "factory": "./src/migrations/update-14-1-9/add-swc-deps-if-needed",
       "package": "@nrwl/linter",
       "name": "add-swc-deps-again"
+    },
+    {
+      "cli": "nx",
+      "version": "14.4.4",
+      "description": "Adds @typescript-eslint/utils as a dev dep",
+      "factory": "./src/migrations/update-14-4-4/experimental-to-utils-deps",
+      "package": "@nrwl/linter",
+      "name": "experimental-to-utils-deps"
+    },
+    {
+      "cli": "nx",
+      "version": "14.4.4",
+      "description": "Switch from  @typescript-eslint/experimental-utils to @typescript-eslint/utils in all rules and rules.spec files",
+      "factory": "./src/migrations/update-14-4-4/experimental-to-utils-rules",
+      "package": "@nrwl/linter",
+      "name": "experimental-to-utils-rules"
     },
     {
       "version": "10.0.0-beta.1",

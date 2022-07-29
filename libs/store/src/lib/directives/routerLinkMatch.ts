@@ -1,9 +1,9 @@
 import {
   ContentChildren,
   Directive,
-  Input,
   ElementRef,
   Renderer2,
+  Input,
   NgModule,
 } from '@angular/core';
 import type {
@@ -19,7 +19,6 @@ import {
   RouterLinkWithHref,
 } from '@angular/router';
 import { untilDestroy } from '../operators';
-import { CommonModule } from '@angular/common';
 
 export interface MatchExp {
   [classes: string]: string;
@@ -134,7 +133,6 @@ export class RouterLinkMatch implements OnDestroy, OnChanges, AfterContentInit {
 }
 
 @NgModule({
-  imports: [CommonModule],
   declarations: [RouterLinkMatch],
   exports: [RouterLinkMatch],
 })

@@ -1,3 +1,4 @@
+/** @jest-environment jsdom */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';

@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 import { Component, NgModule, OnDestroy, NgZone } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -81,7 +83,6 @@ describe('untilDestroy', () => {
   });
 
   it('should ensure symbol $destroy on component', () => {
-    // TODO: Add Angular decorator.
     class Test2Component implements OnDestroy {
       test$ = new Subject<number>();
       constructor() {

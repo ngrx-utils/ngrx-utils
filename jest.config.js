@@ -6,4 +6,5 @@ module.exports = {
   resolver: '@nrwl/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageReporters: ['html'],
+  testRunner: 'jest-jasmine2',
 };

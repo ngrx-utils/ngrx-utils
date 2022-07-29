@@ -7,24 +7,42 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {
-    "ngrx-utils-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ngrx-utils"]
-    },
-    "ngrx-utils": {
-      "tags": []
-    },
-    "store": {
-      "tags": ["store"]
-    }
-  },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "parallel": 3
       }
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "cli": {
+    "packageManager": "yarn",
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "ngrx-utils",
+  "generators": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "affected": {
+    "defaultBase": "master"
   }
 }

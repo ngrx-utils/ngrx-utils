@@ -1,13 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "",
   "projects": {
     "ngrx-utils": {
       "projectType": "application",
       "schematics": {
         "@nrwl/workspace:component": {
-          "style": "styl"
+          "style": "scss"
         }
       },
       "root": "apps/ngrx-utils",
@@ -27,7 +26,7 @@
               "apps/ngrx-utils/src/favicon.ico",
               "apps/ngrx-utils/src/assets"
             ],
-            "styles": ["apps/ngrx-utils/src/styles.styl"],
+            "styles": ["apps/ngrx-utils/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -41,7 +40,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -159,7 +157,6 @@
           "options": {
             "jestConfig": "libs/store/jest.config.js",
             "tsConfig": "libs/store/tsconfig.spec.json",
-            "setupFile": "libs/store/src/test-setup.ts",
             "passWithNoTests": true
           }
         }
@@ -170,22 +167,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "packageManager": "yarn",
-    "warnings": {
-      "versionMismatch": false
-    },
-    "defaultCollection": "@nrwl/angular"
-  },
-  "schematics": {
-    "@nrwl/angular:application": {
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "unitTestRunner": "jest"
-    }
-  },
-  "defaultProject": "ngrx-utils"
+  }
 }

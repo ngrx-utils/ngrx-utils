@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 import { pluck } from '@ngrx-utils/store';
 import { of } from 'rxjs';
 

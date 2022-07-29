@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 import { getGreeting } from '../support/app.po';
 
 describe('ngrx-utils', () => {
