@@ -1,11 +1,16 @@
 {
   "name": "@ngrx-utils/store",
-  "version": "0.13.1",
-  "description": "Utils Library for Angular and Ngrx",
+  "version": "0.14.0",
+  "description": "Utils Library for Angular",
   "peerDependencies": {
-    "@angular/common": ">6.0.0 <13.0.0",
-    "@angular/core": ">6.0.0 <13.0.0",
-    "rxjs": "^6.0.0 || ^7.0.0"
+    "@angular/common": ">13.0.0",
+    "@angular/core": ">13.0.0",
+    "@angular/platform-browser": ">13.0.0",
+    "@angular/router": ">13.0.0",
+    "rxjs": ">7.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
   },
   "repository": {
     "type": "git",
@@ -23,6 +28,5 @@
   "homepage": "https://github.com/ngrx-utils/ngrx-utils#readme",
   "publishConfig": {
     "access": "public"
-  },
-  "sideEffects": false
+  }
 }

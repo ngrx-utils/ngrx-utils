@@ -5,7 +5,6 @@ import {
   OnDestroy,
   Pipe,
   PipeTransform,
-  WrappedValue,
   ɵisObservable as isObservable,
   ɵisPromise as isPromise,
 } from '@angular/core';
@@ -73,14 +72,10 @@ const _observableStrategy = new ObservableStrategy();
 @Pipe({ name: 'push', pure: false })
 export class PushPipe implements PipeTransform, OnDestroy {
   private _latestValue: any = null;
-  private _latestReturnedValue: any = null;
 
   private _subscription: SubscriptionLike | Promise<any> | null = null;
-  private _obj:
-    | Observable<any>
-    | Promise<any>
-    | EventEmitter<any>
-    | null = null;
+  private _obj: Observable<any> | Promise<any> | EventEmitter<any> | null =
+    null;
   private _strategy: SubscriptionStrategy = null!;
 
   constructor(private _ref: ChangeDetectorRef) {}
@@ -93,7 +88,6 @@ export class PushPipe implements PipeTransform, OnDestroy {
       if (obj != null) {
         this._subscribe(obj);
       }
-      this._latestReturnedValue = this._latestValue;
       return this._latestValue;
     }
 
@@ -102,12 +96,7 @@ export class PushPipe implements PipeTransform, OnDestroy {
       return this.transform(obj as any);
     }
 
-    if (this._latestValue === this._latestReturnedValue) {
-      return this._latestReturnedValue;
-    }
-
-    this._latestReturnedValue = this._latestValue;
-    return WrappedValue.wrap(this._latestValue);
+    return this._latestValue;
   }
 
   ngOnDestroy() {
@@ -130,7 +119,6 @@ export class PushPipe implements PipeTransform, OnDestroy {
   private _dispose(): void {
     this._strategy.dispose(this._subscription!);
     this._latestValue = null;
-    this._latestReturnedValue = null;
     this._subscription = null;
     this._obj = null;
   }

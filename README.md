@@ -5,7 +5,6 @@
 </p>
 
 <h1 align="center">Reusable logic library for Angular application</h1>
-<h2 align="center">Built with @angular/bazel</h2>
 
 ## Quick start
 
@@ -138,20 +137,6 @@ export class MyComponent implements OnDestroy {
 > NOTE: You still have to declare `ngOnDestroy` in Component because Angular does not support dynamically add component method in AOT mode
 
 > Credit to @SanderElias, this operator is inspired from his idea but he's currently not publishing it as an npm package.
-
-### Strong type `pluck` operator
-
-This is just a wrapper function of `rxjs/operators/pluck` but has a nice type checking with plucked properties.
-
-```typescript
-import { pluck } from '@ngrx-utils/store';
-
-someObservable
-  /** Type check here */
-  .pipe(pluck('matches'));
-```
-
-![picture](https://media.giphy.com/media/3ohs4yQkU3hYGLl3Tq/giphy.gif)
 
 ## How to contribute
 
