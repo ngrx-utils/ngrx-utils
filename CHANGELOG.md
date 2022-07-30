@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 <a name="0.11.0"></a>
 
+# [0.14.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.14.0...v0.13.0) (2022-07-30)
+
+### Notes:
+
+- **store:** upgraded to angular 14
+- **store:** refactor routerLinkMatch directive
+- **store:** removed deprecated `pluck` operator
+
 # [0.13.0](https://github.com/ngrx-utils/ngrx-utils/compare/v0.12.1...v0.13.0) (2020-04-12)
 
 ### Notes:

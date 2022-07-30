@@ -48,6 +48,6 @@ export function addDestroyObservableToComponent(component: any) {
       orignalDestroy.call(component);
     };
     // return cleanup function.
-    return (_: any) => (component[destroy$] = undefined);
+    return (): void => (component[destroy$] = undefined);
   });
 }

@@ -121,7 +121,7 @@ describe('RouterLinkMatch', () => {
         const el = fixture.debugElement.query(By.directive(Test4Component));
         const comp: Test4Component = el.componentInstance;
 
-        spyOn(comp.active, 'ngOnChanges');
+        jest.spyOn(comp.active, 'ngOnChanges');
         comp.other = false;
         fixture.detectChanges();
         expect(comp.active.ngOnChanges).not.toHaveBeenCalled();

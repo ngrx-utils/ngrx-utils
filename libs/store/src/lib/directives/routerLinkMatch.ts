@@ -1,12 +1,13 @@
-import { ContentChildren, Directive, Input, NgModule } from '@angular/core';
-import type {
+import {
+  ContentChildren,
+  Directive,
+  Input,
+  NgModule,
   QueryList,
-  AfterContentInit,
-  ElementRef,
-  OnChanges,
-  OnDestroy,
   Renderer2,
+  ElementRef,
 } from '@angular/core';
+import type { AfterContentInit, OnChanges, OnDestroy } from '@angular/core';
 import {
   NavigationEnd,
   Router,

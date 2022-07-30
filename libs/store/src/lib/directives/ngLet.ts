@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 
 export class NgLetContext<T = any> {
-  $implicit: T = null;
-  ngLet: T = null;
+  $implicit: T | null = null;
+  ngLet: T | null = null;
 }
 
 @Directive({
@@ -19,7 +19,7 @@ export class NgLetDirective<T = any> implements OnInit {
   private _context: NgLetContext<T> = new NgLetContext<T>();
 
   @Input()
-  set ngLet(value: T) {
+  set ngLet(value: T | null) {
     this._context.$implicit = this._context.ngLet = value;
   }
 
@@ -31,7 +31,7 @@ export class NgLetDirective<T = any> implements OnInit {
   ngOnInit() {
     this._vcr.createEmbeddedView(this._templateRef, this._context);
   }
-  
+
   /** @internal */
   public static ngLetUseIfTypeGuard: void;
 
@@ -51,7 +51,10 @@ export class NgLetDirective<T = any> implements OnInit {
    * The presence of this method is a signal to the Ivy template type-check compiler that the
    * `NgLet` structural directive renders its template with a specific context type.
    */
-  static ngTemplateContextGuard<T>(dir: NgLetDirective<T>, ctx: any): ctx is NgLetContext<Exclude<T, false | 0 | '' | null | undefined>> {
+  static ngTemplateContextGuard<T>(
+    dir: NgLetDirective<T>,
+    ctx: any
+  ): ctx is NgLetContext<Exclude<T, false | 0 | '' | null | undefined>> {
     return true;
   }
 }

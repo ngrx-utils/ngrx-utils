@@ -1,160 +1,105 @@
-# @ngrx-utils [![CircleCI](https://circleci.com/gh/ngrx-utils/ngrx-utils.svg?style=svg)](https://circleci.com/gh/ngrx-utils/ngrx-utils) [![Maintainability](https://api.codeclimate.com/v1/badges/481564ca973db91b89e5/maintainability)](https://codeclimate.com/github/ngrx-utils/ngrx-utils/maintainability) [![codecov](https://codecov.io/gh/ngrx-utils/ngrx-utils/branch/master/graph/badge.svg)](https://codecov.io/gh/ngrx-utils/ngrx-utils) [![Known Vulnerabilities](https://snyk.io/test/github/ngrx-utils/ngrx-utils/badge.svg)](https://snyk.io/test/github/ngrx-utils/ngrx-utils)
 
-<p align="center">
-  <img width="800" alt="@ngrx-utils" src="https://user-images.githubusercontent.com/22189661/39393274-3b89231c-4afe-11e8-92a3-79d09716db03.png">
-</p>
 
-<h1 align="center">Reusable logic library for Angular application</h1>
-<h2 align="center">Built with @angular/bazel</h2>
+# NgrxUtils
 
-## Quick start
+This project was generated using [Nx](https://nx.dev).
 
-```sh
-npm i -S @ngrx-utils/store
-# or
-yarn add @ngrx-utils/store
-```
+<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
 
-## What in the box?
+🔎 **Smart, Fast and Extensible Build System**
 
-### routerLinkMatch directive
+## Quick Start & Documentation
 
-This directive will give you ability to add a class to the element when router url match a regular expression. The syntax is same with `ngClass` but replace the true/false expression with your string based regexp (like the string you pass to `new RegExp('')`).
+[Nx Documentation](https://nx.dev/angular)
 
-Example: `active-class` will be added to `a` tag when router URL contains this segment: `products/12345`
+[10-minute video showing all Nx features](https://nx.dev/getting-started/intro)
 
-```html
-<a routerLink="/products"
-   [routerLinkMatch]="{
-     "active-class": "products/\\d+"
-   }"></a>
-```
+[Interactive Tutorial](https://nx.dev/react-tutorial/01-create-application)
 
-### push pipe
+## Adding capabilities to your workspace
 
-This is a modified version of async pipe in @angular/common package. All the code implement are almost the same but this push pipe will call `detectChanges()` instead of `markForCheck()` so your pipe continue to work even in `{ngZone: 'noop'}` environment.
+Nx supports many plugins which add capabilities for developing different types of applications and different tools.
 
-```typescript
-// main.ts
-platformBrowserDynamic()
-  .bootstrapModule(AppModule, { ngZone: 'noop' })
-  .catch((err) => console.log(err));
+These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
 
-// app.module.ts
-import { PushPipeModule } from '@ngrx-utils/store';
-@NgModule({
-  imports: [PushPipeModule],
-})
-export class AppModule {}
-// heavy-compute.component.ts
-import { Component, OnInit, NgZone } from '@angular/core';
-@Component({
-  template: `<h2>Test: {{ test$ | push }}</h2>`,
-})
-export class HeavyComputeComponent implements OnInit {
-  compute() {
-    //...heavy computing
-  }
+Below are our core plugins:
 
-  ngOnInit() {
-    this.compute();
-  }
-}
-```
+- [Angular](https://angular.io)
+  - `ng add @nrwl/angular`
+- [React](https://reactjs.org)
+  - `ng add @nrwl/react`
+- Web (no framework frontends)
+  - `ng add @nrwl/web`
+- [Nest](https://nestjs.com)
+  - `ng add @nrwl/nest`
+- [Express](https://expressjs.com)
+  - `ng add @nrwl/express`
+- [Node](https://nodejs.org)
+  - `ng add @nrwl/node`
 
-### ngLet directive
+There are also many [community plugins](https://nx.dev/community) you could add.
 
-We often use `*ngIf="stream$ | async as stream"` to subscribe to an observable property and rename it to a template variable. But with nested template, `*ngIf` might remove your template which may not be expected.
+## Generate an application
 
-#### NgLet to rescue:
+Run `ng g @nrwl/angular:app my-app` to generate an application.
 
-```typescript
-import { NgLetModule } from '@ngrx-utils/store';
+> You can use any of the plugins above to generate applications as well.
 
-@NgModule({
-  imports: [NgLetModule],
-})
-export class FeatureModule {}
-```
+When using Nx, you can create multiple applications and libraries in the same workspace.
 
-Replace `*ngIf` with `*ngLet`:
+## Generate a library
 
-```html
-<ng-container *ngLet="(filterDate$ | async) as filterDate">
-  <pick-date
-    [registeredAt]="(device$ | async)?.registeredAt"
-    [firstDate]="filterDate?.from"
-    [secondDate]="filterDate?.to"
-  ></pick-date>
-</ng-container>
-```
+Run `ng g @nrwl/angular:lib my-lib` to generate a library.
 
-`*ngLet` just hold a reference to the result of `async` pipe in a template variable and don't have any special logic like structure directives such as `*ngIf` or `*ngFor` so it run faster and very handy.
+> You can also use any of the plugins above to generate libraries as well.
 
-You can also subscribe to multiple observable separately with `*ngLet` like this:
+Libraries are shareable across libraries and applications. They can be imported from `@ngrx-utils/mylib`.
 
-```html
-<ng-container
-  *ngLet="{
-        device: device$ | async,
-        date: filterDate$ | async
-      } as options"
->
-  <pick-date
-    [registeredAt]="options.device?.registeredAt"
-    [firstDate]="options.date?.from"
-    [secondDate]="options.date?.to"
-  ></pick-date>
-</ng-container>
-```
+## Development server
 
-> Actually this is an feature request in angular for quite long time as described in [here](https://github.com/angular/angular/issues/15280) but not yet been accepted.
+Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
-### untilDestroy pipeable operator
+## Code scaffolding
 
-Have you ever feel odd when have to repeat calling unsubscribe with subscriptions in `ngOnDestroy`, or creating a Subject property, add takeUntil() to subscription, call `next()` in ngOnDestroy?
+Run `ng g component my-component --project=my-app` to generate a new component.
 
-With untilDestroy pipeable operator:
+## Build
 
-```typescript
-import { untilDestroy } from '@ngrx-utils/store';
+Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-export class MyComponent implements OnDestroy {
-  user: User;
+## Running unit tests
 
-  constructor(userService: UserService) {
-    userService
-      .getUsers()
-      /** Automatically unsubscribe on destroy */
-      .pipe(untilDestroy(this))
-      .subscribe((user) => (this.user = user));
-  }
+Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
 
-  /** Must have */
-  ngOnDestroy() {}
-}
-```
+Run `nx affected:test` to execute the unit tests affected by a change.
 
-> NOTE: You still have to declare `ngOnDestroy` in Component because Angular does not support dynamically add component method in AOT mode
+## Running end-to-end tests
 
-> Credit to @SanderElias, this operator is inspired from his idea but he's currently not publishing it as an npm package.
+Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
 
-### Strong type `pluck` operator
+Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
 
-This is just a wrapper function of `rxjs/operators/pluck` but has a nice type checking with plucked properties.
+## Understand your workspace
 
-```typescript
-import { pluck } from '@ngrx-utils/store';
+Run `nx graph` to see a diagram of the dependencies of your projects.
 
-someObservable
-  /** Type check here */
-  .pipe(pluck('matches'));
-```
+## Further help
 
-![picture](https://media.giphy.com/media/3ohs4yQkU3hYGLl3Tq/giphy.gif)
+Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
 
-## How to contribute
 
-- Fork this repo
-- Add your awesome feature and include it in the top level export
-- Send a PR here and describe some use cases.
+
+
+
+
+## ☁ Nx Cloud
+
+### Distributed Computation Caching & Distributed Task Execution
+
+<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
+
+Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
+
+Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
+
+Visit [Nx Cloud](https://nx.app/) to learn more.

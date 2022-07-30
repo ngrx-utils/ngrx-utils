@@ -1,30 +1,49 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "ngrx-utils",
-  "implicitDependencies": {
-    "angular.json": "*",
-    "package.json": "*",
-    "tsconfig.json": "*",
-    "tslint.json": "*",
-    "nx.json": "*"
+  "affected": {
+    "defaultBase": "master"
   },
-  "projects": {
-    "ngrx-utils-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ngrx-utils"]
+  "cli": {
+    "packageManager": "npm"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
     },
-    "ngrx-utils": {
-      "tags": []
-    },
-    "store": {
-      "tags": ["store"]
-    }
+    ".eslintrc.json": "*"
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "nx/tasks-runners/default",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
-  }
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  },
+  "generators": {
+    "@nrwl/angular:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "buildable": true,
+      "publishable": true,
+      "importPath": "@ngrx-utils/store"
+    },
+    "@nrwl/angular:component": {
+      "style": "css"
+    }
+  },
+  "defaultProject": "ngrx-utils"
 }

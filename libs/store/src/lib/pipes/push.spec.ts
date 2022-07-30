@@ -4,7 +4,6 @@ import {
   DebugElement,
   EventEmitter,
   NgModule,
-  WrappedValue,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
@@ -52,12 +51,12 @@ describe('PushPipe', () => {
         expect(pipe.transform(emitter)).toBe(null);
       });
 
-      it('should return the latest available value wrapped', () => {
+      it('should return the latest available value', () => {
         pipe.transform(emitter);
         emitter.emit(message);
 
         setTimeout(() => {
-          expect(pipe.transform(emitter)).toEqual(new WrappedValue(message));
+          expect(pipe.transform(emitter)).toEqual(message);
         }, 0);
       });
 
@@ -85,7 +84,7 @@ describe('PushPipe', () => {
       });
 
       it('should request a change detection check upon receiving a new value', () => {
-        spyOn(ref, 'detectChanges');
+        jest.spyOn(ref, 'detectChanges');
         pipe.transform(emitter);
         emitter.emit(message);
 
@@ -141,11 +140,11 @@ describe('PushPipe', () => {
         resolve(message);
 
         setTimeout(() => {
-          expect(pipe.transform(promise)).toEqual(new WrappedValue(message));
+          expect(pipe.transform(promise)).toEqual(message);
         }, timer);
       });
 
-      it('should return unwrapped value when nothing has changed since the last call', () => {
+      it('should return value when nothing has changed since the last call', () => {
         pipe.transform(promise);
         resolve(message);
 
@@ -161,7 +160,6 @@ describe('PushPipe', () => {
         promise = new Promise<any>(() => {});
         expect(pipe.transform(promise)).toBe(null);
 
-        // this should not affect the pipe, so it should return WrappedValue
         resolve(message);
 
         setTimeout(() => {
@@ -170,7 +168,7 @@ describe('PushPipe', () => {
       });
 
       it('should request a change detection check upon receiving a new value', () => {
-        spyOn(ref, 'detectChanges');
+        jest.spyOn(ref, 'detectChanges');
         pipe.transform(promise);
         resolve(message);
 
@@ -190,7 +188,7 @@ describe('PushPipe', () => {
           resolve(message);
 
           setTimeout(() => {
-            expect(pipe.transform(promise)).toEqual(new WrappedValue(message));
+            expect(pipe.transform(promise)).toEqual(message);
             pipe.ngOnDestroy();
             expect(pipe.transform(promise)).toBe(null);
           }, timer);
